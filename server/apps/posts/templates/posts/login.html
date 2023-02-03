@@ -1,6 +1,9 @@
-{% comment %} {% extends 'posts/base.html' %} {% endcomment %} {% block content %}
+{% comment %} {% extends 'posts/base.html' %} {% endcomment %} {% block content %} {% load socialaccount%} {% providers_media_js %}
 <form method="POST" action="">
     {% csrf_token %} {{ form }}
     <button>Login</button>
 </form>
+
+<a href=" {% provider_login_url 'google' %}">구글 로그인</a><br />
+
 {% endblock content %}
