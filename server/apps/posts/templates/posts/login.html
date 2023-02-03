@@ -1,8 +1,6 @@
-{% extends 'game/base.html' %}
-
-{% block content %}
+{% comment %} {% extends 'posts/base.html' %} {% endcomment %} {% block content %}
 <form method="POST" action="">
-  {% csrf_token %} {{ form }}
-  <button>Login</button>
+    {% csrf_token %} {{ form }}
+    <button>Login</button>
 </form>
 {% endblock content %}
