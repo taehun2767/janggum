@@ -1,9 +1,9 @@
 {% extends 'posts/base.html' %} {% block content %}
 <div>
   <div>
-    <div><input type="" /></div>
-    <div><input type="" /></div>
-    <div><input type="" /></div>
+    <div><input value="재료1" type="" /></div>
+    <div><input value="재료2" type="" /></div>
+    <div><input value="재료3" type="" /></div>
     <img src="" alt="재료추가버튼" />
   </div>
 </div>
@@ -21,5 +21,9 @@
 {% if user.is_authenticated %}
 <div><a href="{% url 'posts:create' %}">레시피 추가하러 가기</a></div>
 {% else %}
-<div><a href="">레시피 추가하러 가기</a></div>
+<div>
+  <a href="{% url 'posts:login' %}"
+    >레시피 추가하러 가기 (비로그인 상태로 클릭시 로그인 페이지로 이동)</a
+  >
+</div>
 {% endif %} {% endblock content %}

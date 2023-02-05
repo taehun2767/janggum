@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from server.apps.posts.forms import SignupForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import auth
-from .models import User
+from .models import User, Post
 
 def main(request):
     return render(request, "posts/main.html")
@@ -53,4 +53,8 @@ def create(request):
     return render(request, "posts/recipe_create_page.html")
 
 def all_recipe(request):
-    return render(request, "posts/all_recipe_list.html")
+    recipe = Post.objects.all()
+    context = {
+                'recipe': recipe,
+            }
+    return render(request, "posts/all_recipe_list.html", context=context)

@@ -4,7 +4,7 @@
 <div>
   <div>
     <div>
-      {% comment %} {% for ??? in ??? %} {% if 좋아요가 일정개수를 초과하면 -
+      {% for i in recipe %} {% comment %} {% if 좋아요가 일정개수를 초과하면 -
       장금이 레시피 %}
       <article class="장금이 backgorund color클래스">
         <div>
@@ -21,14 +21,19 @@
           </div>
         </div>
       </article>
-      {% else %}
+      {% else %} {% endcomment %}
       <article class="다른 backgorund color클래스">
         <div>
-          <div>{{요리 이름}}</div>
+          <div>{{i.title}}</div>
+          {% comment %}
           <div>{{사진 넣기}}</div>
+          {% endcomment %}
           <div>
+            {% comment %}
             <div>{{좋아요 개수}}</div>
+            {% endcomment %} {% comment %}
             <div>{{레시피 최종 수정일}}</div>
+            {% endcomment %}
           </div>
           <div>
             <div>재료</div>
@@ -37,7 +42,7 @@
           </div>
         </div>
       </article>
-      {% endif %} {% endfor %} {% endcomment %}
+      {% comment %} {% endif %} {% endcomment %} {% endfor %}
     </div>
   </div>
   <div>레시피 상세보기</div>
