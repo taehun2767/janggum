@@ -1,6 +1,8 @@
-{% extends 'posts/base.html' %} {% block content %}
+{% extends 'posts/base.html' %} {% block extrahead %} {% load static %}
+<link rel="stylesheet" href="{% static 'css/success.css' %}" />
+{% endblock %} {% block content %}
 <div>회원가입 성공!</div>
 <div>
-    <a href="">홈으로</a>
+  <a href="">홈으로</a>
 </div>
 {% endblock content %}

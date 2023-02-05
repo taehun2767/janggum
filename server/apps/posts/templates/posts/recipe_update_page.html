@@ -1,6 +1,6 @@
-{% extends 'posts/base.html' %}
-
-{% block content %}
+{% extends 'posts/base.html' %}{% block extrahead %} {% load static %}
+<link rel="stylesheet" href="{% static 'css/recipe_update_page.css' %}" />
+{% endblock %} {% block content %}
     <form action="{% url 'posts:update' post.pk %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div>

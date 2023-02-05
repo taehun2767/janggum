@@ -1,7 +1,8 @@
 {% extends 'posts/base.html' %} {% block extrahead %} {% load static %}
-<link rel="stylesheet" href="{% static 'css/recipe_search_page_list.css' %}" />
+<link rel="stylesheet" href="{% static 'css/janggum_recipe_list.css' %}" />
 {% endblock %} {% block content %}
-<div>레시피 조회 페이지</div>
+<div>장금이 레시피</div>
+<div>정렬bar</div>
 <div>
   <div>
     <div>
@@ -21,28 +22,10 @@
           </div>
         </div>
       </article>
-      {% else %}
-      <article class="다른 backgorund color클래스">
-        <div>
-          <div>{{요리 이름}}</div>
-          <div>{{사진 넣기}}</div>
-          <div>
-            <div>{{좋아요 개수}}</div>
-            <div>{{레시피 최종 수정일}}</div>
-          </div>
-          <div>
-            <div>재료</div>
-            <div>재료</div>
-            <div>재료</div>
-          </div>
-        </div>
-      </article>
       {% endif %} {% endfor %}
     </div>
   </div>
-  <div>
-    <div>레시피 상세보기</div>
-    <div></div>
-  </div>
+  <div>레시피 상세보기</div>
+  <div></div>
 </div>
 {% endblock content %}

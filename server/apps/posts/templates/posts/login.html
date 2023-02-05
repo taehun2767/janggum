@@ -1,7 +1,10 @@
-{% extends 'posts/base.html' %} {% block content %} {% load socialaccount%} {% providers_media_js %}
+{% extends 'posts/base.html' %} {% block extrahead %} {% load static %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}" />
+{% endblock %} {% block content %} {% load socialaccount%} {% providers_media_js
+%}
 <form method="POST" action="">
-    {% csrf_token %} {{ form }}
-    <button>Login</button>
+  {% csrf_token %} {{ form }}
+  <button>Login</button>
 </form>
 
 <a href=" {% provider_login_url 'google' %}">구글 로그인</a><br />

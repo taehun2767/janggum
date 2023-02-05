@@ -1,4 +1,6 @@
-{% extends 'posts/base.html' %} {% block content %}
+{% extends 'posts/base.html' %} {% block extrahead %} {% load static %}
+<link rel="stylesheet" href="{% static 'css/all_recipe_list.css' %}" />
+{% endblock %} {% block content %}
 <div>전체 레시피</div>
 <div>정렬bar</div>
 <div>
@@ -31,58 +33,60 @@
     {% endfor %}
     </div>
   </div>
-  <div>레시피 상세보기</div>
-  <article class="다른 backgorund color클래스">
-    <div>요리 이름</div>
-    <div>
-      <div>재료</div>
-      <div>재료</div>
-      <div>재료</div>
-    </div>
-    <div>
-      <div>사진 넣기</div>
-      <div>레시피 만드는 방법</div>
-    </div>
-    <div>
+  <div class="ajax 처리라서 오른쪽 정렬하고 css안해도됨">
+    <div>레시피 상세보기</div>
+    <article class="다른 backgorund color클래스">
+      <div>요리 이름</div>
       <div>
-        <div>좋아요 개수</div>
-        <div>수정일</div>
+        <div>재료</div>
+        <div>재료</div>
+        <div>재료</div>
       </div>
       <div>
-        <a href="#" class="btn-open" onClick="javascript:popOpen();">댓글</a>
+        <div>사진 넣기</div>
+        <div>레시피 만드는 방법</div>
       </div>
+      <div>
+        <div>
+          <div>좋아요 개수</div>
+          <div>수정일</div>
+        </div>
+        <div>
+          <a href="#" class="btn-open" onClick="javascript:popOpen();">댓글</a>
+        </div>
 
-      {% comment %}
-      <!-- 전체 레이아웃 -->
-      <div id="wrap">
-        <!-- Content -->
-        <section class="content">
-          <div class="container">
-            <!-- 팝업용 임시 버튼입니다. -->
-            <div class="btn-box">
-              <a href="#" class="btn-open" onClick="javascript:popOpen();">
-                <span>열기</span>
-              </a>
+        {% comment %}
+        <!-- 전체 레이아웃 -->
+        <div id="wrap">
+          <!-- Content -->
+          <section class="content">
+            <div class="container">
+              <!-- 팝업용 임시 버튼입니다. -->
+              <div class="btn-box">
+                <a href="#" class="btn-open" onClick="javascript:popOpen();">
+                  <span>열기</span>
+                </a>
+              </div>
+              <!-- //팝업용 임시 버튼입니다. -->
             </div>
-            <!-- //팝업용 임시 버튼입니다. -->
-          </div>
-        </section>
-        <!-- //Content -->
-      </div>
-      <!-- //전체 레이아웃 -->
+          </section>
+          <!-- //Content -->
+        </div>
+        <!-- //전체 레이아웃 -->
 
-      <!-- modal 영역 -->
-      <div class="modal-bg" onClick="javascript:popClose();"></div>
-      <div class="modal-wrap">
-        modal sample
-        <button class="modal-close" onClick="javascript:popClose();">
-          닫기
-        </button>
+        <!-- modal 영역 -->
+        <div class="modal-bg" onClick="javascript:popClose();"></div>
+        <div class="modal-wrap">
+          modal sample
+          <button class="modal-close" onClick="javascript:popClose();">
+            닫기
+          </button>
+        </div>
+        <!-- //modal 영역 -->
+        {% endcomment %}
       </div>
-      <!-- //modal 영역 -->
-      {% endcomment %}
-    </div>
-  </article>
+    </article>
+  </div>
 </div>
 {% comment %}
 <style>
