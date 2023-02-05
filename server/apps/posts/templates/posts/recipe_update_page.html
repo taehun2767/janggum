@@ -1,26 +1,18 @@
-{% extends 'game/base.html' %}
+{% extends 'posts/base.html' %}
 
 {% block content %}
-    <form action="" method="post" enctype="multipart/form-data">
+    <form action="{% url 'posts:update' post.pk %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div>
             <div>
                 <div>레시피 제목을 입력하세요: </div>
-                <input name="" placeholder="레시피 제목" value="{{}}"/>
+                <input name="title" placeholder="레시피 제목" value="{{post.title}}"/>
             </div>
             <div>
-                <input name="" placeholder="레시피 선택" value="{{}}"/>
-                <select name="search_mode" id="search_mode">
-                    <option value="">레시피 선택</option>
-                    {% for ??? in ??? %}
-                        <option value="{{레시피}}">{{레시피}}</option>
-                    {% endfor %}
-                </select>
-                <!-- 레시피 식재료 -->
+                레시피 식재료
             </div>
-            <div>사진 넣기</div>
-            <textarea name="" id="" cols="30" rows="10"></textarea>
-            <!-- 레시피 설명 -->
+            <input type="file" name="photo"/>
+            <textarea name="content" placeholder="레시피 소개">{{post.content}}</textarea>
         </div>
         <div>
             <input type="submit" , value="레시피 저장" />
