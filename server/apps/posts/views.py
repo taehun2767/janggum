@@ -44,6 +44,16 @@ def login(request):
         }
         return render(request, template_name='posts/login.html', context=context)
 
+def create(request):
+    return render(request, "posts/recipe_create_page.html")
+
+def all_recipe(request):
+    recipe = Post.objects.all()
+    context = {
+                'recipe': recipe,
+            }
+    return render(request, "posts/all_recipe_list.html", context=context)
+
 
 def logout(request):
     auth.logout(request)
@@ -93,3 +103,4 @@ def comment_del_ajax(request, *args, **kwargs):
     comment = Comment.objects.get(id=comment_id)
     comment.delete()
     return JsonResponse({'post_id': post_id, 'comment_id': comment_id})
+

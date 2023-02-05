@@ -10,4 +10,7 @@ urlpatterns = [
     path("logout/", views.logout, name="logout"),
     path("signup/", views.signup, name="signup"),
     path('accounts/', include('allauth.urls')),
+    
+    path('create/', views.create, name='create'),
+    path('all_recipe/', views.all_recipe, name='all_recipe'),
 ]
