@@ -1,4 +1,4 @@
-{% comment %} {% extends 'game/base.html' %} {% endcomment %} {% block content %}
+{% extends 'posts/base.html' %} {% block content %}
 <form method="POST" action="">
     {% csrf_token %} {{ form }}
     <input type="submit" value="SignUp" />

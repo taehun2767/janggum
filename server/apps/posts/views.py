@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from server.apps.posts.forms import SignupForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import auth
-
+from .models import User
 
 def main(request):
     return render(request, "posts/main.html")
@@ -13,7 +13,7 @@ def signup(request):
         form = SignupForm(request.POST)
         if form.is_valid():
             user = form.save()
-            auth.login(request, user)      
+            auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')   
             return render(request, template_name="posts/success.html")
         else:
             return redirect('posts:signup')

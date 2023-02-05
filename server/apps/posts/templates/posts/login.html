@@ -1,4 +1,4 @@
-{% comment %} {% extends 'posts/base.html' %} {% endcomment %} {% block content %} {% load socialaccount%} {% providers_media_js %}
+{% extends 'posts/base.html' %} {% block content %} {% load socialaccount%} {% providers_media_js %}
 <form method="POST" action="">
     {% csrf_token %} {{ form }}
     <button>Login</button>

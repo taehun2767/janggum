@@ -1,25 +1,26 @@
-{% comment %} {% extends 'posts/base.html' %} {% endcomment %} {% block content %}
-<div>
+{% extends 'posts/base.html' %} {% block content %}
     <div>
-        <div><input type="" /></div>
-        <div><input type="" /></div>
-        <div><input type="" /></div>
-        <img src="" alt="재료추가버튼" />
-    </div>
-</div>
-<div>
-    <div>
-        <img src="" alt="" />
-        <div><a href="">전체 레시피 보기</a></div>
+        <div>
+            <div><input type=""></div>
+            <div><input type=""></div>
+            <div><input type=""></div>
+            <img src="" alt="재료추가버튼">
+        </div>
     </div>
     <div>
-        <img src="" alt="" />
-        <div><a href="">장금이 레시피 보기</a></div>
+        <div>
+            <img src="" alt="">
+            <div><a href="">전체 레시피 보기</a></div>
+        </div>
+        <div>
+            <img src="" alt="">
+            <div><a href="">장금이 레시피 보기</a></div>
+        </div>
     </div>
-</div>
-<div><a href="">레시피조회</a></div>
-{% if user.is_authenticated %}
-<div><a href="">레시피 추가하러 가기</a></div>
-{% else %}
-<div><a href="">레시피 추가하러 가기</a></div>
-{% endif %} {% endblock content %}
+    <div><a href="">레시피조회</a></div>
+    {% if user.is_authenticated %}
+        <div><a href="">레시피 추가하러 가기</a></div>
+    {% else %}
+        <div><a href="">레시피 추가하러 가기</a></div>
+    {% endif %}
+{% endblock content %}
