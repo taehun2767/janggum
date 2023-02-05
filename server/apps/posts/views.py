@@ -48,3 +48,9 @@ def login(request):
 def logout(request):
     auth.logout(request)
     return redirect('posts:main')
+
+def create(request):
+    return render(request, "posts/recipe_create_page.html")
+
+def all_recipe(request):
+    return render(request, "posts/all_recipe_list.html")
