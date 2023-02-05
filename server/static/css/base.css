@@ -1,0 +1,129 @@
+/* rese.css랑 하나로 합쳤습니다 */
+
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+a:link {
+	color : black;
+  text-decoration-line: none;
+}
+a:visited {
+	color : black;
+  }
+a:hover {
+	color : black;
+  }
+a:active {
+	color : black;
+  }
+body li, ol, ul {
+	list-style: none;
+}
+
+
+@import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nanum+Brush+Script&family=Yeon+Sung&display=swap');
+@font-face {
+    font-family: 'Ansungtangmyun-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/Ansungtangmyun-Bold.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+:root {
+    /* color */
+    --header-color: #E8DACF; /* 헤더 배경 */
+    --menu-color: rgba(52, 42, 31, 0.9); /* 헤더 메뉴 글씨 */
+    --main-color-1: #CC9998; /* 레시피 테두리 (선택 전) */
+    --main-color-2: #A44845; /* 레시피 테두리 (선택 후) */
+    --sub-color-2: #FAF6F6; /* 레시피 배경 (선택 전) */
+    --sub-color-2: #F7F5EA; /* 레시피 배경 (선택 후) */
+    --jg-color: #FFCD47; /* 장금이 레시피 배경 */
+    --recipe-color-1: #741C13; /* 레시피 이름, 날짜 글씨 */
+    --recipe-color-2: #2C2B2B; /* 레시피 설명 글씨 */
+
+    /* font-family */
+    --main-font: 'Yeon Sung'; /* 헤더, "전체(장금이) 레시피 보기", "레시피 추가하러 가기", (로그인/회원가입 폼?) */
+    --sub-font: 'Gowun Batang'; /* "레시피조회", 재료 */
+    --ingredient-font: 'Nanum Brush Script'; /* 메인 페이지 재료 입력 */
+    --recipe-font: 'Ansungtangmyun-Bold'; /* 레시피 */
+}
+
+body {
+    background: url("../image/장금이배경.png") repeat;
+    color: black;
+    font-family: var(--main-font);
+    font-size: 2rem; /* 디폴트 폰트 사이즈가 너무 작아서 대충 2rem으로 설정했는데 변경이 필요하면 변경해도 됩니다. */
+}
+
+header { 
+  background-color: var(--header-color);
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 3.6rem;
+  color: var(--recipe-color-1);
+}
+
+.header_logo {
+  padding: 1rem;
+}
+
+.nav {
+  padding: 0.7rem;
+  display: flex;
+  flex-direction: row;
+  font-size: 1.5rem;
+}
+
+.nav a {
+  color: var(--menu-color);
+  writing-mode: vertical-lr;
+}
