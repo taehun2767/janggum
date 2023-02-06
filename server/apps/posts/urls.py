@@ -15,4 +15,5 @@ urlpatterns = [
     path('posts/all_recipe', views.posts_all_list, name='all_recipe'),
     path('posts/<int:pk>/update', views.posts_update, name='update'),
     path('posts/<int:pk>/delete', views.posts_delete, name='delete'),
+    path('posts/<int:pk>', views.posts_retrieve, name='retrieve'),
 ]

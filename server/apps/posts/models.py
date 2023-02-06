@@ -20,7 +20,8 @@ class Post(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
+    ingredient = models.TextField()
+    
 #댓글
 class Comment(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comment_user")

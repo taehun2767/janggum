@@ -18,9 +18,12 @@
     {% include 'posts/header.html' %}
     <div class="main_contents">
       <section id="main_section_1">
-        <div><input value="재료1" type="" /></div>
-        <div><input value="재료2" type="" /></div>
-        <div><input value="재료3" type="" /></div>
+        <div id="main-btn-container">
+          <div><input placeholder="재료1" type="" name="search" /></div>
+          <div><input placeholder="재료2" type="" name="search" /></div>
+          <div><input placeholder="재료3" type="" name="search" /></div>
+        </div>
+        <button id="main-add">+</button>
       </section>
       <section id="main_section_2">
         <div class="recipe_view">
@@ -59,5 +62,17 @@
       </section>
     </div>
     {% endif %}
+    <script>
+      const $addBtn = document.getElementById("main-add");
+      const $btnParent = document.getElementById("main-btn-container");
+      let $count = 4;
+      $addBtn.addEventListener("click", () => {
+        const $newBtn = document.createElement("input");
+        $newBtn.name = "search";
+        $newBtn.placeholder = "재료" + $count;
+        $count += 1;
+        $btnParent.appendChild($newBtn);
+      });
+    </script>
   </body>
 </html>

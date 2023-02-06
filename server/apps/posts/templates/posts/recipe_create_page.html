@@ -7,6 +7,7 @@
     <title>장금이 요리백서</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/recipe_create_page.css'%}" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -15,29 +16,46 @@
     />
   </head>
   <body>
-    {% include 'posts/base.html' %}
+    {% include 'posts/header.html' %}
     <form
       action="{% url 'posts:create' %}"
       method="post"
       enctype="multipart/form-data"
     >
       {% csrf_token %}
-      <div>
-        <div>
+      <div id="create_main_box">
+        <div class="recipe_title">
           <div>레시피 제목을 입력하세요:</div>
           <input name="title" placeholder="레시피 제목" />
         </div>
-        <div>레시피 식재료 선택 / 추가</div>
-        <div>레시피 상세 식재료</div>
-        <div>양념재료</div>
-        <div>선택 재료 default=True</div>
-        <input type="file" name="photo" />
+        <div class="recipe_select">레시피 식재료 선택 / 추가</div>
+        <div class="recipe_ingre">레시피 상세 식재료</div>
+        <div class="recipe_sauce">양념재료</div>
+        <div class="recipe_ingreselect">선택 재료 default=True</div>
+        <div id="btn-container">
+          <input placeholder="재료" name="ingredient[]" />
+          <input placeholder="재료" name="ingredient[]" />
+          <input placeholder="재료" name="ingredient[]" />
+        </div>
         <br />
+        <input type="file" name="photo" />
         <textarea name="content" placeholder="레시피 소개 내용"></textarea>
       </div>
       <div>
         <input type="submit" , value="레시피 저장" />
       </div>
     </form>
+    <button id="add">+</button>
+    <script>
+      const $addBtn = document.getElementById("add");
+      const $btnParent = document.getElementById("btn-container");
+
+      $addBtn.addEventListener("click", () => {
+        const $newBtn = document.createElement("input");
+        $newBtn.name = "ingredient[]";
+        $newBtn.placeholder = "재료";
+        $btnParent.appendChild($newBtn);
+      });
+    </script>
   </body>
 </html>
