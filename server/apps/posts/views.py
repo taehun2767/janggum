@@ -73,7 +73,7 @@ def posts_all_list(request:HttpRequest, *args, **kwargs):
 # 장금이 레시피 페이지 일단 좋아요 없이 구현
 def posts_junggum_list(request:HttpRequest, *args, **kwargs):
     posts = Post.objects.all()
-       
+    
     context = {
         "posts" : posts,
     }
@@ -82,14 +82,10 @@ def posts_junggum_list(request:HttpRequest, *args, **kwargs):
 # create page
 def create(request:HttpRequest, *args, **kwargs):
     if request.method == "POST":
-        # ingredientList = []
-        # for i in range(1, 4):
-        #     temp = request.POST.get(f"ingredient{i}")
-        #     ingredientList.append(temp)
-        # ingredientList
-        # print(ingredientList)
+
         ingredients = request.POST.getlist('ingredient[]'),
-        print(ingredients)
+
+        # print(ingredients)
         Post.objects.create(
             ingredient = ingredients,
             user=request.user,
@@ -120,6 +116,19 @@ def posts_delete(request:HttpRequest, pk, *args, **kwargs):
         post = Post.objects.get(id=pk)
         post.delete()
     return redirect("posts:all_recipe")
+
+def posts_retrieve(request:HttpRequest, pk, *args, **kwargs):
+    post = Post.objects.all().get(id=pk)
+    
+    #데이터 전처리 string -> list
+    ingredientStr = post.ingredient[2:-3].replace("'", '')
+    ingredientList = ingredientStr.split(',')
+    print(ingredientList)
+    context = {
+        "post" : post,
+        "ingredient" : ingredientList,
+    }
+    return render(request, "posts/recipe_search_page_list.html", context=context)
 
 from .forms import PostForm
 import json
