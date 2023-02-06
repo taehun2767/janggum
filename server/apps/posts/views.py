@@ -82,7 +82,16 @@ def posts_junggum_list(request:HttpRequest, *args, **kwargs):
 # create page
 def create(request:HttpRequest, *args, **kwargs):
     if request.method == "POST":
+        # ingredientList = []
+        # for i in range(1, 4):
+        #     temp = request.POST.get(f"ingredient{i}")
+        #     ingredientList.append(temp)
+        # ingredientList
+        # print(ingredientList)
+        ingredients = request.POST.getlist('ingredient[]'),
+        print(ingredients)
         Post.objects.create(
+            ingredient = ingredients,
             user=request.user,
             title=request.POST["title"],
             photo=request.FILES['photo'],
