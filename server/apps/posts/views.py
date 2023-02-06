@@ -76,7 +76,12 @@ def posts_all_list(request:HttpRequest, *args, **kwargs):
     # 검색기능 주석처리함
     # text = request.GET.get("text")
     # if text:
-    #     posts = posts.filter(content__contains=text)        
+    #     posts = posts.filter(content__contains=text)
+    for post in posts:
+                ingredientStr = post.ingredient[2:-3].replace("'", '')
+                ingredientList = ingredientStr.split(',')
+                post.ingredientList = ingredientList
+                post.save()   
     context = {
         "posts" : posts,
     }
