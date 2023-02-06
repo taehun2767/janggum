@@ -4,147 +4,144 @@
 <div>전체 레시피</div>
 <div>정렬bar</div>
 <div>
-  <div>
     <div>
-      {% for post in posts %} 
-      <article class="backgorundcolor">
         <div>
-          <div>{{post.title}}</div>
-          {% if post.photo %}
-          <p>
-            <img src="{{ post.photo.url }}"/>
-        </p>
-          {% endif %}
-          <div>
-            <div>좋아요 개수</div>
-            <div>{{post.created_at}}</div>
-          </div>
-          <div>
-            <div>재료</div>
-            <div>재료</div>
-            <div>재료</div>
-          </div>
+            {% for post in posts %}
+            <article class="backgorundcolor">
+                <div>
+                    <div>{{post.title}}</div>
+                    {% if post.photo %}
+                    <p>
+                        <img src="{{ post.photo.url }}" />
+                    </p>
+                    {% endif %}
+                    <div>
+                        <div>좋아요 개수</div>
+                        <div>{{post.created_at}}</div>
+                    </div>
+                    <div>
+                        {%for ele in ingredientLists%}
+                        <div>{{ele}}</div>
+                        {%endfor%}
+                    </div>
+                </div>
+            </article>
+            <form action="{% url 'posts:delete' post.pk %}" method="post">
+                {% csrf_token %}
+                <input type="submit" , value="삭제하기" />
+            </form>
+            {% endfor %}
         </div>
-      </article>
-      <form action="{% url 'posts:delete' post.pk %}" method="post">
-        {% csrf_token %}
-        <input type="submit" , value="삭제하기" />
-      </form>
-    {% endfor %}
     </div>
-  </div>
-  <div class="ajax 처리라서 오른쪽 정렬하고 css안해도됨">
-    <div>레시피 상세보기</div>
-    <article class="다른 backgorund color클래스">
-      <div>요리 이름</div>
-      <div>
-        <div>재료</div>
-        <div>재료</div>
-        <div>재료</div>
-      </div>
-      <div>
-        <div>사진 넣기</div>
-        <div>레시피 만드는 방법</div>
-      </div>
-      <div>
-        <div>
-          <div>좋아요 개수</div>
-          <div>수정일</div>
-        </div>
-        <div>
-          <a href="#" class="btn-open" onClick="javascript:popOpen();">댓글</a>
-        </div>
-
-        {% comment %}
-        <!-- 전체 레이아웃 -->
-        <div id="wrap">
-          <!-- Content -->
-          <section class="content">
-            <div class="container">
-              <!-- 팝업용 임시 버튼입니다. -->
-              <div class="btn-box">
-                <a href="#" class="btn-open" onClick="javascript:popOpen();">
-                  <span>열기</span>
-                </a>
-              </div>
-              <!-- //팝업용 임시 버튼입니다. -->
+    <div class="ajax 처리라서 오른쪽 정렬하고 css안해도됨">
+        <div>레시피 상세보기</div>
+        <article class="다른 backgorund color클래스">
+            <div>요리 이름</div>
+            <div>
+                <div>재료</div>
+                <div>재료</div>
+                <div>재료</div>
             </div>
-          </section>
-          <!-- //Content -->
-        </div>
-        <!-- //전체 레이아웃 -->
+            <div>
+                <div>사진 넣기</div>
+                <div>레시피 만드는 방법</div>
+            </div>
+            <div>
+                <div>
+                    <div>좋아요 개수</div>
+                    <div>수정일</div>
+                </div>
+                <div>
+                    <a href="#" class="btn-open" onClick="javascript:popOpen();">댓글</a>
+                </div>
 
-        <!-- modal 영역 -->
-        <div class="modal-bg" onClick="javascript:popClose();"></div>
-        <div class="modal-wrap">
-          modal sample
-          <button class="modal-close" onClick="javascript:popClose();">
-            닫기
-          </button>
-        </div>
-        <!-- //modal 영역 -->
-        {% endcomment %}
-      </div>
-    </article>
-  </div>
+                {% comment %}
+                <!-- 전체 레이아웃 -->
+                <div id="wrap">
+                    <!-- Content -->
+                    <section class="content">
+                        <div class="container">
+                            <!-- 팝업용 임시 버튼입니다. -->
+                            <div class="btn-box">
+                                <a href="#" class="btn-open" onClick="javascript:popOpen();">
+                                    <span>열기</span>
+                                </a>
+                            </div>
+                            <!-- //팝업용 임시 버튼입니다. -->
+                        </div>
+                    </section>
+                    <!-- //Content -->
+                </div>
+                <!-- //전체 레이아웃 -->
+
+                <!-- modal 영역 -->
+                <div class="modal-bg" onClick="javascript:popClose();"></div>
+                <div class="modal-wrap">
+                    modal sample
+                    <button class="modal-close" onClick="javascript:popClose();">닫기</button>
+                </div>
+                <!-- //modal 영역 -->
+                {% endcomment %}
+            </div>
+        </article>
+    </div>
 </div>
 {% comment %}
 <style>
-  /*   팝업 임시 버튼 스타일  */
-  .btn-box .btn-open {
-    display: block;
-    width: 200px;
-    height: 50px;
-    margin: 80px auto 0;
-    line-height: 50px;
-    background: #333;
-    text-align: center;
-  }
+    /*   팝업 임시 버튼 스타일  */
+    .btn-box .btn-open {
+        display: block;
+        width: 200px;
+        height: 50px;
+        margin: 80px auto 0;
+        line-height: 50px;
+        background: #333;
+        text-align: center;
+    }
 
-  .btn-box .btn-open span {
-    color: #fff;
-  }
+    .btn-box .btn-open span {
+        color: #fff;
+    }
 
-  /* 팝업 스타일 */
-  .modal-bg {
-    display: none;
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    background: rgba(0, 0, 0, 0.6);
-    z-index: 999;
-  }
-  .modal-wrap {
-    display: none;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 300px;
-    height: 300px;
-    background: #fff;
-    z-index: 1000;
-  }
+    /* 팝업 스타일 */
+    .modal-bg {
+        display: none;
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 999;
+    }
+    .modal-wrap {
+        display: none;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 300px;
+        height: 300px;
+        background: #fff;
+        z-index: 1000;
+    }
 </style>
 <script>
-  function popOpen() {
-    var modalPop = $(".modal-wrap");
-    var modalBg = $(".modal-bg");
+    function popOpen() {
+        var modalPop = $(".modal-wrap");
+        var modalBg = $(".modal-bg");
 
-    $(modalPop).show();
-    $(modalBg).show();
-  }
+        $(modalPop).show();
+        $(modalBg).show();
+    }
 
-  function popClose() {
-    var modalPop = $(".modal-wrap");
-    var modalBg = $(".modal-bg");
+    function popClose() {
+        var modalPop = $(".modal-wrap");
+        var modalBg = $(".modal-bg");
 
-    $(modalPop).hide();
-    $(modalBg).hide();
-  }
+        $(modalPop).hide();
+        $(modalBg).hide();
+    }
 </script>
-{% endcomment %}
-{% endblock content %}
+{% endcomment %} {% endblock content %}

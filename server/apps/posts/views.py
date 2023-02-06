@@ -6,6 +6,26 @@ from .models import User, Post, Comment
 from django.http.request import HttpRequest
 
 def main(request):
+    posts = Post.objects.all()
+    if request.method == "POST":
+        ingredientList = request.POST.getlist("search[]")
+        print(ingredientList)
+        for ele in ingredientList:
+            if ele:
+                posts = posts.filter(ingredient__contains=ele)
+                print(posts)
+        if posts:
+            print("hello")
+            ingredientLists = []
+            for post in posts:
+                ingredientStr = post.ingredient[2:-3].replace("'", '')
+                ingredientList = ingredientStr.split(',')
+                ingredientLists.append(ingredientList)
+            context={
+                "posts" : posts,
+                "ingredeintLists" : ingredientLists,
+            }
+        return render(request, "posts/all_recipe_list.html", context=context)
     return render(request, "posts/main.html")
 
 
