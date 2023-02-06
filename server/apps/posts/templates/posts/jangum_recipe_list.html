@@ -1,31 +1,48 @@
-{% extends 'posts/base.html' %} {% block extrahead %} {% load static %}
-<link rel="stylesheet" href="{% static 'css/janggum_recipe_list.css' %}" />
-{% endblock %} {% block content %}
-<div>장금이 레시피</div>
-<div>정렬bar</div>
-<div>
-  <div>
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>장금이 요리백서</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/jangum_recipe_list.css' %}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nanum+Brush+Script&family=Yeon+Sung&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    {% include 'posts/header.html' %}
+    <div>장금이 레시피</div>
+    <div>정렬bar</div>
     <div>
-      {% for ??? in ??? %} {% if 좋아요가 일정개수를 초과하면 - 장금이 레시피 %}
-      <article class="장금이 backgorund color클래스">
+      <div>
         <div>
-          <div>{{요리 이름}}</div>
-          <div>{{사진 넣기}}</div>
-          <div>
-            <div>{{좋아요 개수}}</div>
-            <div>{{레시피 최종 수정일}}</div>
-          </div>
-          <div>
-            <div>재료</div>
-            <div>재료</div>
-            <div>재료</div>
-          </div>
+          {% for ??? in ??? %} {% if 좋아요가 일정개수를 초과하면 - 장금이
+          레시피 %}
+          <article class="장금이 backgorund color클래스">
+            <div>
+              <div>{{요리 이름}}</div>
+              <div>{{사진 넣기}}</div>
+              <div>
+                <div>{{좋아요 개수}}</div>
+                <div>{{레시피 최종 수정일}}</div>
+              </div>
+              <div>
+                <div>재료</div>
+                <div>재료</div>
+                <div>재료</div>
+              </div>
+            </div>
+          </article>
+          {% endif %} {% endfor %}
         </div>
-      </article>
-      {% endif %} {% endfor %}
+      </div>
+      <div>레시피 상세보기</div>
+      <div></div>
     </div>
-  </div>
-  <div>레시피 상세보기</div>
-  <div></div>
-</div>
-{% endblock content %}
+  </body>
+</html>
