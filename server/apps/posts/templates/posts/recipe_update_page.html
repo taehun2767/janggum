@@ -1,0 +1,21 @@
+{% extends 'posts/base.html' %}{% block extrahead %} {% load static %}
+<link rel="stylesheet" href="{% static 'css/recipe_update_page.css' %}" />
+{% endblock %} {% block content %}
+    <form action="{% url 'posts:update' post.pk %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div>
+            <div>
+                <div>레시피 제목을 입력하세요: </div>
+                <input name="title" placeholder="레시피 제목" value="{{post.title}}"/>
+            </div>
+            <div>
+                레시피 식재료
+            </div>
+            <input type="file" name="photo"/>
+            <textarea name="content" placeholder="레시피 소개">{{post.content}}</textarea>
+        </div>
+        <div>
+            <input type="submit" , value="레시피 저장" />
+        </div>
+    </form>
+{% endblock content %}

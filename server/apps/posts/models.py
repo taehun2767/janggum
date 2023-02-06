@@ -15,7 +15,6 @@ class User(AbstractUser):
 #게시글
 class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    ingredientList = models.ForeignKey(AllUsedIngredient, on_delete=models.CASCADE)
     title = models.CharField(max_length=20)
     photo = models.ImageField(blank=True, upload_to='posts/%Y%m%d')
     content = models.TextField()

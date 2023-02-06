@@ -1,6 +1,8 @@
-{% comment %} {% extends 'game/base.html' %} {% endcomment %} {% block content %}
+{% extends 'posts/base.html' %} {% block extrahead %} {% load static %}
+<link rel="stylesheet" href="{% static 'css/signup.css' %}" />
+{% endblock %} {% block content %}
 <form method="POST" action="">
-    {% csrf_token %} {{ form }}
-    <input type="submit" value="SignUp" />
+  {% csrf_token %} {{ form }}
+  <input type="submit" value="SignUp" />
 </form>
 {% endblock content %}
