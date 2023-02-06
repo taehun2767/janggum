@@ -20,10 +20,11 @@ def main(request):
             for post in posts:
                 ingredientStr = post.ingredient[2:-3].replace("'", '')
                 ingredientList = ingredientStr.split(',')
-                ingredientLists.append(ingredientList)
+                post.ingredientList = ingredientList
+                post.save()
             context={
                 "posts" : posts,
-                "ingredeintLists" : ingredientLists,
+                # "ingredeintLists" : ingredientLists,
             }
         return render(request, "posts/all_recipe_list.html", context=context)
     return render(request, "posts/main.html")

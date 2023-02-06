@@ -20,7 +20,7 @@
                         <div>{{post.created_at}}</div>
                     </div>
                     <div>
-                        {%for ele in ingredientLists%}
+                        {% comment %} {{forloop.counter}} {% endcomment %} {%for ele in post.ingredientList%}
                         <div>{{ele}}</div>
                         {%endfor%}
                     </div>
