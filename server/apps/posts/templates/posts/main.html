@@ -1,47 +1,80 @@
-{% extends 'posts/base.html' %} {% block extrahead %} {% load static %}
-<link rel="stylesheet" href="{% static 'css/main.css' %}" />
-{% endblock %}{% block content %}
-<div>
-    <form action="{%url 'posts:main' %}" method="post">
-        {% csrf_token %}
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>장금이 요리백서</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nanum+Brush+Script&family=Yeon+Sung&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    {% include 'posts/header.html' %}
+    <div class="main_contents">
+      <section id="main_section_1">
         <div id="main-btn-container">
-            <div><input placeholder="재료1" type="" name="search[]" /></div>
-            <div><input placeholder="재료2" type="" name="search[]" /></div>
-            <div><input placeholder="재료3" type="" name="search[]" /></div>
+          <div><input placeholder="재료1" type="" name="search" /></div>
+          <div><input placeholder="재료2" type="" name="search" /></div>
+          <div><input placeholder="재료3" type="" name="search" /></div>
         </div>
-        <input type="submit" value="레시피 조회" />
-    </form>
-    <button id="main-add">+</button>
-</div>
-<div>
-    <div>
-        <img src="" alt="" />
-        <div><a href="{% url 'posts:all_recipe' %}">전체 레시피 보기</a></div>
+        <button id="main-add">+</button>
+      </section>
+      <section id="main_section_2">
+        <div class="recipe_view">
+          <div class="recipe_view_all">
+            <a href="{% url 'posts:all_recipe' %}">
+              <img
+                src="{% static 'image/복주머니초안적(b).png' %}"
+                alt="복주머니"
+              />
+              <span>전체 레시피 보기</span>
+            </a>
+          </div>
+          <div class="recipe_view_jang">
+            <a href="{% url 'posts:all_recipe' %}">
+              <img
+                src="{% static 'image/복주머니초안적(b).png' %}"
+                alt="복주머니"
+              />
+              <span>장금이 레시피 보기</span>
+            </a>
+          </div>
+        </div>
+        <div class="recipe_search">
+          <a href="{% url 'posts:main' %}">
+            <img src="{% static 'image/요리백서레시피조회.png' %}" />
+          </a>
+        </div>
+        <div>
+          {% if user.is_authenticated %}
+          <div><a href="{% url 'posts:create' %}">레시피 추가하러 가기</a></div>
+          {% else %}
+          <div>
+            <a href="{% url 'posts:login' %}">레시피 추가하러 가기</a>
+          </div>
+        </div>
+      </section>
     </div>
-    <div>
-        <img src="" alt="" />
-        <div><a href="">장금이 레시피 보기</a></div>
-    </div>
-</div>
-<div><a href="">레시피조회</a></div>
-{% if user.is_authenticated %}
-<div><a href="{% url 'posts:create' %}">레시피 추가하러 가기</a></div>
-{% else %}
-<div>
-    <a href="{% url 'posts:login' %}">레시피 추가하러 가기 (비로그인 상태로 클릭시 로그인 페이지로 이동)</a>
-</div>
-{% endif %}
-<script>
-    const $addBtn = document.getElementById("main-add");
-    const $btnParent = document.getElementById("main-btn-container");
-    let $count = 4;
-    $addBtn.addEventListener("click", () => {
+    {% endif %}
+    <script>
+      const $addBtn = document.getElementById("main-add");
+      const $btnParent = document.getElementById("main-btn-container");
+      let $count = 4;
+      $addBtn.addEventListener("click", () => {
         const $newBtn = document.createElement("input");
         $newBtn.name = "search";
         $newBtn.placeholder = "재료" + $count;
         $count += 1;
         $btnParent.appendChild($newBtn);
-    });
-</script>
+      });
+    </script>
+  </body>
+</html>
 
 {% endblock content %}

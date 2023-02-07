@@ -1,1 +1,30 @@
 @import "base.css";
+
+#main_section_1 {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 6rem;
+}
+
+#main_section_2 {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.recipe_view_all a {
+  display: flex;
+  flex-direction: row;
+}
+
+.recipe_view_all img,
+.recipe_view_jang img {
+  width: 2rem;
+}
+
+.recipe_search img {
+  width: 40rem;
+}

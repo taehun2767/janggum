@@ -1,1 +1,15 @@
 @import "base.css";
+
+.recipe_title,
+.recipe_select,
+.recipe_ingre,
+.recipe_sauce,
+.recipe_ingreselect {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.recipe_title {
+  margin-top: 100px;
+}
