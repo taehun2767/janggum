@@ -1,21 +1,52 @@
-{% extends 'posts/base.html' %}{% block extrahead %} {% load static %}
-<link rel="stylesheet" href="{% static 'css/recipe_update_page.css' %}" />
-{% endblock %} {% block content %}
-    <form action="{% url 'posts:update' post.pk %}" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div>
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>장금이 요리백서</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/recipe_update_page.css' %}" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nanum+Brush+Script&family=Yeon+Sung&display=swap" rel="stylesheet" />
+    </head>
+    <body>
+        {% include 'posts/header.html' %}
+        <form action="{% url 'posts:update' post.pk %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
             <div>
-                <div>레시피 제목을 입력하세요: </div>
-                <input name="title" placeholder="레시피 제목" value="{{post.title}}"/>
+                <div>
+                    <div>레시피 제목을 입력하세요:</div>
+                    <input name="title" placeholder="레시피 제목" value="{{post.title}}" />
+                </div>
+                <div id="btn-container">
+                  {%for ele in post.ingredientList%}
+                  <input placeholder="재료" name="ingredient[]" value ="{{ele}}" />
+                  {%endfor%}
+                </div>
+                    {% comment %} <input placeholder="재료" name="ingredient[]" value ="{{post.ingredient}}"/>
+                    <input placeholder="재료" name="ingredient[]" />
+                    <input placeholder="재료" name="ingredient[]" /> {% endcomment %}
+                </div>
+                <input type="file" name="photo" />
+                <textarea name="content" placeholder="레시피 소개">{{post.content}}</textarea>
             </div>
             <div>
-                레시피 식재료
+                <input type="submit" , value="레시피 저장" />
             </div>
-            <input type="file" name="photo"/>
-            <textarea name="content" placeholder="레시피 소개">{{post.content}}</textarea>
-        </div>
-        <div>
-            <input type="submit" , value="레시피 저장" />
-        </div>
-    </form>
-{% endblock content %}
+        </form>
+        <button id="add">+</button>
+        <script>
+            const $addBtn = document.getElementById("add");
+            const $btnParent = document.getElementById("btn-container");
+
+            $addBtn.addEventListener("click", () => {
+                const $newBtn = document.createElement("input");
+                $newBtn.name = "ingredient[]";
+                $newBtn.placeholder = "재료";
+                $btnParent.appendChild($newBtn);
+            });
+        </script>
+    </body>
+</html>

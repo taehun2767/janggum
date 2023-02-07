@@ -6,40 +6,54 @@ from .models import User, Post, Comment, Like, Comment
 from django.http.request import HttpRequest
 from django.db.models import Q
 
+
+all_used_ingredient_set = set()
+
+#메인 페이지 => main.html을 기본으로 보여주고 재료로 검색시 recipe list 창으로 context 보내며 render
 def main(request):
+    #레시피 검색 시 context 넘겨주기 위한 작업
     posts = Post.objects.all()
     if request.method == "POST":
-        ingredientList = request.POST.getlist("search[]")
+        ingredientList = request.POST.getlist("search")
         print(ingredientList)
+        #각각 검색재료에 대해 필터링
         for ele in ingredientList:
             if ele:
                 posts = posts.filter(ingredient__contains=ele)
                 print(posts)
+        #해당조건의 레시피가 존재할 때
         if posts:
-            print("hello")
+            #재료를 파이썬 리스트화해야 전체 레시피 보기에서 재료도 보이게 할 수 있음
             ingredientLists = []
             for post in posts:
                 ingredientStr = post.ingredient[2:-3].replace("'", '')
                 ingredientList = ingredientStr.split(',')
+                #약간 야매인 거 같긴한데 새로운 field만들어서 파이썬 리스트 추가
                 post.ingredientList = ingredientList
                 post.save()
             context={
                 "posts" : posts,
-                # "ingredeintLists" : ingredientLists,
             }
+        #검색한 경우 레시피 리스트 페이지로 render
         return render(request, "posts/all_recipe_list.html", context=context)
+    #검색을 하지 않을 경우 main으로 render
     return render(request, "posts/main.html")
 
 
+#회원가입
 def signup(request):
+    #form 입력 후 제출
     if request.method == 'POST':
         form = SignupForm(request.POST)
+        #form이 유효한 경우
         if form.is_valid():
             user = form.save()
             auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')   
             return render(request, template_name="posts/success.html")
+        #유효하지 않은 경우 redirect
         else:
             return redirect('posts:signup')
+    #기본으로 띄우는 창
     else:
         form = SignupForm()
         context = {
@@ -47,8 +61,9 @@ def signup(request):
         }
         return render(request, template_name='posts/signup.html', context=context)
 
-
+#로그인 페이지
 def login(request):
+    #아이디 비밀번호 입력 후 제출
     if request.method == 'POST':
         form = AuthenticationForm(request, request.POST)
         if form.is_valid():
@@ -60,6 +75,7 @@ def login(request):
                 'form': form,
             }
             return render(request, template_name='posts/login.html', context=context)
+    #제출 아닌 경우 로그인 페이지 그대로
     else:
         form = AuthenticationForm()
         context = {
@@ -67,6 +83,7 @@ def login(request):
         }
         return render(request, template_name='posts/login.html', context=context)
 
+#로그아웃 시 메인 페이지로 이동
 def logout(request):
     auth.logout(request)
     return redirect('posts:main')
@@ -79,9 +96,12 @@ def posts_all_list(request:HttpRequest, *args, **kwargs):
     # text = request.GET.get("text")
     # if text:
     #     posts = posts.filter(content__contains=text)
+    
+    #데이터 전처리 => 재료가 textfield로 저장되어있으므로 각 재료를 창에 띄울 수 있도록 리스트화
     for post in posts:
                 ingredientStr = post.ingredient[2:-3].replace("'", '')
                 ingredientList = ingredientStr.split(',')
+                #새 필드 만들어서 html에 데이터 보냄
                 post.ingredientList = ingredientList
                 post.save()   
     context = {
@@ -111,11 +131,17 @@ def posts_junggum_list(request:HttpRequest, *args, **kwargs):
 
 # create page
 def create(request:HttpRequest, *args, **kwargs):
+
+    context = {
+        "ingredientList" : all_used_ingredient_set,
+    }
     if request.method == "POST":
-
+        #여러 재료 input들 한꺼번에 가져와 저장
         ingredients = request.POST.getlist('ingredient[]'),
-
-        # print(ingredients)
+        print(ingredients)
+        ingredientList = ingredients[0]
+        for ele in ingredientList:
+            all_used_ingredient_set.add(ele)
         Post.objects.create(
             ingredient = ingredients,
             user=request.user,
@@ -124,17 +150,29 @@ def create(request:HttpRequest, *args, **kwargs):
             content=request.POST["content"],
         )
         return redirect("/")
-    return render(request, "posts/recipe_create_page.html")
+    return render(request, "posts/recipe_create_page.html", context=context)
 
 # update
 def posts_update(request:HttpRequest, pk, *args, **kwargs):
+    
     post = Post.objects.get(id=pk)
+    #재료가 각각 표시되게끔 전처리
+    ingredientStr = post.ingredient[2:-3].replace("'", '')
+    ingredientList = ingredientStr.split(',')
+    post.ingredientList = ingredientList
+    post.save()
     if request.method == "POST":
         post.title=request.POST["title"]
         post.photo=request.FILES["photo"]
         post.content=request.POST["content"]
+        post.ingredient = request.POST.getlist('ingredient[]'),
         post.save()
+        
+
+        for ele in post.ingredient[0]:
+            all_used_ingredient_set.add(ele)
         return redirect(f"/")
+    #수정 페이지에 원래 레시피 정보 뜨게끔 context로 보냄
     context = {
         "post" : post,
     }

@@ -1,0 +1,43 @@
+{% load static %}
+<header>
+  <div class="header_main">
+    <div class="nav_logo">
+      <a href="{% url 'posts:main' %}">장금이 요리백서</a>
+    </div>
+    <div class="nav">
+      {% if user.is_authenticated %}
+      <li>
+        <a href="{% url 'posts:main' %}">
+          <img src="{% static 'image/메뉴판자1.png' %}" />
+          <div class="nav_menu_text">내프로필<div>
+        </a>
+      </li>
+      <li>
+        <a href="{% url 'posts:logout' %}">
+          <img src="{% static 'image/메뉴판자1.png' %}" />
+          <div class="nav_menu_text">로그아웃<div>
+        </a></li>
+      {% else %}
+      <li>
+        <a href="{% url 'posts:main' %}">
+          <img src="{% static 'image/메뉴판자1.png' %}" />
+          <div class="nav_menu_text">내프로필<div>
+        </a></li>
+      <li>
+        <a href="{% url 'posts:login' %}">
+          <img src="{% static 'image/메뉴판자1.png' %}" />
+          <div class="nav_menu_text">로그인<div>
+        </a></li>
+      <li>
+        <a href="{% url 'posts:signup' %}">
+          <img src="{% static 'image/메뉴판자1.png' %}" />
+          <div class="nav_menu_text">회원가입<div>
+        </a></li>
+      {% endif %}
+    </div>
+  </div>
+  <div class="header_line">
+    <div class="header_line_left"></div>
+    <div class="header_line_right"></div>
+  </div>
+</header>

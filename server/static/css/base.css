@@ -92,6 +92,9 @@ body li, ol, ul {
     --sub-font: 'Gowun Batang'; /* "레시피조회", 재료 */
     --ingredient-font: 'Nanum Brush Script'; /* 메인 페이지 재료 입력 */
     --recipe-font: 'Ansungtangmyun-Bold'; /* 레시피 */
+
+    /* size */
+    --line-size: 1rem; /* 헤더밑 & 페이지 나누는 선 넓이 */
 }
 
 body {
@@ -101,7 +104,12 @@ body {
     font-size: 2rem; /* 디폴트 폰트 사이즈가 너무 작아서 대충 2rem으로 설정했는데 변경이 필요하면 변경해도 됩니다. */
 }
 
-header { 
+header {
+  width: 100vw;
+  position: sticky;
+}
+
+.header_main {
   background-color: var(--header-color);
   width: 100vw;
   display: flex;
@@ -109,23 +117,57 @@ header {
   justify-content: space-between;
   align-items: center;
   font-size: 3.6rem;
-  color: var(--recipe-color-1);
 }
 
-.header_logo {
+.nav_logo {
   padding: 1rem;
+}
+
+.nav_logo a {
+  color: var(--recipe-color-1);
 }
 
 .nav {
   padding: 0.7rem;
   display: flex;
   flex-direction: row;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
 }
 
 .nav a {
+  position: relative;
+}
+
+.nav img {
+  width: 2rem;
+}
+
+.nav_menu_text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate( -50%, -50% );
   color: var(--menu-color);
   writing-mode: vertical-lr;
+}
+
+.header_line {
+  width: 100vw;
+  height: var(--line-size);
+  display: flex;
+  flex-direction: row;
+}
+
+.header_line_left {
+  width: 20%;
+  height: var(--line-size);
+  background-color: var(--main-color-1);
+}
+
+.header_line_right {
+  width: 80%;
+  height: var(--line-size);
+  background-color: var(--main-color-2);
 }
 
 /* ==================== */
