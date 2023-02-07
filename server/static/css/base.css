@@ -1,4 +1,4 @@
-/* rese.css랑 하나로 합쳤습니다 */
+/* reset.css랑 하나로 합쳤습니다 */
 
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
@@ -69,44 +69,50 @@ body li, ol, ul {
 
 @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nanum+Brush+Script&family=Yeon+Sung&display=swap');
 @font-face {
-    font-family: 'Ansungtangmyun-Bold';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/Ansungtangmyun-Bold.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'Ansungtangmyun-Bold';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/Ansungtangmyun-Bold.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
 }
 
 :root {
-    /* color */
-    --header-color: #E8DACF; /* 헤더 배경 */
-    --menu-color: rgba(52, 42, 31, 0.9); /* 헤더 메뉴 글씨 */
-    --main-color-1: #CC9998; /* 레시피 테두리 (선택 전) */
-    --main-color-2: #A44845; /* 레시피 테두리 (선택 후) */
-    --sub-color-2: #FAF6F6; /* 레시피 배경 (선택 전) */
-    --sub-color-2: #F7F5EA; /* 레시피 배경 (선택 후) */
-    --jg-color: #FFCD47; /* 장금이 레시피 배경 */
-    --recipe-color-1: #741C13; /* 레시피 이름, 날짜 글씨 */
-    --recipe-color-2: #2C2B2B; /* 레시피 설명 글씨 */
+  /* color */
+  --header-color: #E8DACF; /* 헤더 배경 */
+  --menu-color: rgba(52, 42, 31, 0.9); /* 헤더 메뉴 글씨 */
+  --main-color-1: #CC9998; /* 레시피 테두리 (선택 전) */
+  --main-color-2: #A44845; /* 레시피 테두리 (선택 후) */
+  --sub-color-2: #FAF6F6; /* 레시피 배경 (선택 전) */
+  --sub-color-2: #F7F5EA; /* 레시피 배경 (선택 후) */
+  --jg-color: #FFCD47; /* 장금이 레시피 배경 */
+  --recipe-color-1: #741C13; /* 레시피 이름, 날짜 글씨 */
+  --recipe-color-2: #2C2B2B; /* 레시피 설명 글씨 */
 
-    /* font-family */
-    --main-font: 'Yeon Sung'; /* 헤더, "전체(장금이) 레시피 보기", "레시피 추가하러 가기", (로그인/회원가입 폼?) */
-    --sub-font: 'Gowun Batang'; /* "레시피조회", 재료 */
-    --ingredient-font: 'Nanum Brush Script'; /* 메인 페이지 재료 입력 */
-    --recipe-font: 'Ansungtangmyun-Bold'; /* 레시피 */
+  /* font-family */
+  --main-font: 'Yeon Sung'; /* 헤더, "전체(장금이) 레시피 보기", "레시피 추가하러 가기", (로그인/회원가입 폼?) */
+  --sub-font: 'Gowun Batang'; /* "레시피조회", 재료 */
+  --ingredient-font: 'Nanum Brush Script'; /* 메인 페이지 재료 입력 */
+  --recipe-font: 'Ansungtangmyun-Bold'; /* 레시피 */
 
-    /* size */
-    --line-size: 1rem; /* 헤더밑 & 페이지 나누는 선 넓이 */
+  /* size */
+  --line-size: 1rem; /* 헤더밑 & 페이지 나누는 선 넓이 */
 }
 
 body {
-    background: url("../image/장금이배경.png") repeat;
-    color: black;
-    font-family: var(--main-font);
-    font-size: 2rem; /* 디폴트 폰트 사이즈가 너무 작아서 대충 2rem으로 설정했는데 변경이 필요하면 변경해도 됩니다. */
+  width: 100vw;
+  background: url("../image/장금이배경_수정.png") repeat;
+  -webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+  color: black;
+  font-family: var(--main-font);
+  font-size: 2rem; /* 디폴트 폰트 사이즈가 너무 작아서 대충 2rem으로 설정했는데 변경이 필요하면 변경해도 됩니다. */
 }
 
 header {
   width: 100vw;
   position: sticky;
+  top: 0;
 }
 
 .header_main {
@@ -117,10 +123,16 @@ header {
   justify-content: space-between;
   align-items: center;
   font-size: 3.6rem;
+  padding-top: 0.2rem;
 }
 
 .nav_logo {
-  padding: 1rem;
+  padding: 0.5rem;
+}
+
+.nav_logo img {
+  margin-left: 1rem;
+  width: 15rem;
 }
 
 .nav_logo a {
@@ -128,27 +140,37 @@ header {
 }
 
 .nav {
-  padding: 0.7rem;
+  padding: 0.5rem;
+  margin-right: 1rem;
   display: flex;
   flex-direction: row;
-  font-size: 1.3rem;
 }
 
-.nav a {
+.nav li {
+  margin-left: 0.4rem;
   position: relative;
 }
 
-.nav img {
-  width: 2rem;
+.nav_menu_img img {
+  width: 2.8rem;
 }
 
 .nav_menu_text {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate( -50%, -50% );
+  width: 2rem;
+  height: 8rem;
+  transform: translate( -50%, -52% );
+  text-align: center;
+}
+
+.nav_menu_text span {
   color: var(--menu-color);
   writing-mode: vertical-lr;
+  height: 100%;
+  letter-spacing: -0.1rem;
+  font-size: 1.6rem;
 }
 
 .header_line {
