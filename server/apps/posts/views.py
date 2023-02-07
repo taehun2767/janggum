@@ -8,7 +8,7 @@ from django.http.request import HttpRequest
 def main(request):
     posts = Post.objects.all()
     if request.method == "POST":
-        ingredientList = request.POST.getlist("search[]")
+        ingredientList = request.POST.getlist("search")
         print(ingredientList)
         for ele in ingredientList:
             if ele:
