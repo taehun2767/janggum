@@ -16,4 +16,8 @@ urlpatterns = [
     path('posts/<int:pk>/update', views.posts_update, name='update'),
     path('posts/<int:pk>/delete', views.posts_delete, name='delete'),
     path('posts/<int:pk>', views.posts_retrieve, name='retrieve'),
+    path('detail_ajax/', views.detailajax, name='detail_ajax'),
+    path('like_ajax/', views.like_ajax, name='like_ajax'),
+    path('comment_ajax/', views.comment_ajax, name='comment_ajax'),
+    path('comment_del_ajax/', views.comment_del_ajax, name='comment_del_ajax'),
 ]

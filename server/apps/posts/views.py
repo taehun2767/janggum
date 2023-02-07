@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect
 from server.apps.posts.forms import SignupForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import auth
-from .models import User, Post, Comment
+from .models import User, Post, Comment, Like, Comment
 from django.http.request import HttpRequest
+from django.db.models import Q
 
 def main(request):
     posts = Post.objects.all()
@@ -73,6 +74,7 @@ def logout(request):
 # all_recipe_list페이지 
 def posts_all_list(request:HttpRequest, *args, **kwargs):
     posts = Post.objects.all()
+    comments = Comment.objects.all()
     # 검색기능 주석처리함
     # text = request.GET.get("text")
     # if text:
@@ -84,6 +86,7 @@ def posts_all_list(request:HttpRequest, *args, **kwargs):
                 post.save()   
     context = {
         "posts" : posts,
+        'comments' : comments,
     }
     return render(request, "posts/all_recipe_list.html", context=context)
 
@@ -99,9 +102,10 @@ def posts_all_list(request:HttpRequest, *args, **kwargs):
 # 장금이 레시피 페이지 일단 좋아요 없이 구현
 def posts_junggum_list(request:HttpRequest, *args, **kwargs):
     posts = Post.objects.all()
-    
+    comments = Comment.objects.all()
     context = {
         "posts" : posts,
+        'comments' : comments,
     }
     return render(request, "posts/jungum_recipe_list.html", context=context)
 
@@ -159,27 +163,53 @@ def posts_retrieve(request:HttpRequest, pk, *args, **kwargs):
 from .forms import PostForm
 import json
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt #보안 관련 부분
+from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
 def like_ajax(request, *args, **kwargs):
+    if request.user.is_authenticated:
+        req = json.loads(request.body)
+        user = request.user
+        like_id = req['id']
+        post = Post.objects.get(id=like_id)
+        like = Like.objects.filter(post_id=post, user_id=user)
+        like_true = True
+
+        if like.exists(): 
+            like.delete()
+            post.number -= 1
+            post.save()
+            like_true = False
+            return JsonResponse({'like_true': like_true, 'number': post.number})
+        
+        Like.objects.create(
+            post_id = post,
+            user_id = user,
+            like_value = True,
+            
+        )
+        post.number += 1
+        post.save()
+            
+
+    return JsonResponse({'like_true': like_true, 'number': post.number})
+
+@csrf_exempt #403에러 방지
+def detailajax(request, *args, **kwargs):
     req = json.loads(request.body)
 
     post_id = req['id']
     post = Post.objects.get(id = post_id)
+    post_title = post.title
+    # post_photo = post.photo
+    post_content = post.content
+    post_created = post.created_at
 
-    if post.like == True:
-        post.like = False
-    else:
-        post.like = True
-    post.save()
-
-    liked = post.like
-    return JsonResponse({'id': post_id, 'liked': liked})
+    return JsonResponse({'post_id': post_id, 'post_title':post_title, 'post_content': post_content, 'post_created':post_created})
 
 @csrf_exempt #403에러 방지
 def comment_ajax(request, *args, **kwargs):
-    req = json.loads(request.body) #{id:1, content: ...}
+    req = json.loads(request.body)
 
     post_id = req['id'] #1
     content = req['content'] #...
@@ -200,4 +230,5 @@ def comment_del_ajax(request, *args, **kwargs):
     comment = Comment.objects.get(id=comment_id)
     comment.delete()
     return JsonResponse({'post_id': post_id, 'comment_id': comment_id})
+
 

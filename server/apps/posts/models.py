@@ -21,6 +21,7 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     ingredient = models.TextField()
+    number = models.IntegerField(default=0)
     
 #댓글
 class Comment(models.Model):
@@ -34,4 +35,5 @@ class Comment(models.Model):
 class Like(models.Model):
   user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="like_user")
   post_id = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="like_post")
+  like_value = models.BooleanField(default=False)
   

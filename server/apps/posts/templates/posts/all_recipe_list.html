@@ -9,14 +9,16 @@
             {% for post in posts %}
             <article class="backgorundcolor">
                 <div>
-                    <div>{{post.title}}</div>
+                    
+                    <button onclick="onClickDetail({{post.id}})">{{post.title}}</button>
                     {% if post.photo %}
                     <p>
                         <img src="{{ post.photo.url }}" />
                     </p>
                     {% endif %}
                     <div>
-                        <div>좋아요 개수</div>
+                        <button class="like_{{post.id}}" onclick="onClickLike({{post.id}})">좋아요</button>
+                        <div class="like_dislike">좋아요 개수: {{post.number}}</div>
                         <div>{{post.created_at}}</div>
                     </div>
                     <div>
@@ -33,115 +35,151 @@
             {% endfor %}
         </div>
     </div>
-    <div class="ajax 처리라서 오른쪽 정렬하고 css안해도됨">
-        <div>레시피 상세보기</div>
+    <div id="list_container" style="width: 500px; height:100%; background-color: aqua" class="post_detail">
+        <!-- <h1 class="btn">MODAL_1</h1>
+ 
+        <div class="modal">
+    
+            <div class="modal-content">
+                <span class="close">&times;</span>                         
+                <p>첫 번째 Modal</p>
+            </div>
+        </div> -->
+    </div>
+</div>
+<script>    
+    const requestDetail = new XMLHttpRequest();
+    const requestLike = new XMLHttpRequest();
+    const onClickDetail = (id) => {
+        const url = "/detail_ajax/";
+        requestDetail.open("POST", url, true);
+        requestDetail.setRequestHeader(
+        "Content-Type",
+        "application/x-www-form-urlencoded"
+        );
+        requestDetail.send(JSON.stringify({ id: id}));
+    };
+
+    requestDetail.onreadystatechange = () => {
+        if (requestDetail.readyState === XMLHttpRequest.DONE) {
+        if (requestDetail.status < 400) {
+            const { post_id, post_title, post_photo, post_content, post_created } = JSON.parse(requestDetail.response);
+            const element1 = document.querySelector(`.post_detail`);
+            const originHTML1 = element1.innerHTML;
+            const detail_list = originHTML1;
+            element1.innerHTML = `<div>레시피 상세보기</div>
         <article class="다른 backgorund color클래스">
-            <div>요리 이름</div>
+            <div class="post_title">${post_title}</div>
             <div>
                 <div>재료</div>
                 <div>재료</div>
                 <div>재료</div>
             </div>
             <div>
-                <div>사진 넣기</div>
-                <div>레시피 만드는 방법</div>
+                <div class="post_photo"></div>
+                <div class="post_content">${post_content}</div>
             </div>
             <div>
                 <div>
                     <div>좋아요 개수</div>
-                    <div>수정일</div>
+                    <div class="post_created">${post_created}</div>
                 </div>
-                <div>
-                    <a href="#" class="btn-open" onClick="javascript:popOpen();">댓글</a>
-                </div>
-
-                {% comment %}
-                <!-- 전체 레이아웃 -->
-                <div id="wrap">
-                    <!-- Content -->
-                    <section class="content">
-                        <div class="container">
-                            <!-- 팝업용 임시 버튼입니다. -->
-                            <div class="btn-box">
-                                <a href="#" class="btn-open" onClick="javascript:popOpen();">
-                                    <span>열기</span>
-                                </a>
-                            </div>
-                            <!-- //팝업용 임시 버튼입니다. -->
-                        </div>
-                    </section>
-                    <!-- //Content -->
-                </div>
-                <!-- //전체 레이아웃 -->
-
-                <!-- modal 영역 -->
-                <div class="modal-bg" onClick="javascript:popClose();"></div>
-                <div class="modal-wrap">
-                    modal sample
-                    <button class="modal-close" onClick="javascript:popClose();">닫기</button>
-                </div>
-                <!-- //modal 영역 -->
-                {% endcomment %}
             </div>
         </article>
-    </div>
-</div>
-{% comment %}
-<style>
-    /*   팝업 임시 버튼 스타일  */
-    .btn-box .btn-open {
-        display: block;
-        width: 200px;
-        height: 50px;
-        margin: 80px auto 0;
-        line-height: 50px;
-        background: #333;
-        text-align: center;
-    }
+        <h1 class="btn btn_${post_id}">MODAL_1</h1>
+ 
+        <div class="modal modal_${post_id}">
+    
+            <div class="modal-content">
+                <span class="close close_${post_id}">&times;</span>                         
+                <p>첫 번째 Modal</p>
+            </div>
+        </div>`;
+        }
+        }
+    };
 
-    .btn-box .btn-open span {
-        color: #fff;
-    }
+    const onClickLike = (id) => {
+        const url = "/like_ajax/";
+        requestLike.open("POST", url, true);
+        requestLike.setRequestHeader(
+        "Content-Type",
+        "application/x-www-form-urlencoded"
+        );
+        requestLike.send(JSON.stringify({ id: id}));
+    };
 
-    /* 팝업 스타일 */
-    .modal-bg {
-        display: none;
-        width: 100%;
-        height: 100%;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        background: rgba(0, 0, 0, 0.6);
-        z-index: 999;
-    }
-    .modal-wrap {
-        display: none;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 300px;
-        height: 300px;
-        background: #fff;
-        z-index: 1000;
-    }
-</style>
-<script>
-    function popOpen() {
-        var modalPop = $(".modal-wrap");
-        var modalBg = $(".modal-bg");
-
-        $(modalPop).show();
-        $(modalBg).show();
-    }
-
-    function popClose() {
-        var modalPop = $(".modal-wrap");
-        var modalBg = $(".modal-bg");
-
-        $(modalPop).hide();
-        $(modalBg).hide();
-    }
+    requestLike.onreadystatechange = () => {
+        if (requestLike.readyState === XMLHttpRequest.DONE) {
+        if (requestLike.status < 400) {
+            const { like_true, number } = JSON.parse(requestLike.response);
+            // const element = document.querySelector(`.like_{{post.id}}`);
+            const element = document.querySelector(`.like_dislike`);
+            const originHTML = element.innerHTML;
+            const like_list = originHTML;
+            location.reload();
+            if (like_true = true){
+                const count = Number(number) - 1;
+                element.innerHTML = `좋아요 개수: ${count}`;
+            }else{
+                const count = Number(number) + 1;
+                element.innerHTML = `좋아요 개수: ${count}`;
+            }
+        }
+        }
+    };
+    
+    // 
+    // Modal을 가져옵니다.
+    const modals = document.querySelector(`.modal_{{post.id}}`);
+    // Modal을 띄우는 클래스 이름을 가져옵니다.
+    const btns = document.querySelector(`.btn_{{post.id}}`);
+    // Modal을 닫는 close 클래스를 가져옵니다.
+    const spanes = document.querySelector(`.close_{{post.id}}`);
+    
+    // Modal을 띄우고 닫는 클릭 이벤트를 정의한 함수
+    btns.addEventListener("click", e => {
+        modals.style.display = "flex"
+    })
+    spanes.addEventListener("click", e => {
+        modals.style.display = "none"
+    })
+    modals.addEventListener("click", e => {
+        const evTarget = e.target
+        if(evTarget.classList.contains("modal_{{post.id}}")) {
+            modal.style.display = "none"
+        }
+    })
+    // function Modal(num) {
+    // return function() {
+    //     // 해당 클래스의 내용을 클릭하면 Modal을 띄웁니다.
+    //     btns[num].onclick =  function() {
+    //         modals[num].style.display = "block";
+    //         console.log(num);
+    //     };
+    
+    //     // <span> 태그(X 버튼)를 클릭하면 Modal이 닫습니다.
+    //     spanes[num].onclick = function() {
+    //         modals[num].style.display = "none";
+    //     };
+    // };
+    // }
+    
+    // // 원하는 Modal 수만큼 Modal 함수를 호출해서 funcs 함수에 정의합니다.
+    // for(var i = 0; i < btns.length; i++) {
+    // funcs[i] = Modal(i);
+    // }
+    
+    // // 원하는 Modal 수만큼 funcs 함수를 호출합니다.
+    // for(var j = 0; j < btns.length; j++) {
+    // funcs[j]();
+    // }
+    
+    // // Modal 영역 밖을 클릭하면 Modal을 닫습니다.
+    // window.onclick = function(event) {
+    // if (event.target.className == "modal_{{post.id}}") {
+    //     event.target.style.display = "none";
+    // }
+    // };
 </script>
-{% endcomment %} {% endblock content %}
+{% endblock content %}
