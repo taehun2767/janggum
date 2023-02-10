@@ -19,7 +19,8 @@
     {% endif %}
 
     <div>
-      <strong>고맙다 홍구야!!!!!! 무야호~~~~</strong>
+      <strong>구글 소셜 로그인 페이지</strong>
+      {% comment %}
       <ul>
         {% if user.is_authenticated %}
         <li><a href="{% url 'account_email' %}">Change E-mail</a></li>
@@ -29,6 +30,7 @@
         <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
         {% endif %}
       </ul>
+      {% endcomment %}
     </div>
     {% block content %} {% endblock %} {% endblock %}
   </body>
