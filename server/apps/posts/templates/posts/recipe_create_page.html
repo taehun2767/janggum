@@ -46,14 +46,17 @@
                     </datalist>
                 </div>
                 <br />
-                <input type="file" name="photo" />
+                <input type="file" name="photo" onchange="readURL(this);" accept=".jpg, .jpeg, .png" />
+                <img style="width: 200px; height: 200px border:none" id="preview" />
                 <textarea name="content" placeholder="레시피 소개 내용"></textarea>
             </div>
+
             <div>
                 <input type="submit" , value="레시피 저장" />
             </div>
         </form>
         <button id="add">+</button>
+
         <script>
             const $addBtn = document.getElementById("add");
             const $btnParent = document.getElementById("btn-container");
@@ -69,13 +72,26 @@
                 `;
 
                 const $newBtn = document.createElement("span");
-                {% comment %} $newBtn.name = "ingredient[]";
+                $newBtn.name = "ingredient[]";
                 $newBtn.list = "ingredient_list";
-                $newBtn.placeholder = "재료"; {% endcomment %}
+                $newBtn.placeholder = "재료";
                 $newBtn.innerHTML = template;
                 $btnParent.appendChild($newBtn);
 
             });
+
+            {% comment %} 이미지 미리보기 {% endcomment %}
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                  var reader = new FileReader();
+                  reader.onload = function(e) {
+                    document.getElementById('preview').src = e.target.result;
+                  };
+                  reader.readAsDataURL(input.files[0]);
+                } else {
+                  document.getElementById('preview').src = "";
+                }
+              }
         </script>
     </body>
 </html>
