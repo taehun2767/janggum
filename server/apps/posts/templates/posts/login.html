@@ -16,9 +16,11 @@
   </head>
   <body>
     <header>
-      <a href="{% url 'posts:main' %}">
-        <img src="{% static 'image/기와지붕초안.png' %}" />
-      </a>
+      <div class="header_giwa">
+        <a href="{% url 'posts:main' %}">
+          <img src="{% static 'image/기와지붕초안.png' %}" />
+        </a>
+      </div>
     </header>
     <section class="member_form" id="login_form">
       {% load socialaccount %}
@@ -29,6 +31,11 @@
       <button class="google_login_btn">
         <a href=" {% provider_login_url 'google' %}">구글 계정으로 로그인</a>
       </button>
+      <p></p>
+        <button class="signup_btn">
+          <a href="{% url 'posts:signup' %}">회원가입</a>
+        </button>
+      </p>
     </section>
   </body>
 </html>

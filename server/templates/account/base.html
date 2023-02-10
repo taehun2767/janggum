@@ -1,37 +1,56 @@
 <!DOCTYPE html>
-<html style="background-color: papayawhip">
+<html>
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block head_title %}{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nanum+Brush+Script&family=Yeon+Sung&display=swap"
+      rel="stylesheet"
+    />
     {% block extra_head %} {% endblock %}
   </head>
   <body>
-    {% block body %} {% if messages %}
-    <div>
-      <strong>Messages:</strong>
-      <ul>
-        {% for message in messages %}
-        <li>{{message}}</li>
-        {% endfor %}
-      </ul>
-    </div>
-    {% endif %}
-
-    <div>
-      <strong>구글 소셜 로그인 페이지</strong>
-      {% comment %}
-      <ul>
-        {% if user.is_authenticated %}
-        <li><a href="{% url 'account_email' %}">Change E-mail</a></li>
-        <li><a href="{% url 'account_logout' %}">Sign Out</a></li>
-        {% else %}
-        <li><a href="{% url 'account_login' %}">Sign In</a></li>
-        <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
+    <header>
+      <div class="header_giwa">
+        <a href="{% url 'posts:main' %}">
+          <img src="{% static 'image/기와지붕초안.png' %}" />
+        </a>
+      </div>
+    </header>
+    <section id="google_main_section">
+      <div class="google_main_div">
+        {% block body %} {% if messages %}
+        <div>
+          <strong>Messages:</strong>
+          <ul>
+            {% for message in messages %}
+            <li>{{message}}</li>
+            {% endfor %}
+          </ul>
+        </div>
         {% endif %}
-      </ul>
-      {% endcomment %}
-    </div>
-    {% block content %} {% endblock %} {% endblock %}
+
+        <div>
+          <div class="page_title"><p>구글 소셜 로그인 페이지</p></div>
+          {% comment %}
+          <ul>
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'account_email' %}">Change E-mail</a></li>
+            <li><a href="{% url 'account_logout' %}">Sign Out</a></li>
+            {% else %}
+            <li><a href="{% url 'account_login' %}">Sign In</a></li>
+            <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
+            {% endif %}
+          </ul>
+          {% endcomment %}
+        </div>
+        {% block content %} {% endblock %} {% endblock %}
+      </div>
+    </section>
   </body>
 </html>

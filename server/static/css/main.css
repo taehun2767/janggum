@@ -67,11 +67,13 @@
 #main-btn-container input:-webkit-autofill:hover,
 #main-btn-container input:-webkit-autofill:focus,
 #main-btn-container input:-webkit-autofill:active {
-  background-image: url("../image/재료판자.png") repeat;
+  background: transparent;
+  background-image: url("../image/재료판자.png");
   border: 0;
   outline: none;
-  transition: background-image 0s;
+  -webkit-text-fill-color: var(--ingredient-color);
 }
+
 
 #main-btn-container input,
 #main-btn-container input::placeholder,
@@ -81,6 +83,8 @@
   font-family: var(--ingredient-font);
   font-size: 2.4rem;
   text-align: center;
+  border: 0;
+  outline: none;
 }
 
 #recipe_search {
