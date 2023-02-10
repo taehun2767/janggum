@@ -15,13 +15,20 @@
     />
   </head>
   <body>
-    {% include 'posts/header.html' %} {% load socialaccount%} {%
-    providers_media_js %}
-    <form method="POST" action="">
-      {% csrf_token %} {{ form }}
-      <button>Login</button>
-    </form>
-
-    <a href=" {% provider_login_url 'google' %}">구글 로그인</a><br />
+    <header>
+      <a href="{% url 'posts:main' %}">
+        <img src="{% static 'image/기와지붕초안.png' %}" />
+      </a>
+    </header>
+    <section class="member_form" id="login_form">
+      {% load socialaccount %}
+      <form method="POST" action="">
+        {% csrf_token %} {{ form }}
+        <button class="login_btn">Login</button>
+      </form>
+      <button class="google_login_btn">
+        <a href=" {% provider_login_url 'google' %}">구글 계정으로 로그인</a>
+      </button>
+    </section>
   </body>
 </html>

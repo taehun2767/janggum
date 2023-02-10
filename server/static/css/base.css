@@ -92,9 +92,12 @@ body li, ol, ul {
   --sub-font: 'Gowun Batang'; /* "레시피조회", 재료 */
   --ingredient-font: 'Nanum Brush Script'; /* 메인 페이지 재료 입력 */
   --recipe-font: 'Ansungtangmyun-Bold'; /* 레시피 */
+  --main-box-shadow: 0.4rem 0.2rem 0.2rem #81818177; /* 메인 페이지 상자 그림자 효과 */
+  --main-text-shadow: -0.2rem 0.2rem 0.5rem #81818177; /* 메인 페이지 글자 그림자 효과 */
 
   /* size */
   --line-size: 1rem; /* 헤더밑 & 페이지 나누는 선 넓이 */
+  --login-form-font: 1.2rem;
 }
 
 body {

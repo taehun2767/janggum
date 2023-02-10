@@ -1,10 +1,10 @@
 @import "base.css";
 
 .main_contents {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 
 #main_section_1 {
@@ -13,6 +13,7 @@
   justify-content: center;
   align-items: center;
   margin-right: 4rem;
+  margin-top: 10rem;
 }
 
 .recipe_view_all a, .recipe_view_jang a {
@@ -27,56 +28,66 @@
   width: 6rem;
   height: 6rem;
   margin-right: 1rem;
+  filter: drop-shadow(var(--main-text-shadow));
 }
 
 .recipe_view_all span,
 .recipe_view_jang span {
-    margin-bottom: 1rem;
-}
-
-#main_section_2 {
-    margin-top: 5rem;
+  margin-bottom: 1rem;
+  text-shadow: var(--main-text-shadow);
 }
 
 #main_section_2 form {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin-top: 3rem;
 }
 
 #main-btn-container {
-    width: 40rem;
-    grid-template-columns: "btn btn btn";
-    margin-bottom: 3rem;
+  width: 39rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  display: grid;
+  grid-template-columns: 13rem 13rem 13rem;
+  grid-row-gap: 0.5rem;
 }
 
 #main-btn-container input {
-    background: url("../image/재료판자.png");
-    border: 0;
-    width: 11rem;
-    height: 5rem;
-    margin: 0.5rem;
+  background: url("../image/재료판자.png");
+  border: 0;
+  width: 12rem;
+  height: 4.4rem;
+  box-shadow: var(--main-box-shadow);
 }
 
-#main-btn-container input:focus {
-    background: url("../image/재료판자.png") repeat;
-    border: 0;
-    outline: none;
+#main-btn-container input:-webkit-autofill,
+#main-btn-container input:-webkit-autofill:hover,
+#main-btn-container input:-webkit-autofill:focus,
+#main-btn-container input:-webkit-autofill:active {
+  background-image: url("../image/재료판자.png") repeat;
+  border: 0;
+  outline: none;
+  transition: background-image 0s;
 }
 
 #main-btn-container input, #main-btn-container input::placeholder, #main-btn-container input:focus, #main-btn-container input:focus::placeholder{
-    color: white;
-    font-family: var(--ingredient-font);
-    font-size: 2.5rem;
-    text-align: center;
+  color: white;
+  font-family: var(--ingredient-font);
+  font-size: 2.4rem;
+  text-align: center;
+}
+
+#recipe_search {
+  margin-bottom: 3rem;
 }
 
 #main_section_3 {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    margin-left: 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  margin-left: 4rem;
 }
 
 #main-add {
@@ -90,10 +101,11 @@
 }
 
 #main_create_btn {
-    background: url("../image/재료판자.png");
-    padding: 2rem 1rem;
+  background: url("../image/재료판자.png");
+  padding: 2rem 1rem;
+  box-shadow: var(--main-box-shadow);
 }
 
 #main_create_btn a {
-    color: white;
+  color: white;
 }
