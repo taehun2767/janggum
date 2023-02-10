@@ -113,7 +113,7 @@ def posts_all_list(request:HttpRequest, *args, **kwargs):
 # recipe search page 선택값으로 찾는거 구현 안함
 # def posts_search_list(request:HttpRequest, *args, **kwargs):
 #     posts = Post.objects.all()
-   
+
 #     context = { 
 #         "posts" : posts,
 #     }
@@ -141,7 +141,8 @@ def create(request:HttpRequest, *args, **kwargs):
         print(ingredients)
         ingredientList = ingredients[0]
         for ele in ingredientList:
-            all_used_ingredient_set.add(ele)
+            all_used_ingredient_set.add(ele.replace(" ",""))
+        print(all_used_ingredient_set)
         Post.objects.create(
             ingredient = ingredients,
             user=request.user,
@@ -170,7 +171,8 @@ def posts_update(request:HttpRequest, pk, *args, **kwargs):
         
 
         for ele in post.ingredient[0]:
-            all_used_ingredient_set.add(ele)
+            all_used_ingredient_set.add(ele.replace(" ",""))
+        print(all_used_ingredient_set)
         return redirect(f"/")
     #수정 페이지에 원래 레시피 정보 뜨게끔 context로 보냄
     context = {
