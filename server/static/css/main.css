@@ -16,7 +16,8 @@
   margin-top: 10rem;
 }
 
-.recipe_view_all a, .recipe_view_jang a {
+.recipe_view_all a,
+.recipe_view_jang a {
   display: flex;
   flex-direction: row;
   align-items: end;
@@ -72,7 +73,10 @@
   transition: background-image 0s;
 }
 
-#main-btn-container input, #main-btn-container input::placeholder, #main-btn-container input:focus, #main-btn-container input:focus::placeholder{
+#main-btn-container input,
+#main-btn-container input::placeholder,
+#main-btn-container input:focus,
+#main-btn-container input:focus::placeholder {
   color: white;
   font-family: var(--ingredient-font);
   font-size: 2.4rem;
