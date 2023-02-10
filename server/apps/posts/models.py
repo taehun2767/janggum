@@ -21,6 +21,7 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     ingredient = models.TextField()
+    ingredient_quantity = models.TextField(default="")
     number = models.IntegerField(default=0)
     
 #댓글

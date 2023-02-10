@@ -149,6 +149,7 @@ def create(request:HttpRequest, *args, **kwargs):
             title=request.POST["title"],
             photo=request.FILES['photo'],
             content=request.POST["content"],
+            ingredient_quantity = request.POST["ingredient_quantity"],
         )
         return redirect("/")
     return render(request, "posts/recipe_create_page.html", context=context)
@@ -167,6 +168,7 @@ def posts_update(request:HttpRequest, pk, *args, **kwargs):
         post.photo=request.FILES["photo"]
         post.content=request.POST["content"]
         post.ingredient = request.POST.getlist('ingredient[]'),
+        post.ingredient_quantity = request.POST["ingredient_quantity"],
         post.save()
         
 

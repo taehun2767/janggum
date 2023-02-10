@@ -31,6 +31,7 @@
                 </div>
                 <input type="file" name="photo" onchange="readURL(this);" accept=".jpg, .jpeg, .png" />
                 <img style="width: 200px; height: 200px border:none" id="preview" />
+                <textarea name="ingredient_quantity" placeholder="재료의 양과 사용되는 조미료를 간단하게 적어주세요">{{post.ingredient_quantity}}</textarea>
                 <textarea name="content" placeholder="레시피 소개">{{post.content}}</textarea>
             </div>
             <div>
@@ -49,6 +50,23 @@
                 $btnParent.appendChild($newBtn);
             });
 
+
+            {% comment %} const fileInput = document.querySelector('input[type="file"]');
+
+            const urlToObject= async()=> {
+                const response = await fetch(image);
+                // here image is url/location of image
+                const blob = await response.blob();
+                const file = new File([blob], 'image.jpg', {type: blob.type});
+                console.log(file);
+              }
+
+            const $file = urlToObject({{post.photo.url}});
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add($file);
+            fileInput.files = dataTransfer.files; {% endcomment %}
+
+
             {% comment %} 이미지 미리보기 {% endcomment %}
             function readURL(input) {
                 if (input.files && input.files[0]) {
@@ -61,11 +79,7 @@
                   document.getElementById('preview').src = "";
                 }
               }
-
-              {% comment %} const fileInput = document.querySelector('input[type="file"]');
-              const dataTransfer = new DataTransfer();
-              dataTransfer.items.add({{post.photo.url}});
-              fileInput.files = dataTransfer.files; {% endcomment %}
+              
 
 
         </script>
