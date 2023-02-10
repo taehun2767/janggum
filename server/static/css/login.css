@@ -81,3 +81,42 @@ br {
     text-align: center;
     margin: 5rem;
 }
+
+
+/* 구글 소셜 로그인, 회원가입 */
+
+#google_main_section {
+    margin-top: 3rem;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    line-height: 3rem;
+    font-family: var(--sub-font);
+    font-weight: 700;
+    font-size: 1.4rem;
+}
+
+.google_main_div {
+    width: 50rem;
+    text-align: center;
+}
+
+.page_title p {
+    padding: 2rem;
+    font-size: 3rem;
+    font-family: var(--main-font);
+    font-weight: 400;
+    text-shadow: var(--main-text-shadow);
+}
+
+#google_main_section h1 {
+    color: var(--google-color-1);
+}
+
+#google_main_section button {
+    background-color: var(--google-color-1);
+}
+
+#google_main_section button:hover {
+    background-color: var(--google-color-2);
+}

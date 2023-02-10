@@ -169,6 +169,8 @@ ul {
   --jg-color: #ffcd47; /* 장금이 레시피 배경 */
   --recipe-color-1: #741c13; /* 레시피 이름, 날짜 글씨 */
   --recipe-color-2: #2c2b2b; /* 레시피 설명 글씨 */
+  --google-color-1: #1a73e8; /* 구글 로그인 페이지에 쓸 색상 */
+  --google-color-2: #7ca6dc; /* 구글 로그인 페이지에 쓸 색상 */
 
   /* font-family */
   --main-font: "Yeon Sung"; /* 헤더, "전체(장금이) 레시피 보기", "레시피 추가하러 가기", (로그인/회원가입 폼?) */
