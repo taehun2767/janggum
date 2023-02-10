@@ -26,19 +26,19 @@
                 <div class="recipe_sauce">양념재료</div>
                 <div class="recipe_ingreselect">선택 재료 default=True</div>
                 <div id="btn-container">
-                    <input name="ingredient_list" list="ingredient_list" placeholder="재료" />
+                    <input name="ingredient[]" list="ingredient_list" placeholder="재료" />
                     <datalist id="ingredient_list">
                         {%for ele in ingredientList %}
                         <option>{{ele}}</option>
                         {%endfor%}
                     </datalist>
-                    <input name="ingredient_list" list="ingredient_list" placeholder="재료" />
+                    <input name="ingredient[]" list="ingredient_list" placeholder="재료" />
                     <datalist id="ingredient_list">
                         {%for ele in ingredientList %}
                         <option>{{ele}}</option>
                         {%endfor%}
                     </datalist>
-                    <input name="ingredient_list" list="ingredient_list" placeholder="재료" />
+                    <input name="ingredient[]" list="ingredient_list" placeholder="재료" />
                     <datalist id="ingredient_list">
                         {%for ele in ingredientList %}
                         <option>{{ele}}</option>
