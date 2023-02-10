@@ -2,36 +2,53 @@
 <header>
   <div class="header_main">
     <div class="nav_logo">
-      <a href="{% url 'posts:main' %}">장금이 요리백서</a>
+      <a href="{% url 'posts:main' %}">
+        <img src="{% static 'image/헤더로고_기와장독대.png' %}" />
+      </a>
     </div>
     <div class="nav">
       {% if user.is_authenticated %}
       <li>
         <a href="{% url 'posts:main' %}">
-          <img src="{% static 'image/메뉴판자1.png' %}" />
-          <div class="nav_menu_text">내프로필<div>
+          <div class="nav_menu_img">
+            <img src="{% static 'image/헤더메뉴판자1.png' %}" />
+          </div>
+          <div class="nav_menu_text"><span>내프로필</span><div>
         </a>
       </li>
       <li>
+        <div class="nav_menu_img">
+          <img src="{% static 'image/헤더메뉴판자2.png' %}" />
+        </div>
+      </li>
+      <li>
         <a href="{% url 'posts:logout' %}">
-          <img src="{% static 'image/메뉴판자1.png' %}" />
-          <div class="nav_menu_text">로그아웃<div>
+          <div class="nav_menu_img">
+            <img src="{% static 'image/헤더메뉴판자3.png' %}" />
+          </div>
+          <div class="nav_menu_text"><span>로그아웃</span><div>
         </a></li>
       {% else %}
       <li>
         <a href="{% url 'posts:main' %}">
-          <img src="{% static 'image/메뉴판자1.png' %}" />
-          <div class="nav_menu_text">내프로필<div>
+          <div class="nav_menu_img">
+            <img src="{% static 'image/헤더메뉴판자1.png' %}" />
+          </div>
+          <div class="nav_menu_text"><span>내프로필</span><div>
         </a></li>
       <li>
         <a href="{% url 'posts:login' %}">
-          <img src="{% static 'image/메뉴판자1.png' %}" />
-          <div class="nav_menu_text">로그인<div>
+          <div class="nav_menu_img">
+            <img src="{% static 'image/헤더메뉴판자2.png' %}" />
+          </div>
+          <div class="nav_menu_text"><span>로 그 인</span><div>
         </a></li>
       <li>
         <a href="{% url 'posts:signup' %}">
-          <img src="{% static 'image/메뉴판자1.png' %}" />
-          <div class="nav_menu_text">회원가입<div>
+          <div class="nav_menu_img">
+            <img src="{% static 'image/헤더메뉴판자3.png' %}" />
+          </div>
+          <div class="nav_menu_text"><span>회원가입</span><div>
         </a></li>
       {% endif %}
     </div>

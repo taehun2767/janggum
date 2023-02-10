@@ -1,1 +1,67 @@
 @import "base.css";
+
+header {
+    width: 100vw;
+    height: 12rem;
+    position: sticky;
+}
+
+header img {
+    width: 100vw;
+    min-width: 1000px;
+    filter: drop-shadow(var(--main-text-shadow));
+}
+
+.member_form {
+    margin: 2rem;
+    font-family: var(--sub-font);
+    font-size: var(--login-form-font);
+    font-weight: 700;
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+form > * {
+    padding-top: 2rem;
+    padding-bottom: 0.6rem;
+}
+
+input, input:focus, input::placeholder {
+    background-color: white;
+    border: 0;
+    outline: none;
+    font-family: var(--sub-font);
+    font-size: var(--login-form-font);
+    width: 17.2rem;
+    height: 2rem;
+    padding: 1rem 1.4rem;
+}
+
+button {
+    width: 20rem;
+    background-color: var(--main-color-2);
+    border: 0;
+    outline: none;
+    font-family: var(--sub-font);
+    font-size: var(--login-form-font);
+    font-weight: 700;
+    color: white;
+    padding: 1rem 1.6rem;
+    border-radius: 0.5rem;
+    margin-top: 2rem;
+}
+
+button:hover {
+    background-color: var(--main-color-1);
+}
+
+.google_login_btn a {
+    cursor: default;
+    color: white;
+}
