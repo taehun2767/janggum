@@ -29,8 +29,17 @@
                     <input placeholder="재료" name="ingredient[]" />
                     <input placeholder="재료" name="ingredient[]" /> {% endcomment %}
                 </div>
-                <input type="file" name="photo" onchange="readURL(this);" accept=".jpg, .jpeg, .png" />
-                <img style="width: 200px; height: 200px border:none" id="preview" />
+
+
+                {% comment %} 수정중 {% endcomment %}
+                {% comment %} <input placeholder="파일을 선택해 주세요">
+                
+                <label for="file-input" id="id_req  _photo--button">파일 업로드</label> {% endcomment %}
+                {% comment %} <span>기존 파일 이름</span> {% endcomment %}
+                <input style="display:none;" type="file" name="photo"accept=".jpg, .jpeg, .png" onchange="readURL(this);" required="" id="file-input">
+
+                <input type="file" id="file-input" name="photo" onchange="readURL(this);" accept=".jpg, .jpeg, .png" />
+                <img style="width: 200px; height: 200px border:none" id="preview" src="{{post.photo.url}}"/>
                 <textarea name="ingredient_quantity" placeholder="재료의 양과 사용되는 조미료를 간단하게 적어주세요">{{post.ingredient_quantity}}</textarea>
                 <textarea name="content" placeholder="레시피 소개">{{post.content}}</textarea>
             </div>
@@ -39,7 +48,11 @@
             </div>
         </form>
         <button id="add">+</button>
+        <div>{{post.photo.url}}</div>
+        <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script> 
         <script>
+            var fileName = $("#file-input").val();
+            console.log(fileName);
             const $addBtn = document.getElementById("add");
             const $btnParent = document.getElementById("btn-container");
 

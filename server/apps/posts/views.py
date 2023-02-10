@@ -158,9 +158,11 @@ def create(request:HttpRequest, *args, **kwargs):
 
 # update
 def posts_update(request:HttpRequest, pk, *args, **kwargs):
-    
+    # filename = request.FILES.get("photo").name
+    # print(filename)
     post = Post.objects.get(id=pk)
     #재료가 각각 표시되게끔 전처리
+
     ingredientStr = post.ingredient[2:-3].replace("'", '')
     ingredientList = ingredientStr.split(',')
     post.ingredientList = ingredientList
