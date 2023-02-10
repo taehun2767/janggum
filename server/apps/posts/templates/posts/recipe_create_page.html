@@ -33,9 +33,24 @@
         <div class="recipe_sauce">양념재료</div>
         <div class="recipe_ingreselect">선택 재료 default=True</div>
         <div id="btn-container">
-          <input placeholder="재료" name="ingredient[]" />
-          <input placeholder="재료" name="ingredient[]" />
-          <input placeholder="재료" name="ingredient[]" />
+          <input name="ingredient_list" list="ingredient_list" placeholder="재료" />
+            <datalist id="ingredient_list">
+                {%for ele in ingredientList %}
+                <option>{{ele}}</option>
+                {%endfor%}
+            </datalist>
+            <input name="ingredient_list" list="ingredient_list" placeholder="재료" />
+            <datalist id="ingredient_list">
+                {%for ele in ingredientList %}
+                <option>{{ele}}</option>
+                {%endfor%}
+            </datalist>
+            <input name="ingredient_list" list="ingredient_list" placeholder="재료" />
+            <datalist id="ingredient_list">
+                {%for ele in ingredientList %}
+                <option>{{ele}}</option>
+                {%endfor%}
+            </datalist>
         </div>
         <br />
         <input type="file" name="photo" />
@@ -47,15 +62,27 @@
     </form>
     <button id="add">+</button>
     <script>
-      const $addBtn = document.getElementById("add");
-      const $btnParent = document.getElementById("btn-container");
+        const $addBtn = document.getElementById("add");
+        const $btnParent = document.getElementById("btn-container");
 
-      $addBtn.addEventListener("click", () => {
-        const $newBtn = document.createElement("input");
-        $newBtn.name = "ingredient[]";
-        $newBtn.placeholder = "재료";
-        $btnParent.appendChild($newBtn);
-      });
+        $addBtn.addEventListener("click", () => {
+            let template = `
+            <input name="search_keyword" list="ingredient_list" placeholder="재료" />
+            <datalist id="ingredient_list">
+                {%for ele in ingredientList %}
+                <option>{{ele}}</option>
+                {%endfor%}
+            </datalist>
+            `;
+
+            const $newBtn = document.createElement("span");
+            {% comment %} $newBtn.name = "ingredient[]";
+            $newBtn.list = "ingredient_list";
+            $newBtn.placeholder = "재료"; {% endcomment %}
+            $newBtn.innerHTML = template;
+            $btnParent.appendChild($newBtn);
+
+        });
     </script>
   </body>
 </html>
