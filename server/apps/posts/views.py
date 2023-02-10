@@ -114,7 +114,7 @@ def posts_all_list(request:HttpRequest, *args, **kwargs):
 # def posts_search_list(request:HttpRequest, *args, **kwargs):
 #     posts = Post.objects.all()
    
-#     context = {
+#     context = { 
 #         "posts" : posts,
 #     }
 #     return render(request, "posts/recipe_search_page_list.html", context=context)
