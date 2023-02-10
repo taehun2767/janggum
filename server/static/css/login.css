@@ -6,10 +6,10 @@ header {
     position: sticky;
 }
 
-header img {
+.header_giwa img {
     width: 100vw;
-    min-width: 1000px;
-    filter: drop-shadow(var(--main-text-shadow));
+    max-height: 12rem;
+    filter: drop-shadow(var(--header-giwa-shadow));
 }
 
 .member_form {
@@ -28,8 +28,8 @@ form {
 }
 
 form > * {
-    padding-top: 2rem;
-    padding-bottom: 0.6rem;
+    padding-top: 1rem;
+    padding-bottom: 0.4rem;
 }
 
 input, input:focus, input::placeholder {
@@ -38,13 +38,14 @@ input, input:focus, input::placeholder {
     outline: none;
     font-family: var(--sub-font);
     font-size: var(--login-form-font);
-    width: 17.2rem;
+    width: 12rem;
     height: 2rem;
-    padding: 1rem 1.4rem;
+    padding: 0.5rem 1rem;
 }
 
-button {
-    width: 20rem;
+button, input[type=submit] {
+    width: 14rem;
+    height: 4rem;
     background-color: var(--main-color-2);
     border: 0;
     outline: none;
@@ -52,16 +53,31 @@ button {
     font-size: var(--login-form-font);
     font-weight: 700;
     color: white;
-    padding: 1rem 1.6rem;
+    padding: 1rem 1rem;
     border-radius: 0.5rem;
-    margin-top: 2rem;
+    margin-top: 1rem;
 }
 
-button:hover {
+button:hover, input[type=submit]:hover {
     background-color: var(--main-color-1);
 }
 
-.google_login_btn a {
+.google_login_btn a, .signup_btn a {
     cursor: default;
     color: white;
+}
+
+.helptext {
+    padding-top: 0.4rem;
+    opacity: 0.5;
+    font-size: 0.9rem;
+}
+
+br {
+    display: none;
+}
+
+#section_success {
+    text-align: center;
+    margin: 5rem;
 }

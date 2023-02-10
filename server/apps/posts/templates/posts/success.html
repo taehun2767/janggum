@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>장금이 요리백서</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/success.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/login.css' %}" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -15,10 +15,18 @@
     />
   </head>
   <body>
-    {% include 'posts/header.html' %}
-    <div>회원가입 성공!</div>
-    <div>
-      <a href="">홈으로</a>
-    </div>
+    <header>
+      <div class="header_giwa">
+        <a href="{% url 'posts:main' %}">
+          <img src="{% static 'image/기와지붕초안.png' %}" />
+        </a>
+      </div>
+    </header>
+    <section id="section_success">
+      <div>회원가입 성공!</div>
+      <div>
+        <a href="">홈으로</a>
+      </div>
+    </section>
   </body>
 </html>
