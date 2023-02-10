@@ -17,6 +17,13 @@
         {% include 'posts/header.html' %}
         <div>전체 레시피</div>
         <div>정렬bar</div>
+        <form action="{% url 'posts:all_recipe' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input name="search-name"/>
+
+            <input type="submit" , value="검색" />
+
+        </form>
         <div>
 
             {% for post in posts %}

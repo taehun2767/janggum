@@ -96,7 +96,9 @@ def posts_all_list(request:HttpRequest, *args, **kwargs):
     # text = request.GET.get("text")
     # if text:
     #     posts = posts.filter(content__contains=text)
-    
+    if request.method == "POST":
+        searchName = request.POST.get("search-name")
+        posts = posts.filter(title__contains=searchName)
     #데이터 전처리 => 재료가 textfield로 저장되어있으므로 각 재료를 창에 띄울 수 있도록 리스트화
     for post in posts:
                 ingredientStr = post.ingredient[2:-3].replace("'", '')
