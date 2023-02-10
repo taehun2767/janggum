@@ -28,10 +28,6 @@
           <div>레시피 제목을 입력하세요:</div>
           <input name="title" placeholder="레시피 제목" />
         </div>
-        <textarea name="content" placeholder="양념재료"></textarea><br /><br />
-        <textarea name="content" placeholder="재료 1 정량"></textarea>
-        <textarea name="content" placeholder="재료 2 정량"></textarea>
-        <textarea name="content" placeholder="재료 3 정량"></textarea>
         <div id="btn-container">
           <input
             name="ingredient[]"
@@ -64,6 +60,11 @@
             {%endfor%}
           </datalist>
         </div>
+        <br /><br />
+        <textarea name="content" placeholder="양념재료"></textarea><br /><br />
+        <textarea name="content" placeholder="재료 1 정량"></textarea>
+        <textarea name="content" placeholder="재료 2 정량"></textarea>
+        <textarea name="content" placeholder="재료 3 정량"></textarea>
         <br />
         <input type="file" name="photo" />
         <textarea name="content" placeholder="레시피 소개 내용"></textarea>
