@@ -170,8 +170,8 @@ def posts_update(request:HttpRequest, pk, *args, **kwargs):
         if request.FILES.get('photo') is not None:
             post.photo=request.FILES.get("photo")
         post.content=request.POST["content"]
-        post.ingredient = request.POST.getlist('ingredient[]'),
-        post.ingredient_quantity = request.POST["ingredient_quantity"],
+        post.ingredient = request.POST.getlist('ingredient[]')
+        post.ingredient_quantity = request.POST["ingredient_quantity"]
         post.save()
 
         
