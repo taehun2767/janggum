@@ -28,65 +28,75 @@
           <div>레시피 제목을 입력하세요:</div>
           <input name="title" placeholder="레시피 제목" />
         </div>
-        <div class="recipe_select">레시피 식재료 선택 / 추가</div>
-        <div class="recipe_ingre">레시피 상세 식재료</div>
-        <div class="recipe_sauce">양념재료</div>
-        <div class="recipe_ingreselect">선택 재료 default=True</div>
         <div id="btn-container">
-          <input name="ingredient_list" list="ingredient_list" placeholder="재료" />
-            <datalist id="ingredient_list">
-                {%for ele in ingredientList %}
-                <option>{{ele}}</option>
-                {%endfor%}
-            </datalist>
-            <input name="ingredient_list" list="ingredient_list" placeholder="재료" />
-            <datalist id="ingredient_list">
-                {%for ele in ingredientList %}
-                <option>{{ele}}</option>
-                {%endfor%}
-            </datalist>
-            <input name="ingredient_list" list="ingredient_list" placeholder="재료" />
-            <datalist id="ingredient_list">
-                {%for ele in ingredientList %}
-                <option>{{ele}}</option>
-                {%endfor%}
-            </datalist>
+          <input
+            name="ingredient[]"
+            list="ingredient_list"
+            placeholder="재료"
+          />
+          <datalist id="ingredient_list">
+            {%for ele in ingredientList %}
+            <option>{{ele}}</option>
+            {%endfor%}
+          </datalist>
+          <input
+            name="ingredient[]"
+            list="ingredient_list"
+            placeholder="재료"
+          />
+          <datalist id="ingredient_list">
+            {%for ele in ingredientList %}
+            <option>{{ele}}</option>
+            {%endfor%}
+          </datalist>
+          <input
+            name="ingredient[]"
+            list="ingredient_list"
+            placeholder="재료"
+          />
+          <datalist id="ingredient_list">
+            {%for ele in ingredientList %}
+            <option>{{ele}}</option>
+            {%endfor%}
+          </datalist>
         </div>
+
         <br />
-        <input type="file" name="photo" />
+        <input
+          type="file"
+          name="photo"
+          onchange="readURL(this);"
+          accept=".jpg, .jpeg, .png"
+        />
+        <img style="width: 200px; height: 200px border:none" id="preview" />
         <textarea name="content" placeholder="레시피 소개 내용"></textarea>
       </div>
+      <br /><br />
+      <textarea name="content" placeholder="재료1 정량"></textarea>
+      <textarea name="content" placeholder="재료2 정량"></textarea>
+      <textarea name="content" placeholder="재료3 정량"></textarea><br /><br />
+      <textarea name="content" placeholder="양념재료"></textarea>
+
       <div>
         <input type="submit" , value="레시피 저장" />
       </div>
     </form>
     <button id="add">+</button>
+
     <script>
-        const $addBtn = document.getElementById("add");
-        const $btnParent = document.getElementById("btn-container");
+            const $addBtn = document.getElementById("add");
+            const $btnParent = document.getElementById("btn-container");
 
-        $addBtn.addEventListener("click", () => {
-            let template = `
-            <input name="search_keyword" list="ingredient_list" placeholder="재료" />
-            <datalist id="ingredient_list">
-                {%for ele in ingredientList %}
-                <option>{{ele}}</option>
-                {%endfor%}
-            </datalist>
-            `;
+      $addBtn.addEventListener("click", () => {
+          let template = `
+          <input name="search_keyword" list="ingredient_list" placeholder="재료" />
+          <datalist id="ingredient_list">
+              {%for ele in ingredientList %}
+              <option>{{ele}}</option>
+              {%endfor%}
+          </datalist>
+          `;
 
-            const $newBtn = document.createElement("span");
-            {% comment %} $newBtn.name = "ingredient[]";
-            $newBtn.list = "ingredient_list";
-            $newBtn.placeholder = "재료"; {% endcomment %}
-            $newBtn.innerHTML = template;
-            $btnParent.appendChild($newBtn);
-
-        });
-    </script>
-  </body>
-</html>
-{% comment %} 
                 const $newBtn = document.createElement("span");
                 $newBtn.name = "ingredient[]";
                 $newBtn.list = "ingredient_list";
@@ -94,7 +104,20 @@
                 $newBtn.innerHTML = template;
                 $btnParent.appendChild($newBtn);
 
-            }); {% endcomment %}
-        </script>
-    </body>
+            });
+
+            {% comment %} 이미지 미리보기 {% endcomment %}
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                  var reader = new FileReader();
+                  reader.onload = function(e) {
+                    document.getElementById('preview').src = e.target.result;
+                  };
+                  reader.readAsDataURL(input.files[0]);
+                } else {
+                  document.getElementById('preview').src = "";
+                }
+              }
+    </script>
+  </body>
 </html>
