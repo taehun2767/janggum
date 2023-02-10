@@ -29,7 +29,8 @@
                     <input placeholder="재료" name="ingredient[]" />
                     <input placeholder="재료" name="ingredient[]" /> {% endcomment %}
                 </div>
-                <input type="file" name="photo" />
+                <input type="file" name="photo" onchange="readURL(this);" accept=".jpg, .jpeg, .png" />
+                <img style="width: 200px; height: 200px border:none" id="preview" />
                 <textarea name="content" placeholder="레시피 소개">{{post.content}}</textarea>
             </div>
             <div>
@@ -47,6 +48,26 @@
                 $newBtn.placeholder = "재료";
                 $btnParent.appendChild($newBtn);
             });
+
+            {% comment %} 이미지 미리보기 {% endcomment %}
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                  var reader = new FileReader();
+                  reader.onload = function(e) {
+                    document.getElementById('preview').src = e.target.result;
+                  };
+                  reader.readAsDataURL(input.files[0]);
+                } else {
+                  document.getElementById('preview').src = "";
+                }
+              }
+
+              {% comment %} const fileInput = document.querySelector('input[type="file"]');
+              const dataTransfer = new DataTransfer();
+              dataTransfer.items.add({{post.photo.url}});
+              fileInput.files = dataTransfer.files; {% endcomment %}
+
+
         </script>
     </body>
 </html>
