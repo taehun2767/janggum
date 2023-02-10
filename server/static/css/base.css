@@ -149,6 +149,17 @@ ul {
   list-style: none;
 }
 
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 30px #fff inset;
+  -webkit-text-fill-color: #000;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: background-color 5000s ease-in-out 0s;
+}
+
 @import url("https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nanum+Brush+Script&family=Yeon+Sung&display=swap");
 @font-face {
   font-family: "Ansungtangmyun-Bold";
@@ -169,6 +180,7 @@ ul {
   --jg-color: #ffcd47; /* 장금이 레시피 배경 */
   --recipe-color-1: #741c13; /* 레시피 이름, 날짜 글씨 */
   --recipe-color-2: #2c2b2b; /* 레시피 설명 글씨 */
+  --ingredient-color: #ab7b58; /* 자동완성 선택 시 바뀌는 글자 색상 */
   --google-color-1: #1a73e8; /* 구글 로그인 페이지에 쓸 색상 */
   --google-color-2: #7ca6dc; /* 구글 로그인 페이지에 쓸 색상 */
 
