@@ -1,15 +1,54 @@
 @import "base.css";
 
 .recipe_title,
-.recipe_select,
-.recipe_ingre,
-.recipe_sauce,
-.recipe_ingreselect {
+.create_main_box,
+.ingredient_list,
+.input,
+img {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  margin-bottom: 12px;
+  font-size: 22px;
+}
+
+form {
+  text-align: center;
 }
 
 .recipe_title {
   margin-top: 100px;
+}
+
+#btn-container {
+  display: flex;
+  justify-content: center;
+}
+
+#btn-container.input {
+  margin-right: 3px;
+}
+
+input {
+  margin-left: 24px;
+}
+
+textarea {
+  height: 5rem;
+  width: 35rem;
+}
+
+button {
+  border: none;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+}
+
+button img {
+  width: 2rem;
+}
+
+#add {
+  position: absolute;
 }
