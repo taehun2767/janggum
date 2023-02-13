@@ -50,9 +50,13 @@ def signup(request):
             user = form.save()
             auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')   
             return render(request, template_name="posts/success.html")
-        #유효하지 않은 경우 redirect
+        #유효하지 않은 경우 redirect ()
         else:
-            return redirect('posts:signup')
+            error = "에러"
+            context = {
+            'error' : error,
+            }
+            return render(request, "posts/signup.html", context=context)
     #기본으로 띄우는 창
     else:
         form = SignupForm()

@@ -24,8 +24,14 @@
     </header>
     <section class="member_form" id="signup_form">
       <form method="POST" action="">
-        {% csrf_token %} {{ form }}
+        {% csrf_token %} {{ form }} {% if error %}
+        <p>회원가입에 실패하였습니다</p>
+        <p>올바른 비밀번호를 작성하였는지 확인해주세요</p>
+        <p>또는, 양식에 맞춰진 사용자 이름을 작성하였는지 확인해주세요</p>
+        <a href="{% url 'posts:signup' %}"> 회원가입 다시하기 </a>
+        {% else %}
         <input type="submit" value="SignUp" />
+        {% endif %}
       </form>
     </section>
   </body>
