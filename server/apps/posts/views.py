@@ -192,9 +192,6 @@ def posts_update(request:HttpRequest, pk, *args, **kwargs):
         post.ingredient = request.POST.getlist('ingredient[]')
         post.ingredient_quantity = request.POST["ingredient_quantity"]
         post.save()
-
-        
-
         for ele in post.ingredient[0]:
             all_used_ingredient_set.add(ele.replace(" ",""))
         print(all_used_ingredient_set)
@@ -209,7 +206,8 @@ def posts_update(request:HttpRequest, pk, *args, **kwargs):
 def posts_delete(request:HttpRequest, pk, *args, **kwargs):
     if request.method == "POST":
         post = Post.objects.get(id=pk)
-        post.delete()
+        if post.user == User.objects.get(username= request.user.get_username()):
+            post.delete()
     return redirect("posts:all_recipe")
 
 def posts_retrieve(request:HttpRequest, pk, *args, **kwargs):

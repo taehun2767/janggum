@@ -16,6 +16,7 @@
     <body>
         {% include 'posts/header.html' %}
         <div>전체 레시피</div>
+        <span id="user_name">{{ user.username }}</span>
         <form action = "{% url 'posts:all_recipe'%}" method="get">
             <select name="sort">
                 <option value="recently" id="recently">최신순</option>
@@ -37,6 +38,7 @@
             <article class="backgorundcolor"></article>
                 <div>
                     <button onclick="onClickDetail({{post.id}})">{{post.title}}</button>
+                    <div class = "writer_name">{{ post.user }}</div>
                     {% if post.photo %}
                     <p>
                         <img src="{{ post.photo.url }}" />
@@ -56,16 +58,17 @@
             </article>
             <form action="{% url 'posts:delete' post.pk %}" method="post">
                 {% csrf_token %}
-                <input type="submit" , value="삭제하기" />
+                <input type="submit" class="delete", value="삭제하기" />
             </form>
             <form action="{% url 'posts:update' post.pk %}" method="get">
                 {% csrf_token %}
-                <input type="submit" , value="수정하기" />
+                <input type="submit" class="update" value="수정하기" />
             </form>
             {% endfor %}
         </div>
         <div id="list_container" style="width: 500px; height:100%; background-color: aqua" class="post_detail">
         </div>
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
         <script>    
             const requestDetail = new XMLHttpRequest();
             const requestLike = new XMLHttpRequest();
@@ -140,6 +143,16 @@
                 }
             };
             
+            //수정, 삭제 버튼 해당 유저만 보이도록 구현
+            $username = $("#user_name").text()
+            $(".writer_name")[0].innerHTML
+            for(i = 0; i < $(".writer_name").length; i++){
+                if($("#user_name").text() != $(".writer_name")[i].innerHTML){
+                  
+                  $(".update")[i].type = "hidden";
+                  $(".delete")[i].type = "hidden";
+                }
+              }
         </script>
     </body>
 </html>
