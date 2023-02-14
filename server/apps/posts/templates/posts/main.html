@@ -47,6 +47,9 @@
             <input placeholder="재료2" type="" name="search" />
             <input placeholder="재료3" type="" name="search" />
           </div>
+          {% if error %}
+          {{error}}
+          {% endif %}
           <div id="recipe_search">
             <input
               type="image"

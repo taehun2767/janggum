@@ -19,8 +19,15 @@ def main(request):
         #각각 검색재료에 대해 필터링
         for ele in ingredientList:
             if ele:
-                posts = posts.filter(ingredient__contains=ele)
-                print(posts)
+                if posts.filter(ingredient__contains=ele):
+                    posts = posts.filter(ingredient__contains=ele)
+                    print(posts)
+                else :
+                    error= "재료가 포함된 요리가 없어요!"
+                    context={
+                    "error" : error, 
+                    }
+                    return render(request, "posts/main.html", context=context)
         #해당조건의 레시피가 존재할 때
         if posts:
             #재료를 파이썬 리스트화해야 전체 레시피 보기에서 재료도 보이게 할 수 있음
@@ -38,6 +45,7 @@ def main(request):
         return render(request, "posts/all_recipe_list.html", context=context)
     #검색을 하지 않을 경우 main으로 render
     return render(request, "posts/main.html")
+    
 
 
 #회원가입
@@ -50,9 +58,13 @@ def signup(request):
             user = form.save()
             auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')   
             return render(request, template_name="posts/success.html")
-        #유효하지 않은 경우 redirect
+        #유효하지 않은 경우 redirect ()
         else:
-            return redirect('posts:signup')
+            error = "에러"
+            context = {
+            'error' : error,
+            }
+            return render(request, "posts/signup.html", context=context)
     #기본으로 띄우는 창
     else:
         form = SignupForm()
