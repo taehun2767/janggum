@@ -10,6 +10,7 @@ urlpatterns = [
     path("logout/", views.logout, name="logout"),
     path("signup/", views.signup, name="signup"),
     path('accounts/', include('allauth.urls')),
+    path('profile/<int:pk>', views.profile, name='profile'),
     
     path('posts/create', views.create, name='create'),
     path('posts/all_recipe', views.posts_all_list, name='all_recipe'),

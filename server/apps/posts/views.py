@@ -46,7 +46,22 @@ def main(request):
     #검색을 하지 않을 경우 main으로 render
     return render(request, "posts/main.html")
     
-
+#프로필
+def profile(request:HttpRequest, pk, *args, **kwargs):
+    userName = User.objects.get(id=pk)
+    print(userName)
+    Posts = Post.objects.all().filter(user=userName)
+    print(Posts[1].title)
+    for post in Posts:
+                ingredientStr = post.ingredient[2:-3].replace("'", '')
+                ingredientList = ingredientStr.split(',')
+                #새 필드 만들어서 html에 데이터 보냄
+                post.ingredientList = ingredientList
+                post.save()   
+    context = {
+        "posts" : Posts
+    }
+    return render(request,"posts/profile.html", context=context)
 
 #회원가입
 def signup(request):
@@ -104,6 +119,13 @@ def logout(request):
 def posts_all_list(request:HttpRequest, *args, **kwargs):
     posts = Post.objects.all()
     comments = Comment.objects.all()
+    
+    for post in posts:
+        user_pk =User.objects.all().filter(name=post.user)
+        if user_pk:
+            user_pk= user_pk[0].pk
+        post.user_pk = user_pk
+        post.save()
     # 검색기능 주석처리함
     # text = request.GET.get("text")
     # if text:
