@@ -96,6 +96,11 @@ def posts_all_list(request:HttpRequest, *args, **kwargs):
     # text = request.GET.get("text")
     # if text:
     #     posts = posts.filter(content__contains=text)
+    sort = request.GET.get('sort', '')
+    if sort =="likes":
+        posts = posts.order_by('-number', '-created_at')
+    else:
+        posts = posts.order_by('-created_at')
     if request.method == "POST":
         searchName = request.POST.get("search-name")
         posts = posts.filter(title__contains=searchName)

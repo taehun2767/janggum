@@ -16,7 +16,14 @@
     <body>
         {% include 'posts/header.html' %}
         <div>전체 레시피</div>
-        <div>정렬bar</div>
+        <form action = "{% url 'posts:all_recipe'%}" method="get">
+            <select name="sort">
+                <option value="recently" id="recently">최신순</option>
+                <option value="likes" id="likes">좋아요순</option>
+                {% comment %} <option value="comments" id="comments>"댓글순</option> {% endcomment %}
+            </select>
+            <button type="submit">정렬</button>
+        </form>
         <form action="{% url 'posts:all_recipe' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <input name="search-name"/>

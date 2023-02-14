@@ -36,7 +36,7 @@
                 
                 <label for="file-input" id="id_req  _photo--button">파일 업로드</label> {% endcomment %}
                 {% comment %} <span>기존 파일 이름</span> {% endcomment %}
-                <input style="display:none;" type="file" name="photo"accept=".jpg, .jpeg, .png" onchange="readURL(this);" required="" id="file-input">
+                {% comment %} <input style="display:none;" type="file" name="photo"accept=".jpg, .jpeg, .png" onchange="readURL(this);" required="" id="file-input"> {% endcomment %}
 
                 <input type="file" id="file-input" name="photo" onchange="readURL(this);" accept=".jpg, .jpeg, .png" />
                 <img style="width: 200px; height: 200px border:none" id="preview" src="{{post.photo.url}}"/>
@@ -48,7 +48,7 @@
             </div>
         </form>
         <button id="add">+</button>
-        <div>{{post.photo.url}}</div>
+        {% comment %} <div>{{post.photo.url}}</div> {% endcomment %}
         <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script> 
         <script>
             var fileName = $("#file-input").val();
