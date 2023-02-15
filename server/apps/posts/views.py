@@ -198,6 +198,11 @@ def posts_junggum_list(request:HttpRequest, *args, **kwargs):
 # create page
 def create(request:HttpRequest, *args, **kwargs):
     global all_used_ingredient_set
+    if AllUsedIngredient.objects.all():
+        used_ingredients = AllUsedIngredient.objects.all()[0]
+        allUsedIngredientStr = used_ingredients.all_ingreident[1:-2].replace("'", '')
+        allUsedIngredientList = allUsedIngredientStr.split(',')
+        all_used_ingredient_set = set(allUsedIngredientList)
     context = {
         "ingredientList" : all_used_ingredient_set,
     }
