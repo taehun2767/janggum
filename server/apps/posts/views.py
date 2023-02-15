@@ -15,8 +15,7 @@ def main(request):
     posts = Post.objects.all()
     posts.delete
     postList = []
-    print(AllUsedIngredient.objects.all())
-    print(AllUsedIngredient.objects.all()[0].all_ingreident)
+
     if request.method == "POST":
         ingredientList = request.POST.getlist("search")
         for post in posts:
@@ -249,6 +248,7 @@ def create(request:HttpRequest, *args, **kwargs):
 
 # update
 def posts_update(request:HttpRequest, pk, *args, **kwargs):
+    global all_used_ingredient_set
     # filename = request.FILES.get("photo").name
     # print(filename)
     post = Post.objects.get(id=pk)
@@ -269,11 +269,12 @@ def posts_update(request:HttpRequest, pk, *args, **kwargs):
         
         print(post.ingredient)
         
-        used_ingredients = AllUsedIngredient.objects.all()[0]
-        allUsedIngredientStr = used_ingredients.all_ingreident[1:-2].replace("'", '')
-        allUsedIngredientList = allUsedIngredientStr.split(',')
-        all_used_ingredient_set = set(allUsedIngredientList)
-        
+        if AllUsedIngredient.objects.all():
+            used_ingredients = AllUsedIngredient.objects.all()[0]
+            allUsedIngredientStr = used_ingredients.all_ingreident[1:-2].replace("'", '')
+            allUsedIngredientList = allUsedIngredientStr.split(',')
+            all_used_ingredient_set = set(allUsedIngredientList)
+
         # print(all_used_ingredient_set, "있던 set 가져오기")
         # print(post.ingredient)
         for ele in post.ingredient[0]:
