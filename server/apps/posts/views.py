@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from server.apps.posts.forms import SignupForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import auth
-from .models import User, Post, Comment, Like, Comment
+from .models import User, Post, Comment, Like, Comment, AllUsedIngredient
 from django.http.request import HttpRequest
 from django.db.models import Q
 
@@ -13,40 +13,77 @@ all_used_ingredient_set = set()
 def main(request):
     #레시피 검색 시 context 넘겨주기 위한 작업
     posts = Post.objects.all()
+    posts.delete
+    postList = []
+
     if request.method == "POST":
         ingredientList = request.POST.getlist("search")
-        print(ingredientList)
+        for post in posts:
+                ingredientStr = post.ingredient[2:-3].replace("'", '')
+                usedIngredientList = ingredientStr.split(',')
+                flag = True
+                for ele in ingredientList:
+                    if ele: 
+                        if ele not in usedIngredientList:
+                            flag = False
+                            break
+                if flag:
+                    postList.append(post)
+
         #각각 검색재료에 대해 필터링
-        for ele in ingredientList:
-            if ele:
-                if posts.filter(ingredient__contains=ele):
-                    posts = posts.filter(ingredient__contains=ele)
-                    print(posts)
-                else :
-                    error= "재료가 포함된 요리가 없어요!"
-                    context={
-                    "error" : error, 
-                    }
-                    return render(request, "posts/main.html", context=context)
+        # for ele in ingredientList:
+        #     if ele:
+        #         if posts.filter(ingredient__contains=ele):
+        #             posts = posts.filter(ingredient__contains=ele)
+        #             print(posts)
+        #         else :
+        #             error= "재료가 포함된 요리가 없어요!"
+        #             context={
+        #             "error" : error, 
+        #             }
+        #             return render(request, "posts/main.html", context=context)
+        
+        context={"posts" : postList}
         #해당조건의 레시피가 존재할 때
-        if posts:
+        if postList:
             #재료를 파이썬 리스트화해야 전체 레시피 보기에서 재료도 보이게 할 수 있음
             ingredientLists = []
-            for post in posts:
+            for post in postList:
                 ingredientStr = post.ingredient[2:-3].replace("'", '')
                 ingredientList = ingredientStr.split(',')
                 #약간 야매인 거 같긴한데 새로운 field만들어서 파이썬 리스트 추가
                 post.ingredientList = ingredientList
                 post.save()
             context={
-                "posts" : posts,
+                "posts" : postList,
             }
-        #검색한 경우 레시피 리스트 페이지로 render
-        return render(request, "posts/all_recipe_list.html", context=context)
+            #검색한 경우 레시피 리스트 페이지로 render
+            return render(request, "posts/all_recipe_list.html", context=context)
+        else:
+            error= "재료가 포함된 요리가 없어요!"
+            context={
+            "error" : error, 
+            }
+            return render(request, "posts/main.html", context=context)
     #검색을 하지 않을 경우 main으로 render
     return render(request, "posts/main.html")
     
-
+#프로필
+def profile(request:HttpRequest, pk, *args, **kwargs):
+    userName = User.objects.get(id=pk)
+    # print(userName)/
+    Posts = Post.objects.all().filter(user=userName)
+    # print(Posts[1].title)
+    for post in Posts:
+                ingredientStr = post.ingredient[2:-3].replace("'", '')
+                ingredientList = ingredientStr.split(',')
+                #새 필드 만들어서 html에 데이터 보냄
+                post.ingredientList = ingredientList
+                post.save()   
+    context = {
+        "posts" : Posts
+    }
+    return render(request,"posts/profile.html", context=context)
 
 #회원가입
 def signup(request):
@@ -104,10 +141,22 @@ def logout(request):
 def posts_all_list(request:HttpRequest, *args, **kwargs):
     posts = Post.objects.all()
     comments = Comment.objects.all()
+    
+    for post in posts:
+        user_pk =User.objects.all().filter(name=post.user)
+        if user_pk:
+            user_pk= user_pk[0].pk
+        post.user_pk = user_pk
+        post.save()
     # 검색기능 주석처리함
     # text = request.GET.get("text")
     # if text:
     #     posts = posts.filter(content__contains=text)
+    sort = request.GET.get('sort', '')
+    if sort =="likes":
+        posts = posts.order_by('-number', '-created_at')
+    else:
+        posts = posts.order_by('-created_at')
     if request.method == "POST":
         searchName = request.POST.get("search-name")
         posts = posts.filter(title__contains=searchName)
@@ -119,6 +168,7 @@ def posts_all_list(request:HttpRequest, *args, **kwargs):
                 post.ingredientList = ingredientList
                 post.save()   
     context = {
+        'sorted' : sort,
         "posts" : posts,
         'comments' : comments,
     }
@@ -145,18 +195,45 @@ def posts_junggum_list(request:HttpRequest, *args, **kwargs):
 
 # create page
 def create(request:HttpRequest, *args, **kwargs):
-
+    global all_used_ingredient_set
+    if AllUsedIngredient.objects.all():
+        used_ingredients = AllUsedIngredient.objects.all()[0]
+        allUsedIngredientStr = used_ingredients.all_ingreident[1:-2].replace("'", '')
+        allUsedIngredientList = allUsedIngredientStr.split(',')
+        all_used_ingredient_set = set(allUsedIngredientList)
     context = {
         "ingredientList" : all_used_ingredient_set,
     }
     if request.method == "POST":
         #여러 재료 input들 한꺼번에 가져와 저장
         ingredients = request.POST.getlist('ingredient[]'),
-        print(ingredients)
+        #print(ingredients)
         ingredientList = ingredients[0]
         for ele in ingredientList:
             all_used_ingredient_set.add(ele.replace(" ",""))
-        print(all_used_ingredient_set)
+            
+        if not AllUsedIngredient.objects.all():
+            for ele in ingredientList:
+                all_used_ingredient_set.add(ele.replace(" ",""))
+            AllUsedIngredient.objects.create(
+                all_ingreident = all_used_ingredient_set
+            )
+        else:
+
+            used_ingredients = AllUsedIngredient.objects.all()[0]
+            allUsedIngredientStr = used_ingredients.all_ingreident[1:-2].replace("'", '')
+            allUsedIngredientList = allUsedIngredientStr.split(',')
+            all_used_ingredient_set = set(allUsedIngredientList)
+
+            for ele in ingredientList:
+                #print(ele)
+                all_used_ingredient_set.add(ele.replace(" ",""))
+
+            used_ingredients.all_ingreident = all_used_ingredient_set
+            #print(all_used_ingredient_set)
+            #print(used_ingredients.all_ingreident)
+            used_ingredients.save()
+
         Post.objects.create(
             ingredient = ingredients,
             user=request.user,
@@ -170,11 +247,18 @@ def create(request:HttpRequest, *args, **kwargs):
 
 # update
 def posts_update(request:HttpRequest, pk, *args, **kwargs):
+    global all_used_ingredient_set
+    if AllUsedIngredient.objects.all():
+        used_ingredients = AllUsedIngredient.objects.all()[0]
+        allUsedIngredientStr = used_ingredients.all_ingreident[1:-2].replace("'", '')
+        allUsedIngredientList = allUsedIngredientStr.split(',')
+        all_used_ingredient_set = set(allUsedIngredientList)
+
     # filename = request.FILES.get("photo").name
     # print(filename)
     post = Post.objects.get(id=pk)
     #재료가 각각 표시되게끔 전처리
-
+    ingredients = request.POST.getlist('ingredient[]'),
     ingredientStr = post.ingredient[2:-3].replace("'", '')
     ingredientList = ingredientStr.split(',')
     post.ingredientList = ingredientList
@@ -184,27 +268,37 @@ def posts_update(request:HttpRequest, pk, *args, **kwargs):
         if request.FILES.get('photo') is not None:
             post.photo=request.FILES.get("photo")
         post.content=request.POST["content"]
-        post.ingredient = request.POST.getlist('ingredient[]')
+        post.ingredient = ingredients
         post.ingredient_quantity = request.POST["ingredient_quantity"]
         post.save()
-
         
-
+        # print(all_used_ingredient_set, "있던 set 가져오기")
+        # print(post.ingredient)
         for ele in post.ingredient[0]:
+            # print(ele)
             all_used_ingredient_set.add(ele.replace(" ",""))
-        print(all_used_ingredient_set)
+        used_ingredients.all_ingreident = all_used_ingredient_set
+        used_ingredients.save()
+        # print(used_ingredients.all_ingreident, "새 db")
+        # print(all_used_ingredient_set, "새 set")
         return redirect(f"/")
     #수정 페이지에 원래 레시피 정보 뜨게끔 context로 보냄
+    post.all_used_ingredient_set = all_used_ingredient_set
+    post.save()
     context = {
         "post" : post,
+        "ingredientList" : all_used_ingredient_set,
     }
+    #print(all_used_ingredient_set)
+    # print(AllUsedIngredient.all_ingreident)/
     return render(request, "posts/recipe_update_page.html", context=context)
 
 # delete 
 def posts_delete(request:HttpRequest, pk, *args, **kwargs):
     if request.method == "POST":
         post = Post.objects.get(id=pk)
-        post.delete()
+        if post.user == User.objects.get(username= request.user.get_username()):
+            post.delete()
     return redirect("posts:all_recipe")
 
 def posts_retrieve(request:HttpRequest, pk, *args, **kwargs):
@@ -213,7 +307,7 @@ def posts_retrieve(request:HttpRequest, pk, *args, **kwargs):
     #데이터 전처리 string -> list
     ingredientStr = post.ingredient[2:-3].replace("'", '')
     ingredientList = ingredientStr.split(',')
-    print(ingredientList)
+    #print(ingredientList)
     context = {
         "post" : post,
         "ingredient" : ingredientList,

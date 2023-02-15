@@ -9,7 +9,7 @@
     <div class="nav">
       {% if user.is_authenticated %}
       <li>
-        <a href="{% url 'posts:main' %}">
+        <a href="{% url 'posts:profile' user.pk%}">
           <div class="nav_menu_img">
             <img src="{% static 'image/헤더메뉴판자1.png' %}" />
           </div>
