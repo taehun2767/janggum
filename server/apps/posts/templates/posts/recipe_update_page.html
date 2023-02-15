@@ -22,8 +22,27 @@
                 </div>
                 <div id="btn-container">
                   {%for ele in post.ingredientList%}
-                  <input placeholder="재료" name="ingredient[]" value ="{{ele}}" />
+                  <input placeholder="재료" name="ingredient[]" list="ingredient_list" value ="{{ele}}" />
+                  
+                  <datalist id="ingredient_list">
+                    {%for used_ingredient in ingredientList %}
+                    <option>{{used_ingredient}}</option>
+                    {%endfor%}
+                  </datalist>
                   {%endfor%}
+                  
+                  
+
+                  <input
+            name="ingredient[]"
+            list="ingredient_list"
+            placeholder="재료"
+          />
+          <datalist id="ingredient_list">
+            {%for used_ingredient in ingredientList %}
+            <option>{{used_ingredient}}</option>
+            {%endfor%}
+          </datalist>
                 </div>
                     {% comment %} <input placeholder="재료" name="ingredient[]" value ="{{post.ingredient}}"/>
                     <input placeholder="재료" name="ingredient[]" />

@@ -162,7 +162,6 @@ def posts_all_list(request:HttpRequest, *args, **kwargs):
         posts = posts.filter(title__contains=searchName)
     #데이터 전처리 => 재료가 textfield로 저장되어있으므로 각 재료를 창에 띄울 수 있도록 리스트화
     for post in posts:
-                print(post.ingredient, post.ingredient[2:-3])
                 ingredientStr = post.ingredient[2:-3].replace("'", '')
                 ingredientList = ingredientStr.split(',')
                 #새 필드 만들어서 html에 데이터 보냄
@@ -236,7 +235,7 @@ def create(request:HttpRequest, *args, **kwargs):
             used_ingredients.save()
 
         Post.objects.create(
-            ingredient = request.POST.getlist('ingredient[]'),
+            ingredient = ingredients,
             user=request.user,
             title=request.POST["title"],
             photo=request.FILES['photo'],
@@ -249,6 +248,12 @@ def create(request:HttpRequest, *args, **kwargs):
 # update
 def posts_update(request:HttpRequest, pk, *args, **kwargs):
     global all_used_ingredient_set
+    if AllUsedIngredient.objects.all():
+        used_ingredients = AllUsedIngredient.objects.all()[0]
+        allUsedIngredientStr = used_ingredients.all_ingreident[1:-2].replace("'", '')
+        allUsedIngredientList = allUsedIngredientStr.split(',')
+        all_used_ingredient_set = set(allUsedIngredientList)
+
     # filename = request.FILES.get("photo").name
     # print(filename)
     post = Post.objects.get(id=pk)
@@ -267,14 +272,6 @@ def posts_update(request:HttpRequest, pk, *args, **kwargs):
         post.ingredient_quantity = request.POST["ingredient_quantity"]
         post.save()
         
-        print(post.ingredient)
-        
-        if AllUsedIngredient.objects.all():
-            used_ingredients = AllUsedIngredient.objects.all()[0]
-            allUsedIngredientStr = used_ingredients.all_ingreident[1:-2].replace("'", '')
-            allUsedIngredientList = allUsedIngredientStr.split(',')
-            all_used_ingredient_set = set(allUsedIngredientList)
-
         # print(all_used_ingredient_set, "있던 set 가져오기")
         # print(post.ingredient)
         for ele in post.ingredient[0]:
@@ -288,8 +285,10 @@ def posts_update(request:HttpRequest, pk, *args, **kwargs):
     #수정 페이지에 원래 레시피 정보 뜨게끔 context로 보냄
     context = {
         "post" : post,
+        "ingredientList" : all_used_ingredient_set,
     }
-    print(AllUsedIngredient.all_ingreident)
+    print(all_used_ingredient_set)
+    # print(AllUsedIngredient.all_ingreident)/
     return render(request, "posts/recipe_update_page.html", context=context)
 
 # delete 
