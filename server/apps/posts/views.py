@@ -163,6 +163,7 @@ def posts_all_list(request:HttpRequest, *args, **kwargs):
         posts = posts.filter(title__contains=searchName)
     #데이터 전처리 => 재료가 textfield로 저장되어있으므로 각 재료를 창에 띄울 수 있도록 리스트화
     for post in posts:
+                print(post.ingredient, post.ingredient[2:-3])
                 ingredientStr = post.ingredient[2:-3].replace("'", '')
                 ingredientList = ingredientStr.split(',')
                 #새 필드 만들어서 html에 데이터 보냄
@@ -231,7 +232,7 @@ def create(request:HttpRequest, *args, **kwargs):
             used_ingredients.save()
 
         Post.objects.create(
-            ingredient = ingredients,
+            ingredient = request.POST.getlist('ingredient[]'),
             user=request.user,
             title=request.POST["title"],
             photo=request.FILES['photo'],
@@ -247,7 +248,7 @@ def posts_update(request:HttpRequest, pk, *args, **kwargs):
     # print(filename)
     post = Post.objects.get(id=pk)
     #재료가 각각 표시되게끔 전처리
-
+    ingredients = request.POST.getlist('ingredient[]'),
     ingredientStr = post.ingredient[2:-3].replace("'", '')
     ingredientList = ingredientStr.split(',')
     post.ingredientList = ingredientList
@@ -257,9 +258,11 @@ def posts_update(request:HttpRequest, pk, *args, **kwargs):
         if request.FILES.get('photo') is not None:
             post.photo=request.FILES.get("photo")
         post.content=request.POST["content"]
-        post.ingredient = request.POST.getlist('ingredient[]')
+        post.ingredient = ingredients
         post.ingredient_quantity = request.POST["ingredient_quantity"]
         post.save()
+        
+        print(post.ingredient)
         
         used_ingredients = AllUsedIngredient.objects.all()[0]
         allUsedIngredientStr = used_ingredients.all_ingreident[1:-2].replace("'", '')
@@ -268,7 +271,7 @@ def posts_update(request:HttpRequest, pk, *args, **kwargs):
         
         # print(all_used_ingredient_set, "있던 set 가져오기")
         # print(post.ingredient)
-        for ele in post.ingredient:
+        for ele in post.ingredient[0]:
             # print(ele)
             all_used_ingredient_set.add(ele.replace(" ",""))
         used_ingredients.all_ingreident = all_used_ingredient_set
