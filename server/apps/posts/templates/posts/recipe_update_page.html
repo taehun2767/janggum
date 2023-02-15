@@ -23,27 +23,13 @@
                 <div id="btn-container">
                   {%for ele in post.ingredientList%}
                   <input placeholder="재료" name="ingredient[]" list="ingredient_list" value ="{{ele}}" />
-                  
-                  <datalist id="ingredient_list">
-                    {%for used_ingredient in ingredientList %}
-                    <option>{{used_ingredient}}</option>
-                    {%endfor%}
-                  </datalist>
                   {%endfor%}
-                  
-                  
-
-                  <input
-            name="ingredient[]"
-            list="ingredient_list"
-            placeholder="재료"
-          />
-          <datalist id="ingredient_list">
-            {%for used_ingredient in ingredientList %}
-            <option>{{used_ingredient}}</option>
-            {%endfor%}
-          </datalist>
                 </div>
+                <datalist id="ingredient_list">
+                  {%for ele in ingredientList %}
+                  <option>{{ele}}</option>
+                  {%endfor%}
+              </datalist>
                     {% comment %} <input placeholder="재료" name="ingredient[]" value ="{{post.ingredient}}"/>
                     <input placeholder="재료" name="ingredient[]" />
                     <input placeholder="재료" name="ingredient[]" /> {% endcomment %}
@@ -70,17 +56,31 @@
         {% comment %} <div>{{post.photo.url}}</div> {% endcomment %}
         <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script> 
         <script>
-            var fileName = $("#file-input").val();
-            console.log(fileName);
-            const $addBtn = document.getElementById("add");
-            const $btnParent = document.getElementById("btn-container");
 
-            $addBtn.addEventListener("click", () => {
-                const $newBtn = document.createElement("input");
-                $newBtn.name = "ingredient[]";
-                $newBtn.placeholder = "재료";
-                $btnParent.appendChild($newBtn);
-            });
+          const $addBtn = document.getElementById("add");
+          const $btnParent = document.getElementById("btn-container");
+
+    $addBtn.addEventListener("click", () => {
+        let template = `
+        <input name="search_keyword" list="ingredient_list" placeholder="재료" />
+        <datalist id="ingredient_list">
+            {%for ele in ingredientList %}
+            <option>{{ele}}</option>
+            {%endfor%}
+        </datalist>
+        `;
+
+              const $newBtn = document.createElement("span");
+              $newBtn.name = "ingredient[]";
+              $newBtn.list = "ingredient_list";
+              $newBtn.placeholder = "재료";
+              $newBtn.innerHTML = template;
+              $btnParent.appendChild($newBtn);
+
+          });
+
+            {% comment %} var fileName = $("#file-input").val();
+            console.log(fileName);
 
 
             {% comment %} const fileInput = document.querySelector('input[type="file"]');

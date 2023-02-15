@@ -71,9 +71,9 @@ def main(request):
 #프로필
 def profile(request:HttpRequest, pk, *args, **kwargs):
     userName = User.objects.get(id=pk)
-    print(userName)
+    # print(userName)/
     Posts = Post.objects.all().filter(user=userName)
-    print(Posts[1].title)
+    # print(Posts[1].title)
     for post in Posts:
                 ingredientStr = post.ingredient[2:-3].replace("'", '')
                 ingredientList = ingredientStr.split(',')
@@ -207,7 +207,7 @@ def create(request:HttpRequest, *args, **kwargs):
     if request.method == "POST":
         #여러 재료 input들 한꺼번에 가져와 저장
         ingredients = request.POST.getlist('ingredient[]'),
-        print(ingredients)
+        #print(ingredients)
         ingredientList = ingredients[0]
         for ele in ingredientList:
             all_used_ingredient_set.add(ele.replace(" ",""))
@@ -226,12 +226,12 @@ def create(request:HttpRequest, *args, **kwargs):
             all_used_ingredient_set = set(allUsedIngredientList)
 
             for ele in ingredientList:
-                print(ele)
+                #print(ele)
                 all_used_ingredient_set.add(ele.replace(" ",""))
 
             used_ingredients.all_ingreident = all_used_ingredient_set
-            print(all_used_ingredient_set)
-            print(used_ingredients.all_ingreident)
+            #print(all_used_ingredient_set)
+            #print(used_ingredients.all_ingreident)
             used_ingredients.save()
 
         Post.objects.create(
@@ -283,11 +283,13 @@ def posts_update(request:HttpRequest, pk, *args, **kwargs):
         # print(all_used_ingredient_set, "새 set")
         return redirect(f"/")
     #수정 페이지에 원래 레시피 정보 뜨게끔 context로 보냄
+    post.all_used_ingredient_set = all_used_ingredient_set
+    post.save()
     context = {
         "post" : post,
         "ingredientList" : all_used_ingredient_set,
     }
-    print(all_used_ingredient_set)
+    #print(all_used_ingredient_set)
     # print(AllUsedIngredient.all_ingreident)/
     return render(request, "posts/recipe_update_page.html", context=context)
 
@@ -305,7 +307,7 @@ def posts_retrieve(request:HttpRequest, pk, *args, **kwargs):
     #데이터 전처리 string -> list
     ingredientStr = post.ingredient[2:-3].replace("'", '')
     ingredientList = ingredientStr.split(',')
-    print(ingredientList)
+    #print(ingredientList)
     context = {
         "post" : post,
         "ingredient" : ingredientList,
