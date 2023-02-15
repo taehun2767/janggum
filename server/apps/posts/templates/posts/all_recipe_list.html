@@ -17,10 +17,10 @@
         {% include 'posts/header.html' %}
         <div>전체 레시피</div>
         <span id="user_name">{{ user.username }}</span>
-        <form action = "{% url 'posts:all_recipe'%}" method="get">
-            <select name="sort">
-                <option value="recently" id="recently">최신순</option>
-                <option value="likes" id="likes">좋아요순</option>
+        <form action = "{% url 'posts:all_recipe'%}" id="form" method="get">
+            <select name="sort" id="sort">
+                <option value="recently" id="recently" >최신순</option>
+                <option value="likes" id="likes" >좋아요순</option>
                 {% comment %} <option value="comments" id="comments>"댓글순</option> {% endcomment %}
             </select>
             <button type="submit">정렬</button>
@@ -70,7 +70,9 @@
         <div id="list_container" style="width: 500px; height:100%; background-color: aqua" class="post_detail">
         </div>
         <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script>    
+        <script>
+
+
             const requestDetail = new XMLHttpRequest();
             const requestLike = new XMLHttpRequest();
             const onClickDetail = (id) => {
@@ -154,6 +156,8 @@
                   $(".delete")[i].type = "hidden";
                 }
               }
-        </script>
+
+            
+
     </body>
 </html>

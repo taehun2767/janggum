@@ -13,36 +13,57 @@ all_used_ingredient_set = set()
 def main(request):
     #레시피 검색 시 context 넘겨주기 위한 작업
     posts = Post.objects.all()
+    posts.delete
+    postList = []
     if request.method == "POST":
         ingredientList = request.POST.getlist("search")
-        print(ingredientList)
+        for post in posts:
+                ingredientStr = post.ingredient[2:-3].replace("'", '')
+                usedIngredientList = ingredientStr.split(',')
+                flag = True
+                for ele in ingredientList:
+                    if ele: 
+                        if ele not in usedIngredientList:
+                            flag = False
+                            break
+                if flag:
+                    postList.append(post)
+
         #각각 검색재료에 대해 필터링
-        for ele in ingredientList:
-            if ele:
-                if posts.filter(ingredient__contains=ele):
-                    posts = posts.filter(ingredient__contains=ele)
-                    print(posts)
-                else :
-                    error= "재료가 포함된 요리가 없어요!"
-                    context={
-                    "error" : error, 
-                    }
-                    return render(request, "posts/main.html", context=context)
+        # for ele in ingredientList:
+        #     if ele:
+        #         if posts.filter(ingredient__contains=ele):
+        #             posts = posts.filter(ingredient__contains=ele)
+        #             print(posts)
+        #         else :
+        #             error= "재료가 포함된 요리가 없어요!"
+        #             context={
+        #             "error" : error, 
+        #             }
+        #             return render(request, "posts/main.html", context=context)
+        
+        context={"posts" : postList}
         #해당조건의 레시피가 존재할 때
-        if posts:
+        if postList:
             #재료를 파이썬 리스트화해야 전체 레시피 보기에서 재료도 보이게 할 수 있음
             ingredientLists = []
-            for post in posts:
+            for post in postList:
                 ingredientStr = post.ingredient[2:-3].replace("'", '')
                 ingredientList = ingredientStr.split(',')
                 #약간 야매인 거 같긴한데 새로운 field만들어서 파이썬 리스트 추가
                 post.ingredientList = ingredientList
                 post.save()
             context={
-                "posts" : posts,
+                "posts" : postList,
             }
-        #검색한 경우 레시피 리스트 페이지로 render
-        return render(request, "posts/all_recipe_list.html", context=context)
+            #검색한 경우 레시피 리스트 페이지로 render
+            return render(request, "posts/all_recipe_list.html", context=context)
+        else:
+            error= "재료가 포함된 요리가 없어요!"
+            context={
+            "error" : error, 
+            }
+            return render(request, "posts/main.html", context=context)
     #검색을 하지 않을 경우 main으로 render
     return render(request, "posts/main.html")
     
@@ -146,6 +167,7 @@ def posts_all_list(request:HttpRequest, *args, **kwargs):
                 post.ingredientList = ingredientList
                 post.save()   
     context = {
+        'sorted' : sort,
         "posts" : posts,
         'comments' : comments,
     }
