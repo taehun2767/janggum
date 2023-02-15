@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from server.apps.posts.forms import SignupForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import auth
-from .models import User, Post, Comment, Like, Comment
+from .models import User, Post, Comment, Like, Comment, AllUsedIngredient
 from django.http.request import HttpRequest
 from django.db.models import Q
 
@@ -15,6 +15,8 @@ def main(request):
     posts = Post.objects.all()
     posts.delete
     postList = []
+    print(AllUsedIngredient.objects.all())
+    print(AllUsedIngredient.objects.all()[0].all_ingreident)
     if request.method == "POST":
         ingredientList = request.POST.getlist("search")
         for post in posts:
@@ -194,7 +196,7 @@ def posts_junggum_list(request:HttpRequest, *args, **kwargs):
 
 # create page
 def create(request:HttpRequest, *args, **kwargs):
-
+    global all_used_ingredient_set
     context = {
         "ingredientList" : all_used_ingredient_set,
     }
@@ -205,7 +207,29 @@ def create(request:HttpRequest, *args, **kwargs):
         ingredientList = ingredients[0]
         for ele in ingredientList:
             all_used_ingredient_set.add(ele.replace(" ",""))
-        print(all_used_ingredient_set)
+            
+        if not AllUsedIngredient.objects.all():
+            for ele in ingredientList:
+                all_used_ingredient_set.add(ele.replace(" ",""))
+            AllUsedIngredient.objects.create(
+                all_ingreident = all_used_ingredient_set
+            )
+        else:
+
+            used_ingredients = AllUsedIngredient.objects.all()[0]
+            allUsedIngredientStr = used_ingredients.all_ingreident[1:-2].replace("'", '')
+            allUsedIngredientList = allUsedIngredientStr.split(',')
+            all_used_ingredient_set = set(allUsedIngredientList)
+
+            for ele in ingredientList:
+                print(ele)
+                all_used_ingredient_set.add(ele.replace(" ",""))
+
+            used_ingredients.all_ingreident = all_used_ingredient_set
+            print(all_used_ingredient_set)
+            print(used_ingredients.all_ingreident)
+            used_ingredients.save()
+
         Post.objects.create(
             ingredient = ingredients,
             user=request.user,
@@ -236,14 +260,27 @@ def posts_update(request:HttpRequest, pk, *args, **kwargs):
         post.ingredient = request.POST.getlist('ingredient[]')
         post.ingredient_quantity = request.POST["ingredient_quantity"]
         post.save()
-        for ele in post.ingredient[0]:
+        
+        used_ingredients = AllUsedIngredient.objects.all()[0]
+        allUsedIngredientStr = used_ingredients.all_ingreident[1:-2].replace("'", '')
+        allUsedIngredientList = allUsedIngredientStr.split(',')
+        all_used_ingredient_set = set(allUsedIngredientList)
+        
+        # print(all_used_ingredient_set, "있던 set 가져오기")
+        # print(post.ingredient)
+        for ele in post.ingredient:
+            # print(ele)
             all_used_ingredient_set.add(ele.replace(" ",""))
-        print(all_used_ingredient_set)
+        used_ingredients.all_ingreident = all_used_ingredient_set
+        used_ingredients.save()
+        # print(used_ingredients.all_ingreident, "새 db")
+        # print(all_used_ingredient_set, "새 set")
         return redirect(f"/")
     #수정 페이지에 원래 레시피 정보 뜨게끔 context로 보냄
     context = {
         "post" : post,
     }
+    print(AllUsedIngredient.all_ingreident)
     return render(request, "posts/recipe_update_page.html", context=context)
 
 # delete 
