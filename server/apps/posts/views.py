@@ -162,7 +162,7 @@ def posts_all_list(request:HttpRequest, *args, **kwargs):
 #     return render(request, "posts/recipe_search_page_list.html", context=context)
 
 # 장금이 레시피 페이지 일단 좋아요 없이 구현
-def posts_junggum_list(request:HttpRequest, *args, **kwargs):
+def posts_janggum_list(request:HttpRequest, *args, **kwargs):
     posts = Post.objects.all()
     comments = Comment.objects.all()
     
@@ -185,7 +185,6 @@ def posts_junggum_list(request:HttpRequest, *args, **kwargs):
                 ingredientList = ingredientStr.split(',')
                 post.ingredientList = ingredientList
                 post.save()
-    
     context = {
         "posts" : posts,
         'comments' : comments,

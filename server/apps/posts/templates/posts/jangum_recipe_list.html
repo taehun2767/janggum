@@ -18,7 +18,7 @@
     {% include 'posts/header.html' %}
     <div>전체 레시피</div>
     <span id="user_name">{{ user.username }}</span>
-    <form action = "{% url 'posts:all_recipe'%}" method="get">
+    <form action = "{% url 'posts:posts_janggum_list'%}" method="get">
         <select name="sort">
             {% if sortN == "likes" %}
                 <option value="recently" id="recently">최신순</option>
@@ -27,11 +27,11 @@
                 <option value="recently" id="recently" selected>최신순</option>
                 <option value="likes" id="likes">좋아요순</option>
             {% endif %}
-            {% comment %} <option value="comments" id="comments>"댓글순</option> {% endcomment %}
+            {% comment %} <option value="comments" id="comments>">댓글순</option> {% endcomment %}
         </select>
         <button type="submit">정렬</button>
     </form>
-    <form action="{% url 'posts:all_recipe' %}" method="post" enctype="multipart/form-data">
+    <form action="{% url 'posts:posts_janggum_list' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <input name="search-name"/>
 
