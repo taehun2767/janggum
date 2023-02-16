@@ -148,6 +148,7 @@ def posts_all_list(request:HttpRequest, *args, **kwargs):
     context = {
         "posts" : posts,
         'comments' : comments,
+        "sortN" : sort
     }
     return render(request, "posts/all_recipe_list.html", context=context)
 
