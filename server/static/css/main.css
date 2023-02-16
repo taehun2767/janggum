@@ -91,6 +91,10 @@
   margin-bottom: 3rem;
 }
 
+#recipe_search input {
+  filter: drop-shadow(var(--main-box-shadow));
+}
+
 #main_section_3 {
   display: flex;
   flex-direction: column;

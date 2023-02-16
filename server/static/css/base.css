@@ -200,7 +200,8 @@ input:-webkit-autofill:active {
 
 body {
   width: 100vw;
-  background: url("../image/장금이배경_수정.png") repeat;
+  /* background: url("../image/장금이배경_수정.png") repeat; */
+  background-color: rgb(254, 253, 246);
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;

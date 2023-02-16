@@ -17,8 +17,11 @@
   <body>
     <header>
       <div class="header_giwa">
+        <img src="{% static 'image/기와지붕초안.png' %}" class="giwa_img" />
         <a href="{% url 'posts:main' %}">
-          <img src="{% static 'image/기와지붕초안.png' %}" />
+          <div class="giwa_logo_container">
+            <img src="{% static 'image/헤더로고.png' %}" class="giwa_logo" />
+          </div>
         </a>
       </div>
     </header>
