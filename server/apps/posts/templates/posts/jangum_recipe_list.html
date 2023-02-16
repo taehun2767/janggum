@@ -16,33 +16,152 @@
   </head>
   <body>
     {% include 'posts/header.html' %}
-    <div>장금이 레시피</div>
-    <div>정렬bar</div>
+    <div>전체 레시피</div>
+    <span id="user_name">{{ user.username }}</span>
+    <form action = "{% url 'posts:all_recipe'%}" method="get">
+        <select name="sort">
+            {% if sortN == "likes" %}
+                <option value="recently" id="recently">최신순</option>
+                <option value="likes" id="likes" selected>좋아요순</option>
+            {% else %}
+                <option value="recently" id="recently" selected>최신순</option>
+                <option value="likes" id="likes">좋아요순</option>
+            {% endif %}
+            {% comment %} <option value="comments" id="comments>"댓글순</option> {% endcomment %}
+        </select>
+        <button type="submit">정렬</button>
+    </form>
+    <form action="{% url 'posts:all_recipe' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input name="search-name"/>
+
+        <input type="submit" , value="검색" />
+
+    </form>
     <div>
-      <div>
-        <div>
-          {% for ??? in ??? %} {% if 좋아요가 일정개수를 초과하면 - 장금이
-          레시피 %}
-          <article class="장금이 backgorund color클래스">
+
+        {% for post in posts %}
+        {% if post.number >= 0 %}
+        <article class="backgorundcolor"></article>
             <div>
-              <div>{{요리 이름}}</div>
-              <div>{{사진 넣기}}</div>
-              <div>
-                <div>{{좋아요 개수}}</div>
-                <div>{{레시피 최종 수정일}}</div>
-              </div>
-              <div>
-                <div>재료</div>
-                <div>재료</div>
-                <div>재료</div>
-              </div>
+                <button onclick="onClickDetail({{post.id}})">{{post.title}}</button>
+                {% comment %} <a href= "{%url 'posts:profile' post.user_pk%}" class = "writer_name">{{ post.user }}</a> {% endcomment %}
+                <div class = "writer_name">{{ post.user }}</div>
+                {% if post.photo %}
+                <p>
+                    <img src="{{ post.photo.url }}" />
+                </p>
+                {% endif %}
+                <div>
+                    <button class="like_{{post.id}}" onclick="onClickLike({{post.id}})">좋아요</button>
+                    <div class="like_dislike">좋아요 개수: {{post.number}}</div>
+                    <div>{{post.created_at}}</div>
+                </div>
+                <div>
+                    {%for ele in post.ingredientList%}
+                    <div>{{ele}}</div>
+                    {%endfor%}
+                </div>
             </div>
-          </article>
-          {% endif %} {% endfor %}
-        </div>
-      </div>
-      <div>레시피 상세보기</div>
-      <div></div>
+        </article>
+        <form action="{% url 'posts:delete' post.pk %}" method="post">
+            {% csrf_token %}
+            <input type="submit" class="delete", value="삭제하기" />
+        </form>
+        <form action="{% url 'posts:update' post.pk %}" method="get">
+            {% csrf_token %}
+            <input type="submit" class="update" value="수정하기" />
+        </form>
+        {% endif %}
+        {% endfor %}
     </div>
-  </body>
+    <div id="list_container" style="width: 500px; height:100%; background-color: aqua" class="post_detail">
+    </div>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script>    
+        const requestDetail = new XMLHttpRequest();
+        const requestLike = new XMLHttpRequest();
+        const onClickDetail = (id) => {
+            const url = "/detail_ajax/";
+            requestDetail.open("POST", url, true);
+            requestDetail.setRequestHeader(
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+            );
+            requestDetail.send(JSON.stringify({ id: id}));
+        };
+    
+        requestDetail.onreadystatechange = () => {
+            if (requestDetail.readyState === XMLHttpRequest.DONE) {
+            if (requestDetail.status < 400) {
+                const { post_id, post_title, post_photo, post_content, post_created } = JSON.parse(requestDetail.response);
+                const element1 = document.querySelector(`.post_detail`);
+                const originHTML1 = element1.innerHTML;
+                const detail_list = originHTML1;
+                element1.innerHTML = `<div>레시피 상세보기</div>
+            <article class="다른 backgorund color클래스">
+                <div class="post_title">${post_title}</div>
+                <div>
+                    <div>재료</div>
+                    <div>재료</div>
+                    <div>재료</div>
+                </div>
+                <div>
+                    <div class="post_photo"></div>
+                    <div class="post_content">${post_content}</div>
+                </div>
+                <div>
+                    <div>
+                        <div>좋아요 개수</div>
+                        <div class="post_created">${post_created}</div>
+                    </div>
+                </div>
+            </article>
+            `;
+            }
+            }
+        };
+    
+        const onClickLike = (id) => {
+            const url = "/like_ajax/";
+            requestLike.open("POST", url, true);
+            requestLike.setRequestHeader(
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+            );
+            requestLike.send(JSON.stringify({ id: id}));
+        };
+    
+        requestLike.onreadystatechange = () => {
+            if (requestLike.readyState === XMLHttpRequest.DONE) {
+            if (requestLike.status < 400) {
+                const { like_true, number } = JSON.parse(requestLike.response);
+                // const element = document.querySelector(`.like_{{post.id}}`);
+                const element = document.querySelector(`.like_dislike`);
+                const originHTML = element.innerHTML;
+                const like_list = originHTML;
+                location.reload();
+                if (like_true = true){
+                    const count = Number(number) - 1;
+                    element.innerHTML = `좋아요 개수: ${count}`;
+                }else{
+                    const count = Number(number) + 1;
+                    element.innerHTML = `좋아요 개수: ${count}`;
+                }
+            }
+            }
+        };
+        
+        //수정, 삭제 버튼 해당 유저만 보이도록 구현
+        $username = $("#user_name").text()
+        $(".writer_name")[0].innerHTML
+        for(i = 0; i < $(".writer_name").length; i++){
+            if($("#user_name").text() != $(".writer_name")[i].innerHTML){
+              
+              $(".update")[i].type = "hidden";
+              $(".delete")[i].type = "hidden";
+            }
+          }
+    </script>
+</body>
 </html>

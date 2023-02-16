@@ -165,11 +165,33 @@ def posts_all_list(request:HttpRequest, *args, **kwargs):
 def posts_junggum_list(request:HttpRequest, *args, **kwargs):
     posts = Post.objects.all()
     comments = Comment.objects.all()
+    
+    for post in posts:
+        user_pk =User.objects.all().filter(name=post.user)
+        if user_pk:
+            user_pk= user_pk[0].pk
+        post.user_pk = user_pk
+        post.save()
+    sort = request.GET.get('sort', '')
+    if sort =="likes":
+        posts = posts.order_by('-number', '-created_at')
+    else:
+        posts = posts.order_by('-created_at')
+    if request.method == "POST":
+        searchName = request.POST.get("search-name")
+        posts = posts.filter(title__contains=searchName)
+    for post in posts:
+                ingredientStr = post.ingredient[2:-3].replace("'", '')
+                ingredientList = ingredientStr.split(',')
+                post.ingredientList = ingredientList
+                post.save()
+    
     context = {
         "posts" : posts,
         'comments' : comments,
+        "sortN" : sort
     }
-    return render(request, "posts/jungum_recipe_list.html", context=context)
+    return render(request, "posts/jangum_recipe_list.html", context=context)
 
 # create page
 def create(request:HttpRequest, *args, **kwargs):
