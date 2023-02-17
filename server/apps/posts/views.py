@@ -171,6 +171,7 @@ def posts_all_list(request:HttpRequest, *args, **kwargs):
         'sorted' : sort,
         "posts" : posts,
         'comments' : comments,
+        "sortN" : sort
     }
     return render(request, "posts/all_recipe_list.html", context=context)
 
@@ -184,14 +185,35 @@ def posts_all_list(request:HttpRequest, *args, **kwargs):
 #     return render(request, "posts/recipe_search_page_list.html", context=context)
 
 # 장금이 레시피 페이지 일단 좋아요 없이 구현
-def posts_junggum_list(request:HttpRequest, *args, **kwargs):
+def posts_janggum_list(request:HttpRequest, *args, **kwargs):
     posts = Post.objects.all()
     comments = Comment.objects.all()
+    
+    for post in posts:
+        user_pk =User.objects.all().filter(name=post.user)
+        if user_pk:
+            user_pk= user_pk[0].pk
+        post.user_pk = user_pk
+        post.save()
+    sort = request.GET.get('sort', '')
+    if sort =="likes":
+        posts = posts.order_by('-number', '-created_at')
+    else:
+        posts = posts.order_by('-created_at')
+    if request.method == "POST":
+        searchName = request.POST.get("search-name")
+        posts = posts.filter(title__contains=searchName)
+    for post in posts:
+                ingredientStr = post.ingredient[2:-3].replace("'", '')
+                ingredientList = ingredientStr.split(',')
+                post.ingredientList = ingredientList
+                post.save()
     context = {
         "posts" : posts,
         'comments' : comments,
+        "sortN" : sort
     }
-    return render(request, "posts/jungum_recipe_list.html", context=context)
+    return render(request, "posts/jangum_recipe_list.html", context=context)
 
 # create page
 def create(request:HttpRequest, *args, **kwargs):
@@ -354,26 +376,42 @@ def detailajax(request, *args, **kwargs):
 
     post_id = req['id']
     post = Post.objects.get(id = post_id)
+    comments = Comment.objects.filter(post_id=post)
+    comment_id_L = []
+    comment_userid_L = []
+    comment_content_L = []
+    comment_created_L = []
+    for comment in comments:
+        comment_id_L.append(comment.id)
+        comment_userid_L.append(comment.user_id)
+        comment_content_L.append(comment.content)
+        comment_created_L.append(comment.created_at)
     post_title = post.title
-    # post_photo = post.photo
+    photo_url = post.photo.url
+    ingredientStr = post.ingredient[2:-3].replace("'", '')
+    ingredientL = ingredientStr.split(',')
     post_content = post.content
-    post_created = post.created_at
+    post_created = str(post.created_at).replace("-", '.')
+    
 
-    return JsonResponse({'post_id': post_id, 'post_title':post_title, 'post_content': post_content, 'post_created':post_created})
+    return JsonResponse({'post_id': post_id, 'post_title':post_title,  'post_content': post_content, 'post_created':post_created, 'photo_url':photo_url, 'ingredientL':ingredientL, 'comment_id_L':comment_id_L, 'comment_userid_L':comment_userid_L, 'comment_content_L':comment_content_L, 'comment_created_L':comment_created_L})
 
 @csrf_exempt #403에러 방지
 def comment_ajax(request, *args, **kwargs):
-    req = json.loads(request.body)
+    if request.user.is_authenticated:
+        req = json.loads(request.body)
 
-    post_id = req['id'] #1
-    content = req['content'] #...
+        postid = req['id']
+        userid = request.user
+        contents = req['content']
+        comment = Comment.objects.create(
+            post_id = Post.objects.get(id=postid),
+            user_id = Post.objects.get(id=userid),
+            content = contents
+        )
+        comment.save()
 
-    comment = Comment.objects.create(
-        post = Post.objects.get(id=post_id),
-        content = content,
-    )
-
-    return JsonResponse({'post_id': post_id, 'comment_id': comment.id, 'content': comment.content})
+    return JsonResponse({'post_id': postid, 'user_id':userid, 'comment_id': comment.pk, 'content': comment.content})
 
 @csrf_exempt
 def comment_del_ajax(request, *args, **kwargs):

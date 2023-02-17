@@ -14,6 +14,7 @@ urlpatterns = [
     
     path('posts/create', views.create, name='create'),
     path('posts/all_recipe', views.posts_all_list, name='all_recipe'),
+    path('posts/posts_janggum_list', views.posts_janggum_list, name='posts_janggum_list'),
     path('posts/<int:pk>/update', views.posts_update, name='update'),
     path('posts/<int:pk>/delete', views.posts_delete, name='delete'),
     path('posts/<int:pk>', views.posts_retrieve, name='retrieve'),

@@ -16,11 +16,11 @@
         <form action="{% url 'posts:update' post.pk %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div>
-                <div>
+                <div class="recipe_title">
                     <div>레시피 제목을 입력하세요:</div>
                     <input name="title" placeholder="레시피 제목" value="{{post.title}}" />
                 </div>
-                <div id="btn-container">
+                <div id="update-btn-container">
                   {%for ele in post.ingredientList%}
                   <input placeholder="재료" name="ingredient[]" list="ingredient_list" value ="{{ele}}" />
                   {%endfor%}
@@ -43,8 +43,12 @@
                 {% comment %} <span>기존 파일 이름</span> {% endcomment %}
                 {% comment %} <input style="display:none;" type="file" name="photo"accept=".jpg, .jpeg, .png" onchange="readURL(this);" required="" id="file-input"> {% endcomment %}
 
-                <input type="file" id="file-input" name="photo" onchange="readURL(this);" accept=".jpg, .jpeg, .png" />
-                <img style="width: 200px; height: 200px border:none" id="preview" src="{{post.photo.url}}"/>
+                <div id="update_picbutton">
+                  <input class="upload-name" value="첨부파일" placeholder="첨부파일" />
+                  <label for="file-input">파일찾기</label>
+                  <input type="file" id="file-input" name="photo" onchange="readURL(this);" accept=".jpg, .jpeg, .png" />
+                </div>
+                <img style="width: 100px; height: 100px border:none" id="update_preview" src="{{post.photo.url}}"/>
                 <textarea name="ingredient_quantity" placeholder="재료의 양과 사용되는 조미료를 간단하게 적어주세요">{{post.ingredient_quantity}}</textarea>
                 <textarea name="content" placeholder="레시피 소개">{{post.content}}</textarea>
             </div>

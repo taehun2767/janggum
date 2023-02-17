@@ -1,7 +1,6 @@
 @import "base.css";
 
 .recipe_title,
-.create_main_box,
 .ingredient_list,
 .input,
 img {
@@ -14,10 +13,23 @@ img {
 
 form {
   text-align: center;
+  background-color: #ffffffff;
+  padding-bottom: 15px;
+  /* padding-top: 0px; */
+  margin-top: 7px;
+  margin-left: 12%;
+  margin-right: 12%;
+  border-radius: 20px;
 }
 
 .recipe_title {
-  margin-top: 100px;
+  margin-top: 55px;
+  margin-bottom: 5px;
+  line-height: 62px;
+}
+
+#create_main_info_box {
+  vertical-align: middle;
 }
 
 #btn-container {
@@ -34,8 +46,9 @@ input {
 }
 
 textarea {
-  height: 5rem;
-  width: 35rem;
+  height: 6rem;
+  width: 26rem;
+  margin-bottom: 20px;
 }
 
 button {
@@ -51,4 +64,112 @@ button img {
 
 #add {
   position: absolute;
+}
+
+.create-button input {
+  width: 11rem;
+  height: 3.5rem;
+  background-color: var(--main-color-2);
+  border: 0;
+  outline: none;
+  font-family: var(--sub-font);
+  font-size: var(--login-form-font);
+  font-weight: 700;
+  color: white;
+  padding: 1rem 1rem;
+  border-radius: 0.5rem;
+}
+
+#create-btn-container input {
+  background: url("../image/래시피\ 입력\ 판자\ .png");
+  width: 7rem;
+  height: 2.4rem;
+  border: 0;
+  box-shadow: var(--main-box-shadow);
+  text-align: center;
+}
+
+.recipe_title input {
+  background: url("../image/래시피\ 입력\ 판자\ .png");
+  width: 16rem;
+  height: 2.4rem;
+  border: 0;
+  box-shadow: var(--main-box-shadow);
+  text-align: center;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: black;
+  font-family: var(--sub-font);
+  font-weight: 1000;
+  padding-top: 15px;
+  padding-left: 10px;
+}
+
+.update_preview {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+#update_main_info_box input,
+textarea {
+  background: url("../image/래시피\ 입력\ 판자\ .png") no-repeat;
+  box-shadow: var(--main-box-shadow);
+  border: 0;
+}
+
+#create_main_box input {
+  height: 3rem;
+}
+
+#create_picbutton input {
+  background: none;
+}
+
+#create_picbutton .upload-name {
+  display: inline-block;
+  height: 37px;
+  padding: 0 10px;
+  vertical-align: middle;
+  border: 1px solid #dddddd;
+  width: 37%;
+  color: #999999;
+  border-radius: 10px;
+}
+
+#create_picbutton label {
+  display: inline-block;
+  padding: 7px 8px;
+  color: #fff;
+  vertical-align: middle;
+  background-color: var(--main-color-2);
+  font-family: var(--sub-font);
+  font-size: small;
+  font-weight: 700;
+  cursor: pointer;
+  height: 20px;
+  margin-left: 6px;
+  border-radius: 0.5rem;
+  width: 70px;
+}
+
+#create_picbutton input[type="file"] {
+  position: absolute;
+  width: 0;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+}
+
+label,
+#update-btn-container input::placeholder {
+  margin-top: 10px;
+}
+
+#create_picbutton {
+  margin-top: 15px;
+  margin-bottom: 15px;
 }

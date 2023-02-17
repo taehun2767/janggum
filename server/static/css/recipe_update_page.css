@@ -1,1 +1,161 @@
 @import "base.css";
+
+.recipe_title,
+.ingredient_list,
+.input,
+img {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-bottom: 12px;
+  font-size: 22px;
+}
+
+form {
+  text-align: center;
+  background-color: #ffffff;
+  padding-bottom: 15px;
+  /* padding-top: 0px; */
+  margin-top: 7px;
+  margin-left: 12%;
+  margin-right: 12%;
+  border-radius: 20px;
+}
+
+.recipe_title {
+  margin-top: 55px;
+  margin-bottom: 5px;
+  line-height: 62px;
+}
+
+#update_main_info_box {
+  vertical-align: middle;
+}
+
+#btn-container {
+  display: flex;
+  justify-content: center;
+}
+
+#btn-container.input {
+  margin-right: 3px;
+}
+
+input {
+  margin-left: 24px;
+}
+
+textarea {
+  height: 6rem;
+  width: 26rem;
+  margin-bottom: 16px;
+}
+
+button {
+  border: none;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+}
+
+button img {
+  width: 2rem;
+}
+
+#add {
+  position: absolute;
+}
+
+.update-button input {
+  width: 11rem;
+  height: 3.5rem;
+  background-color: var(--main-color-2);
+  border: 0;
+  outline: none;
+  font-family: var(--sub-font);
+  font-size: var(--login-form-font);
+  font-weight: 700;
+  color: white;
+  padding: 1rem 1rem;
+  border-radius: 0.5rem;
+}
+
+#update-btn-containerinput {
+  background: url(../image/재료판자.png);
+  border: 0;
+  width: 7rem;
+  height: 2.4rem;
+  box-shadow: var(--main-box-shadow);
+  text-align: center;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: black;
+  font-family: var(--sub-font);
+  font-weight: 1000;
+  padding-top: 15px;
+  padding-left: 10px;
+}
+
+#update_preview {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+#update_main_box input,
+textarea {
+  background: url("../image/입력창 메뉴판.png") no-repeat;
+  box-shadow: var(--main-box-shadow);
+  border: 0;
+}
+
+#update_main_box input {
+  height: 3rem;
+}
+
+#update_picbutton input {
+  background: none;
+}
+
+#update_picbutton .upload-name {
+  display: inline-block;
+  height: 37px;
+  padding: 0 10px;
+  vertical-align: middle;
+  border: 1px solid #dddddd;
+  width: 37%;
+  color: #999999;
+  border-radius: 10px;
+}
+
+#update_picbutton label {
+  display: inline-block;
+  padding: 7px 8px;
+  color: #fff;
+  vertical-align: middle;
+  background-color: var(--main-color-2);
+  font-family: var(--sub-font);
+  font-size: small;
+  font-weight: 700;
+  cursor: pointer;
+  height: 20px;
+  margin-left: 6px;
+  border-radius: 0.5rem;
+  width: 70px;
+}
+
+#update_picbutton input[type="file"] {
+  position: absolute;
+  width: 0;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+}
+
+label,
+#update-btn-container input::placeholder {
+  margin-top: 10px;
+}
