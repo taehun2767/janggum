@@ -1,5 +1,9 @@
 @import "base.css";
 
 .hidden {
-    display: none;
+  display: none;
+}
+
+.backgorundcolor {
+  background: url("../image/");
 }

@@ -12,6 +12,10 @@ img {
 }
 
 form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   padding-bottom: 15px;
   /* padding-top: 0px; */
@@ -84,8 +88,8 @@ button img {
 
 #create-btn-container input {
   background: url("../image/재료판자.png");
-  width: 7rem;
-  height: 2.4rem;
+  width: 8.5rem;
+  height: 3rem;
   border: 0;
   box-shadow: var(--main-box-shadow);
   text-align: center;
@@ -139,7 +143,7 @@ input::placeholder {
   padding: 0 10px;
   vertical-align: middle;
   border: 1px solid #dddddd;
-  width: 37%;
+  width: 21rem;
   color: #999999;
   border-radius: 10px;
 }
@@ -175,18 +179,23 @@ label,
 }
 
 #create_picbutton {
-  margin-top: 15px;
-  margin-bottom: 15px;
+  margin-top: 2rem;
+  margin-right: 2.5rem;
 }
 
 #add_image {
   position: absolute;
-  margin-left: 32rem;
-  margin-top: 6.5rem;
+  margin-left: 45rem;
+  margin-top: 63.3px;
 }
 
 #create-btn-container {
   display: grid;
   grid-template-columns: 10rem 10rem 10rem;
-  margin-left: 12rem;
+}
+
+#create_pic {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }

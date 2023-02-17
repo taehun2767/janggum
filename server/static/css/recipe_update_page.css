@@ -12,6 +12,10 @@ img {
 }
 
 form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   padding-bottom: 15px;
   /* padding-top: 0px; */
@@ -73,10 +77,6 @@ button img {
   width: 2rem;
 }
 
-#add {
-  position: absolute;
-}
-
 .update-button input {
   width: 11rem;
   height: 3.5rem;
@@ -93,8 +93,8 @@ button img {
 
 #update-btn-container input {
   background: url(../image/재료판자.png);
-  width: 7rem;
-  height: 2.4rem;
+  width: 8.5rem;
+  height: 3rem;
   border: 0;
   box-shadow: var(--main-box-shadow);
   text-align: center;
@@ -221,12 +221,11 @@ textarea {
 
 #add_image {
   position: absolute;
-  margin-left: 29rem;
+  margin-left: 45rem;
   margin-top: 63.3px;
 }
 
-#update-btn-container {
+#create-btn-container {
   display: grid;
   grid-template-columns: 10rem 10rem 10rem;
-  margin-left: 12rem;
 }

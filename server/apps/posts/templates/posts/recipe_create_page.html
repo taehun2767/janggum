@@ -69,21 +69,27 @@
             {%endfor%}
           </datalist>
         </div>
-        <div id="create_picbutton">
-          <input class="upload-name" value="첨부파일" placeholder="첨부파일" />
-          <label for="file">파일찾기</label>
-          <input
-            type="file"
-            id="file"
-            name="photo"
-            onchange="readURL(this);"
-            accept=".jpg, .jpeg, .png"
+        <div id="create_pic">
+          <div id="create_picbutton">
+            <input
+              class="upload-name"
+              value="첨부파일"
+              placeholder="첨부파일"
+            />
+            <label for="file">파일찾기</label>
+            <input
+              type="file"
+              id="file"
+              name="photo"
+              onchange="readURL(this);"
+              accept=".jpg, .jpeg, .png"
+            />
+          </div>
+          <img
+            style="width: 100px; height: 100px; border: none"
+            id="create_preview"
           />
         </div>
-        <img
-          style="width: 200px; height: 200px border:none"
-          id="create_preview"
-        />
         <textarea name="content" placeholder="레시피 소개 내용"></textarea>
       </div>
       {% comment %}
@@ -129,11 +135,11 @@
           if (input.files && input.files[0]) {
             var reader = new FileReader();
             reader.onload = function(e) {
-              document.getElementById('preview').src = e.target.result;
+              document.getElementById('create_preview').src = e.target.result;
             };
             reader.readAsDataURL(input.files[0]);
           } else {
-            document.getElementById('preview').src = "";
+            document.getElementById('create_preview').src = "";
           }
       }
     </script>
