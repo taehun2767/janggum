@@ -1,0 +1,69 @@
+{% load static %}
+  <link rel="shortcut icon" href="{% static 'image/favicon2.ico' %}">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nanum+Brush+Script&family=Yeon+Sung&display=swap"
+    rel="stylesheet"
+  />
+</head>
+<body>
+  <header>
+    <div class="header_main">
+      <div class="nav_logo">
+        <a href="{% url 'posts:main' %}">
+          <img src="{% static 'image/헤더로고.png' %}" />
+        </a>
+      </div>
+      <div class="nav">
+        {% if user.is_authenticated %}
+        <li>
+          <a href="{% url 'posts:profile' user.pk%}">
+            <div class="nav_menu_img">
+              <img src="{% static 'image/헤더메뉴판자1.png' %}" />
+            </div>
+            <div class="nav_menu_text"><span>내프로필</span><div>
+          </a>
+        </li>
+        <li>
+          <div class="nav_menu_img">
+            <img src="{% static 'image/헤더메뉴판자2.png' %}" />
+          </div>
+        </li>
+        <li>
+          <a href="{% url 'posts:logout' %}">
+            <div class="nav_menu_img">
+              <img src="{% static 'image/헤더메뉴판자3.png' %}" />
+            </div>
+            <div class="nav_menu_text"><span>로그아웃</span><div>
+          </a></li>
+        {% else %}
+        <li>
+          <a href="{% url 'posts:login' %}">
+            <div class="nav_menu_img">
+              <img src="{% static 'image/헤더메뉴판자1.png' %}" />
+            </div>
+            <div class="nav_menu_text"><span>내프로필</span><div>
+          </a></li>
+        <li>
+          <a href="{% url 'posts:login' %}">
+            <div class="nav_menu_img">
+              <img src="{% static 'image/헤더메뉴판자2.png' %}" />
+            </div>
+            <div class="nav_menu_text"><span>로 그 인</span><div>
+          </a></li>
+        <li>
+          <a href="{% url 'posts:signup' %}">
+            <div class="nav_menu_img">
+              <img src="{% static 'image/헤더메뉴판자3.png' %}" />
+            </div>
+            <div class="nav_menu_text"><span>회원가입</span><div>
+          </a></li>
+        {% endif %}
+      </div>
+    </div>
+    <div class="header_line">
+      <div class="header_line_left"></div>
+      <div class="header_line_right"></div>
+    </div>
+  </header>

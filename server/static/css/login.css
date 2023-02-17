@@ -6,10 +6,32 @@ header {
     position: sticky;
 }
 
-.header_giwa img {
+.header_giwa {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.giwa_img {
     width: 100vw;
     max-height: 12rem;
+    min-height: 6rem;
     filter: drop-shadow(var(--header-giwa-shadow));
+}
+
+.giwa_logo_container {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.giwa_logo {
+    width: 15rem;
+    margin: 0;
 }
 
 .member_form {
@@ -62,7 +84,7 @@ button:hover, input[type=submit]:hover {
     background-color: var(--main-color-1);
 }
 
-.google_login_btn a, .signup_btn a {
+.google_login_btn a, .signup_btn a, .home_btn a {
     cursor: default;
     color: white;
 }
@@ -80,6 +102,16 @@ br {
 #section_success {
     text-align: center;
     margin: 5rem;
+    font-family: var(--sub-font);
+}
+
+.success_message {
+    font-size: 1.5rem;
+}
+
+#signup_fail {
+    font-size: 1.5rem;
+    color: red;
 }
 
 

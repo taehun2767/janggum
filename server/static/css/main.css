@@ -1,6 +1,8 @@
 @import "base.css";
 
 .main_contents {
+  text-align: center;
+  margin: 1rem;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -12,8 +14,8 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin-right: 4rem;
-  margin-top: 10rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
 }
 
 .recipe_view_all a,
@@ -22,6 +24,7 @@
   flex-direction: row;
   align-items: end;
   margin-top: 2rem;
+  font-size: var(--main-font-size);
 }
 
 .recipe_view_all img,
@@ -38,28 +41,63 @@
   text-shadow: var(--main-text-shadow);
 }
 
+#main_section_2 {
+  text-align: center;
+}
+
+.main_top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+#main_explain {
+  background-color: var(--main-color-1);
+  font-size: 1.4rem;
+  padding: 1rem;
+  margin-right: 1rem;
+  color: white;
+}
+
+#main-add img {
+  height: 7rem;
+  filter: drop-shadow(var(--main-text-shadow));
+}
+
+#main-add {
+  border: 0;
+  background-color: transparent;
+}
+
+#main_add span {
+  color: var(--ingredient-color);
+  font-size: 1rem;
+  font-family: var(--sub-font);
+}
+
 #main_section_2 form {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 3rem;
 }
 
 #main-btn-container {
-  width: 39rem;
-  text-align: center;
-  margin-bottom: 2rem;
+  width: 33rem;
+  margin-bottom: 1rem;
   display: grid;
-  grid-template-columns: 13rem 13rem 13rem;
+  text-align: center;
+  grid-template-columns: 11rem 11rem 11rem;
   grid-row-gap: 0.5rem;
 }
 
 #main-btn-container input {
   background: url("../image/재료판자.png");
   border: 0;
-  width: 12rem;
-  height: 4.4rem;
+  width: 10rem;
+  height: 3rem;
   box-shadow: var(--main-box-shadow);
 }
 
@@ -72,6 +110,7 @@
   border: 0;
   outline: none;
   -webkit-text-fill-color: var(--ingredient-color);
+  filter: drop-shadow(var(--main-text-shadow));
 }
 
 
@@ -81,31 +120,33 @@
 #main-btn-container input:focus::placeholder {
   color: white;
   font-family: var(--ingredient-font);
-  font-size: 2.4rem;
+  font-size: var(--main-font-size);
   text-align: center;
   border: 0;
   outline: none;
 }
 
 #recipe_search {
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+}
+
+#recipe_search input {
+  width: 30rem;
+  filter: drop-shadow(var(--main-box-shadow));
+}
+
+.ingredient_error {
+  font-family: var(--sub-font);
+  background-color: var(--main-color-1);
+  color: var(--main-color-2);
+  font-size: 1.5rem;
+  border: 0.5rem;
 }
 
 #main_section_3 {
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  margin-left: 4rem;
-}
-
-#main-add {
-  border: 0;
-  background-color: transparent;
-  margin-bottom: 10rem;
-}
-
-#main-add img {
-  height: 5rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
 }
 
 #main_create_btn {
@@ -116,4 +157,22 @@
 
 #main_create_btn a {
   color: white;
+}
+
+
+/* 반응형 */
+
+@media (max-width: 1200px) {
+  .main_contents {
+    flex-direction: column;
+  }
+  #main_section_1 {
+    margin-top: 0;
+    margin-bottom: 5rem;
+  }
+
+  #main_section_3 {
+    margin-top: 5rem;
+    margin-bottom: 2rem;
+  }
 }
