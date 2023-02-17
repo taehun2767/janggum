@@ -109,6 +109,11 @@ br {
     font-size: 1.5rem;
 }
 
+#signup_fail {
+    font-size: 1.5rem;
+    color: red;
+}
+
 
 /* 구글 소셜 로그인, 회원가입 */
 

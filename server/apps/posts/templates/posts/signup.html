@@ -11,7 +11,7 @@
     <section class="member_form" id="signup_form">
       <form method="POST" action="">
         {% csrf_token %} {{ form }} {% if error %}
-        <p>회원가입에 실패하였습니다</p>
+        <p id="signup_fail">회원가입에 실패하였습니다</p>
         <p>올바른 비밀번호를 작성하였는지 확인해주세요</p>
         <p>또는, 양식에 맞춰진 사용자 이름을 작성하였는지 확인해주세요</p>
         <button class="signup_btn">

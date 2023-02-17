@@ -194,7 +194,8 @@ input:-webkit-autofill:active {
   --header-giwa-shadow: 0.2rem 0.3rem 1.2rem #585858b4; /* 메인 페이지 글자 그림자 효과 */
 
   /* size */
-  --line-size: 1rem; /* 헤더밑 & 페이지 나누는 선 넓이 */
+  --line-size: 0.8rem; /* 헤더밑 & 페이지 나누는 선 넓이 */
+  --main-font-size: 1.6rem;
   --login-form-font: 1rem;
 }
 
@@ -215,6 +216,7 @@ header {
   width: 100vw;
   position: sticky;
   top: 0;
+  z-index: 2 !important;
 }
 
 .header_main {
@@ -229,7 +231,7 @@ header {
 }
 
 .nav_logo {
-  padding: 0.5rem;
+  padding-top: 0.5rem;
 }
 
 .nav_logo img {
@@ -242,7 +244,8 @@ header {
 }
 
 .nav {
-  padding: 0.5rem;
+  padding-right: 0.5rem;
+  margin-top: 0.5rem;
   margin-right: 1rem;
   display: flex;
   flex-direction: row;
