@@ -13,7 +13,6 @@ img {
 
 form {
   text-align: center;
-  background-color: #ffffff;
   padding-bottom: 15px;
   /* padding-top: 0px; */
   margin-top: 7px;
@@ -26,6 +25,15 @@ form {
   margin-top: 55px;
   margin-bottom: 5px;
   line-height: 62px;
+}
+
+.recipe_title input {
+  width: 16rem;
+  height: 2.4rem;
+  box-shadow: var(--main-box-shadow);
+  text-align: center;
+  border: solid #dcdcdc 0.1rem;
+  border-radius: 0.5rem;
 }
 
 #update_main_info_box {
@@ -48,7 +56,10 @@ input {
 textarea {
   height: 6rem;
   width: 26rem;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
+  box-shadow: var(--main-box-shadow);
+  border: solid #dcdcdc 0.1rem;
+  border-radius: 0.5rem;
 }
 
 button {
@@ -80,18 +91,32 @@ button img {
   border-radius: 0.5rem;
 }
 
-#update-btn-containerinput {
+#update-btn-container input {
   background: url(../image/재료판자.png);
-  border: 0;
   width: 7rem;
   height: 2.4rem;
+  border: 0;
   box-shadow: var(--main-box-shadow);
   text-align: center;
+  color: #fff;
+  font-family: var(--sub-font);
+  font-weight: bold;
 }
 
-input::placeholder,
+input::placeholder {
+  color: white;
+  font-family: var(--ingredient-font);
+  font-size: var(--main-font-size);
+  border: 0;
+  outline: none;
+}
+
+#update-btn-container input {
+  margin-bottom: 10px;
+}
+
 textarea::placeholder {
-  color: black;
+  color: rgb(54, 54, 54);
   font-family: var(--sub-font);
   font-weight: 1000;
   padding-top: 15px;
@@ -104,11 +129,20 @@ textarea::placeholder {
   margin: 10px 0;
 }
 
-#update_main_box input,
-textarea {
+#update_main_box input {
   background: url("../image/입력창 메뉴판.png") no-repeat;
   box-shadow: var(--main-box-shadow);
   border: 0;
+  background-color: white;
+}
+
+textarea {
+  height: 6rem;
+  width: 26rem;
+  margin-bottom: 20px;
+  box-shadow: var(--main-box-shadow);
+  border: solid #dcdcdc 0.1rem;
+  border-radius: 0.5rem;
 }
 
 #update_main_box input {
@@ -125,7 +159,7 @@ textarea {
   padding: 0 10px;
   vertical-align: middle;
   border: 1px solid #dddddd;
-  width: 37%;
+  width: 21rem;
   color: #999999;
   border-radius: 10px;
 }
@@ -158,4 +192,41 @@ textarea {
 label,
 #update-btn-container input::placeholder {
   margin-top: 10px;
+}
+
+.recipe_title input {
+  color: rgb(54, 54, 54);
+  font-family: var(--sub-font);
+  font-weight: 1000;
+}
+
+textarea {
+  color: rgb(54, 54, 54);
+  font-family: var(--sub-font);
+  font-weight: 1000;
+  padding-top: 15px;
+  padding-left: 10px;
+}
+
+#update_pic {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+#update_picbutton {
+  margin-top: 2rem;
+  margin-right: 2.5rem;
+}
+
+#add_image {
+  position: absolute;
+  margin-left: 29rem;
+  margin-top: 63.3px;
+}
+
+#update-btn-container {
+  display: grid;
+  grid-template-columns: 10rem 10rem 10rem;
+  margin-left: 12rem;
 }

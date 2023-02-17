@@ -13,7 +13,6 @@ img {
 
 form {
   text-align: center;
-  background-color: #ffffffff;
   padding-bottom: 15px;
   /* padding-top: 0px; */
   margin-top: 7px;
@@ -49,6 +48,9 @@ textarea {
   height: 6rem;
   width: 26rem;
   margin-bottom: 20px;
+  box-shadow: var(--main-box-shadow);
+  border: solid #dcdcdc 0.1rem;
+  border-radius: 0.5rem;
 }
 
 button {
@@ -81,43 +83,46 @@ button img {
 }
 
 #create-btn-container input {
-  background: url("../image/래시피\ 입력\ 판자\ .png");
+  background: url("../image/재료판자.png");
   width: 7rem;
   height: 2.4rem;
   border: 0;
   box-shadow: var(--main-box-shadow);
   text-align: center;
+  color: #fff;
+  font-size: smaller;
+  margin-bottom: 13px;
 }
 
 .recipe_title input {
-  background: url("../image/래시피\ 입력\ 판자\ .png");
   width: 16rem;
   height: 2.4rem;
-  border: 0;
   box-shadow: var(--main-box-shadow);
   text-align: center;
+  border: solid #dcdcdc 0.1rem;
+  border-radius: 0.5rem;
 }
 
-input::placeholder,
 textarea::placeholder {
-  color: black;
+  color: rgb(54, 54, 54);
   font-family: var(--sub-font);
   font-weight: 1000;
   padding-top: 15px;
   padding-left: 10px;
 }
 
+input::placeholder {
+  color: white;
+  font-family: var(--ingredient-font);
+  font-size: var(--main-font-size);
+  border: 0;
+  outline: none;
+}
+
 .update_preview {
   display: flex;
   justify-content: center;
   margin: 10px 0;
-}
-
-#update_main_info_box input,
-textarea {
-  background: url("../image/래시피\ 입력\ 판자\ .png") no-repeat;
-  box-shadow: var(--main-box-shadow);
-  border: 0;
 }
 
 #create_main_box input {
@@ -172,4 +177,16 @@ label,
 #create_picbutton {
   margin-top: 15px;
   margin-bottom: 15px;
+}
+
+#add_image {
+  position: absolute;
+  margin-left: 32rem;
+  margin-top: 6.5rem;
+}
+
+#create-btn-container {
+  display: grid;
+  grid-template-columns: 10rem 10rem 10rem;
+  margin-left: 12rem;
 }

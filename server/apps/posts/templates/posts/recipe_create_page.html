@@ -17,6 +17,15 @@
   </head>
   <body>
     {% include 'posts/header.html' %}
+    <div class="bottom">
+      <button id="add">
+        <image
+          src="{% static 'image/더하기버튼_샘플.png'%}"
+          style="border: 0; width: 100px"
+          id="add_image"
+        />
+      </button>
+    </div>
     <form
       action="{% url 'posts:create' %}"
       method="post"
@@ -91,11 +100,6 @@
         <input type="submit" , value="레시피 저장" />
       </div>
     </form>
-    <div class="bottom">
-      <button id="add">
-        <img src="{% static 'image/더하기버튼.png'%}" style="border: 0" />
-      </button>
-    </div>
 
     <script>
       const $addBtn = document.getElementById("add");
