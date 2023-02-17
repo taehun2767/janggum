@@ -2,7 +2,6 @@
 
 header {
     width: 100vw;
-    height: 12rem;
     position: sticky;
 }
 
@@ -11,13 +10,10 @@ header {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    position: relative;
 }
 
 .giwa_img {
     width: 100vw;
-    max-height: 12rem;
-    min-height: 6rem;
     filter: drop-shadow(var(--header-giwa-shadow));
 }
 
@@ -32,6 +28,7 @@ header {
 .giwa_logo {
     width: 15rem;
     margin: 0;
+    filter: drop-shadow(var(--header-logo-shadow));
 }
 
 .member_form {
@@ -56,13 +53,14 @@ form > * {
 
 input, input:focus, input::placeholder {
     background-color: white;
-    border: 0;
+    border: solid #dcdcdc 0.1rem;
     outline: none;
     font-family: var(--sub-font);
     font-size: var(--login-form-font);
     width: 12rem;
     height: 2rem;
     padding: 0.5rem 1rem;
+    border-radius: 2rem;
 }
 
 button, input[type=submit] {
@@ -151,4 +149,30 @@ br {
 
 #google_main_section button:hover {
     background-color: var(--google-color-2);
+}
+
+
+@media (max-width: 1400px) {
+    
+    .header_giwa {
+        width: 100vw;
+        height: 11rem;
+    }
+
+    .giwa_img {
+        display: block;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+
+@media (max-width: 450px) {
+
+    .helptext {
+        padding-top: 0.4rem;
+        opacity: 0.5;
+        font-size: 0.8rem;
+    }
+
 }
