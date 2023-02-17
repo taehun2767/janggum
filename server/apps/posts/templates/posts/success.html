@@ -7,29 +7,12 @@
     <title>장금이 요리백서</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/login.css' %}" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nanum+Brush+Script&family=Yeon+Sung&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <header>
-      <div class="header_giwa">
-        <img src="{% static 'image/기와지붕초안.png' %}" class="giwa_img" />
-        <a href="{% url 'posts:main' %}">
-          <div class="giwa_logo_container">
-            <img src="{% static 'image/헤더로고.png' %}" class="giwa_logo" />
-          </div>
-        </a>
-      </div>
-    </header>
+    {% include 'posts/header_giwa.html' %}
     <section id="section_success">
-      <div>회원가입 성공!</div>
-      <div>
-        <a href="">홈으로</a>
-      </div>
+      <div class="success_message">회원가입 성공!</div>
+      <button class="home_btn">
+        <a href="{% url 'posts:main' %}">홈으로</a>
+      </button>
     </section>
   </body>
 </html>

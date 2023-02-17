@@ -22,13 +22,10 @@ header {
 }
 
 .giwa_logo_container {
-    width: 100vw;
     position: absolute;
-    top: 0;
-    left: 50%;
+    width: 100%;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
 }
 
@@ -87,7 +84,7 @@ button:hover, input[type=submit]:hover {
     background-color: var(--main-color-1);
 }
 
-.google_login_btn a, .signup_btn a {
+.google_login_btn a, .signup_btn a, .home_btn a {
     cursor: default;
     color: white;
 }
@@ -105,6 +102,11 @@ br {
 #section_success {
     text-align: center;
     margin: 5rem;
+    font-family: var(--sub-font);
+}
+
+.success_message {
+    font-size: 1.5rem;
 }
 
 

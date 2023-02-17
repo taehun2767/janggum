@@ -6,17 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>장금이 요리백서</title>
     {% load static %}
-    <link rel="shortcut icon" href="{% static 'image/favicon2.ico' %}">
     <link rel="stylesheet" href="{% static 'css/main.css' %}" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nanum+Brush+Script&family=Yeon+Sung&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    {% include 'posts/header.html' %}
+    {% include 'posts/header_base.html' %}
     <div class="main_contents">
       <section id="main_section_1">
         <div class="recipe_view">
@@ -48,9 +39,7 @@
             <input placeholder="재료2" type="" name="search" />
             <input placeholder="재료3" type="" name="search" />
           </div>
-          {% if error %}
-          {{error}}
-          {% endif %}
+          <div class="ingredient_error">{% if error %}{{error}}{% endif %}</div>
           <div id="recipe_search">
             <input
               type="image"

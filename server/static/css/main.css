@@ -88,11 +88,20 @@
 }
 
 #recipe_search {
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
+  margin-top: 2rem;
 }
 
 #recipe_search input {
   filter: drop-shadow(var(--main-box-shadow));
+}
+
+.ingredient_error {
+  font-family: var(--sub-font);
+  background-color: var(--main-color-1);
+  color: var(--main-color-2);
+  font-size: 1.5rem;
+  border: 0.5rem;
 }
 
 #main_section_3 {
