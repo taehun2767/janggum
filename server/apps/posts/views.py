@@ -122,7 +122,7 @@ def logout(request):
 # all_recipe_list페이지 
 def posts_all_list(request:HttpRequest, *args, **kwargs):
     posts = Post.objects.all()
-    comments = Comment.objects.all()
+    # comments = Comment.objects.all()
     
     for post in posts:
         user_pk =User.objects.all().filter(name=post.user)
@@ -151,7 +151,7 @@ def posts_all_list(request:HttpRequest, *args, **kwargs):
                 post.save()   
     context = {
         "posts" : posts,
-        'comments' : comments,
+        # 'comments' : comments,
         "sortN" : sort
     }
     return render(request, "posts/all_recipe_list.html", context=context)
@@ -345,8 +345,11 @@ def detailajax(request, *args, **kwargs):
     req = json.loads(request.body)
 
     post_id = req['id']
+
     post = Post.objects.get(id = post_id)
+
     comments = Comment.objects.filter(post_id=post)
+
     commentList = []
     comment_id_L = []
     comment_userid_L = []
@@ -357,16 +360,27 @@ def detailajax(request, *args, **kwargs):
         comment_userid_L.append(comment.user_id.username)
         comment_content_L.append(comment.content)
         comment_created_L.append(comment.created_at)
-        commentList.append(comment)
-    
-        
+
+    post_user = post.user.username
     post_title = post.title
     photo_url = post.photo.url
     ingredientStr = post.ingredient[2:-3].replace("'", '')
     ingredientL = ingredientStr.split(',')
     post_content = post.content
     post_created = str(post.created_at).replace("-", '.')
-    commentList = list(comments.values())
+    print()
+    print("코멘트 밸류", comments.values())
+    commentList = list(comments.values(
+        'id',
+        'user_id__username',
+        'user_id__name',
+        'post_id',
+        'content',
+        'created_at',
+        'updated_at',
+    ))
+
+    print(commentList)
     # commentList = zip(comment_id_L, comment_userid_L, comment_content_L, comment_created_L)
     # data ={
     #     'post_id': post_id,
@@ -379,7 +393,7 @@ def detailajax(request, *args, **kwargs):
     # }
 
 
-    return JsonResponse({'post_id': post_id, 'post_title':post_title,  'post_content': post_content, 'post_created':post_created, 'photo_url':photo_url, 'ingredientL':ingredientL, 'comments': commentList})
+    return JsonResponse({'post_user': post_user, 'post_id': post_id, 'post_title':post_title,  'post_content': post_content, 'post_created':post_created, 'photo_url':photo_url, 'ingredientL':ingredientL, 'comments': commentList})
     # return JsonResponse({'post_id': post_id, 'post_title':post_title,  'post_content': post_content, 'post_created':post_created, 'photo_url':photo_url, 'ingredientL':ingredientL, 'comment_id_L':comment_id_L, 'comment_content_L':comment_content_L, 'comment_created_L':comment_created_L, 'comment_id_L':comment_id_L})
 # 'comment_id_L':comment_id_L, 'comment_userid_L':comment_userid_L, 'comment_content_L':comment_content_L, 'comment_created_L':comment_created_L
 
@@ -403,10 +417,13 @@ def comment_create(request, pk, *args, **kwargs):
     # post_id = req['id']
     # post = get_object_or_404(Post, id=post_id)
     # 수정전
-    print(Post.objects.all())
+    # print(Post.objects.all())
     post = get_object_or_404(Post, id=pk)
     comment_writer = request.POST.get('comment_writer')
+    # print(comment_writer)
+    # print(type(comment_writer))
     user_id = User.objects.all().get(username=comment_writer)
+    # print(user_id, type(user_id))
     content = request.POST.get('content')
     if content:
 
@@ -416,7 +433,7 @@ def comment_create(request, pk, *args, **kwargs):
             content = content,
         )
         post.save()
-        comments = Comment.objects.all()
+
         data = {
             'comment_writer' : comment_writer,
             'content' : content,
@@ -437,12 +454,16 @@ def comment_delete(request, pk, *args, **kwargs):
     # post = get_object_or_404(Post, id=post_id)
     
     # 수정 전
+    print(Comment.objects.all())
     post = get_object_or_404(Post, id=pk)
     comment_id = request.POST.get('comment_id')
     target_comment = Comment.objects.get(pk = comment_id)
-    
+    print(target_comment)
+    print(type(target_comment))
     if request.user == target_comment.user_id:
+
         target_comment.delete()
+        # target_comment.deleted = True
         # target_comment.save()
         post.save()
         data = {

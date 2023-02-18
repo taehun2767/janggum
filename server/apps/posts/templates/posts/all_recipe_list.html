@@ -44,7 +44,7 @@
             {% for post in posts %}
             <article class="backgorundcolor"></article>
                 <div>
-                    <div id="post_id{{post.id}}"></div>
+                    <div id="post_id{{post.id}}">{{post.id}}</div>
                     <button onclick="onClickDetail({{post.id}})">{{post.title}}</button>
                     {% comment %} <a href= "{%url 'posts:profile' post.user_pk%}" class = "writer_name">{{ post.user }}</a> {% endcomment %}
                     <div>
@@ -98,7 +98,10 @@
             requestDetail.onreadystatechange = () => {
                 if (requestDetail.readyState === XMLHttpRequest.DONE) {
                 if (requestDetail.status < 400) {
-                    const { post_id, post_title, post_photo, post_content, post_created, photo_url, ingredientL, comment_id_L, comment_userid_L, comment_content_L, comment_created_L } = JSON.parse(requestDetail.response);
+                    const { post_user, post_id, post_title, post_photo, post_content, post_created, photo_url, ingredientL, comments } = JSON.parse(requestDetail.response);
+                    console.log(comments)
+                    console.log(typeof(comments))
+                    console.log(comments.length)
                     let div_generate = ``;
                     for (let i = 0; i < ingredientL.length; i++){
                          div_generate += `<div>${ingredientL[i]}</div>`;
@@ -116,7 +119,64 @@
                     let templatetag2 = "{% endif %}";
                     const element1 = document.querySelector(`.post_detail`);
                     const originHTML1 = element1.innerHTML;
+
                     const detail_list = originHTML1;
+                    
+                    let list_of_comments = document.createElement("div");
+                    list_of_comments.id = "more_comments";
+
+                    console.log(list_of_comments.id)
+                    console.log("postuser", post_user)
+
+                    console.log(post_user)
+                    for(let i =0; i < comments.length; i++){
+                        if(comments[i].deleted){
+                            list_of_comments += `
+                            <span>삭제된 댓글입니다.</span><hr>
+                            `;
+                        }
+                        else{
+                            if(comments[i].user_id__username == post_user){
+                                list_of_comments += `
+                                <div id="${comments[i].id}">
+                                <strong>${comments[i].user_id__name}(${comments[i].user_id__username})<span>글쓴이</span></strong>
+                                <span>${comments[i].created_at}</span>
+                                `;
+                            }
+                            else{
+                                list_of_comments += `
+                                <div id="${comments[i].id}">
+                                <strong>${comments[i].user_id__name}(${comments[i].user_id__username})</strong>
+                                <span>${comments[i].created_at}</span>
+                                `;
+                            }
+
+                            if(comments[i].user_id == requestDetail.response.user){
+                                list_of_comments += `
+                                    <div>
+                                        <div>${comments[i].content}</div>
+                                        <div>
+                                            <a onclick="commentDelete('${comments[i].id}');">댓글삭제</a>
+                                        </div>
+                                    </div>
+                                <hr>
+                            </div>
+                                <div class='${comments[i].id}'></div>
+                                `;
+                            }
+                            else{
+                                list_of_comments += `
+                                <div>
+                                    <div>${comments[i].content}</div>
+                                </div>
+                                <hr>
+                            </div>
+                                <div class='${comments[i].id}'></div>
+                                `;
+                            }
+                        }
+                    }
+
                     element1.innerHTML = `<div>레시피 상세보기</div>
                 <article class="다른 backgorund color클래스">
                     <div class="post_title">${post_title}</div>
@@ -135,7 +195,6 @@
                         </div>
                     </div>
 
-                    //새로 수정중인 댓글 코드
                     <div>
                         <div>
                             <div>
@@ -143,50 +202,21 @@
                                 <div>
                                     <textarea id="content_id" placeholder="댓글을 입력해주세요"></textarea>
                                 </div>
+                                
                                 <div>
+                                    
                                     <button id="comment_write" onClick="onClickComment(${post_id})">댓글달기</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <hr>
-                    <div id="more_comment{{post_id}}">
-                        {%if comments%}
-                            {%for comment in comments%}
-                                <div id='{{comment.id}}'>
-                                    {%if comment.deleted%}
-                                    <span>삭제된 댓글입니다.</span><hr>
-                                    {% else %}
-                                        {% if comment.user_id == post.user %}
-                                        <strong>{{comment.user_id.name}}({{comment.user_id}})&nbsp;<span>글쓴이</span></strong>
-                                        {% else %}
-                                        <strong>{{comment.user_id.name}}({{comment.user_id}})</strong>
-                                        {% endif %}
-                                        <span>{{comment.created_at}}</span>
-                                        {% if comment.user_id == request.user %}
-                                        <div>
-                                            <div>{{comment.content}}</div>
-                                            <div>
-                                                <a onclick="commentDelete('{{comment.id}}');">댓글삭제</a>
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        {% else %}
-                                        <div>
-                                            <div>{{comment.content}}</div>
-                                        </div>
-                                        <hr>
-                                        {% endif %}
-                                    {% endif %}
-                                </div>
-                                <div class='{{comment.id}}'></div>
-                            {% endfor %}
-                        {%endif%}
-                        <input type="hidden" id="comment_writer" value={{request.user}}>
-                        <div id="comment_list{{post_id}}"></div>
+                    <input type="hidden" id="comment_writer" value={{request.user}}>
+                        <div id="comment_list${post_id}"></div>
                     </div>
-                    
-                `;
+                    <div id="pid">${post_id}<div>`; // 히든으로 만들어야함
+
+                    element1.innerHTML += list_of_comments;
                 }
                 }
             };
@@ -328,11 +358,14 @@
 
             function commentDelete(value){
                 var comment_id = value;
+                var pid = $("#pid").text();
+                pid = pid.trim();
+                console.log(pid);
                 var delete_warning = confirm('댓글을 삭제하시겠습니까?');
                 if (delete_warning == true){
                     $.ajax({
                         type: "POST",
-                        url : "{% url 'posts:comment_delete' 1234%}".replace(/1234/, comment_id),
+                        url : "{% url 'posts:comment_delete' 1234%}".replace(/1234/, pid),
 
                         dataType: "json",
                         data: {
