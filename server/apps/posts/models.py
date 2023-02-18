@@ -43,4 +43,5 @@ class Like(models.Model):
 class Store(models.Model):
   user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="store_user")
   post_id = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="store_post")
+  store_value = models.BooleanField(default=False)
   

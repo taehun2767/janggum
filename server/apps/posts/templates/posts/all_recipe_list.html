@@ -110,8 +110,12 @@
                     const { id, store_true } = JSON.parse(requestStore.response);
                     const element = document.querySelector(`.store_or_not_${id}`);
                     const originHTML = element.innerHTML;
-                    const like_list = originHTML;
-                    element.innerHTML = `저장 O`;
+                    const text = originHTML;
+                    if (store_true == true){
+                        element.innerHTML = `저장 O`;
+                    }else{
+                        element.innerHTML = `저장 X`;
+                    }
                 }
                 }
             };

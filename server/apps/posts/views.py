@@ -180,7 +180,8 @@ def store_recipe_list(request:HttpRequest, *args, **kwargs):
     comments = Comment.objects.all()
     posts = []
     for store in stores:
-        posts.append(store.post_id)
+        if store.store_value == True:
+            posts.append(store.post_id)
     for post in posts:
         user_pk =User.objects.all().filter(name=post.user)
         if user_pk:
@@ -371,12 +372,23 @@ def store_ajax(request, *args, **kwargs):
     req = json.loads(request.body)
     store_id = req['id']
     store = Store.objects.filter(post_id=store_id, user_id=request.user)
+    store_true = True
     if not store.exists():
         Store.objects.create(
             post_id = Post.objects.get(id=store_id),
             user_id = request.user,
-        )    
-    store_true = True
+            store_value = True
+        )
+        store_true = True
+    else:
+        store = Store.objects.get(post_id=store_id, user_id=request.user)
+        if store.store_value == True:
+            store.store_value = False
+            store.save()
+        else:
+            store.store_value = True
+            store.save()
+        store_true = store.store_value
     return JsonResponse({'id':store_id, 'store_true': store_true})
 
 @csrf_exempt
