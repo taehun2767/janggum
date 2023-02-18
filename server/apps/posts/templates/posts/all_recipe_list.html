@@ -16,6 +16,7 @@
     <body>
         {% include 'posts/header.html' %}
         <div>전체 레시피</div>
+        
         <span id="user_name">{{ user.username }}</span>
         <form action = "{% url 'posts:all_recipe'%}" method="get">
             <select name="sort">
@@ -44,7 +45,7 @@
                 <div>
                     <button onclick="onClickDetail({{post.id}})">{{post.title}}</button>
                     {% comment %} <a href= "{%url 'posts:profile' post.user_pk%}" class = "writer_name">{{ post.user }}</a> {% endcomment %}
-                    <div class = "writer_name">{{ post.user }}</div>
+                    <div class = "writer_name">{{ post.user.name }}({{post.user}})</div>
                     {% if post.photo %}
                     <p>
                         <img src="{{ post.photo.url }}" />
