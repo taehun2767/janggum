@@ -44,6 +44,7 @@
             {% for post in posts %}
             <article class="backgorundcolor"></article>
                 <div>
+                    <div id="post_id{{post.id}}"></div>
                     <button onclick="onClickDetail({{post.id}})">{{post.title}}</button>
                     {% comment %} <a href= "{%url 'posts:profile' post.user_pk%}" class = "writer_name">{{ post.user }}</a> {% endcomment %}
                     <div>
@@ -143,7 +144,7 @@
                                     <textarea id="content_id" placeholder="댓글을 입력해주세요"></textarea>
                                 </div>
                                 <div>
-                                    <button id="comment_write" onClick="onClickComment({{post_id}})">댓글달기</button>
+                                    <button id="comment_write" onClick="onClickComment(${post_id})">댓글달기</button>
                                 </div>
                             </div>
                         </div>
@@ -281,12 +282,10 @@
                 console.log("hello")
                 var content = $("#content_id").val();
                 var writer = $("#comment_writer").val();
-                var url_id = $("#post_id").text();
                 
-                url_id = Number(url_id);
-                var url = "{% url 'posts:comment_create' pk='url_id'%}".replace('url_id', url_id);
-                console.log(typeof(url_id));
-                console.log(url_id);
+                var pk = pk
+                console.log(pk)
+                var url = "{% url 'posts:comment_create' 1234%}".replace(/1234/, pk);
                 $.ajax({
                     type : "POST",
                     url: url,
@@ -333,7 +332,7 @@
                 if (delete_warning == true){
                     $.ajax({
                         type: "POST",
-                        url : "{% url 'posts:comment_delete' 1%}",
+                        url : "{% url 'posts:comment_delete' 1234%}".replace(/1234/, comment_id),
 
                         dataType: "json",
                         data: {

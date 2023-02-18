@@ -359,10 +359,6 @@ def detailajax(request, *args, **kwargs):
         comment_created_L.append(comment.created_at)
         commentList.append(comment)
     
-    print(comment_id_L)
-    print(comment_userid_L)
-    print(comment_content_L)
-    print(comment_created_L)
         
     post_title = post.title
     photo_url = post.photo.url
@@ -402,6 +398,12 @@ def detailajax(request, *args, **kwargs):
 
 @csrf_exempt #403에러 방지
 def comment_create(request, pk, *args, **kwargs):
+    # req = json.loads(request.body)
+
+    # post_id = req['id']
+    # post = get_object_or_404(Post, id=post_id)
+    # 수정전
+    print(Post.objects.all())
     post = get_object_or_404(Post, id=pk)
     comment_writer = request.POST.get('comment_writer')
     user_id = User.objects.all().get(username=comment_writer)
@@ -424,20 +426,24 @@ def comment_create(request, pk, *args, **kwargs):
         if request.user == post.user:
             data['self_comment'] = '(글쓴이)'
 
-        print(data)
-        print(type(data))
 
         return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type="application/json")
 
 @csrf_exempt #403에러 방지
 def comment_delete(request, pk, *args, **kwargs):
+    # req = json.loads(request.body)
+
+    # post_id = req['id']
+    # post = get_object_or_404(Post, id=post_id)
+    
+    # 수정 전
     post = get_object_or_404(Post, id=pk)
     comment_id = request.POST.get('comment_id')
     target_comment = Comment.objects.get(pk = comment_id)
     
     if request.user == target_comment.user_id:
-        target_comment.deleted = True
-        target_comment.save()
+        target_comment.delete()
+        # target_comment.save()
         post.save()
         data = {
             'comment_id' : comment_id,
