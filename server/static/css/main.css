@@ -6,7 +6,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
 }
 
 #main_section_1 {
@@ -15,7 +15,6 @@
   justify-content: center;
   align-items: center;
   margin-left: 2rem;
-  margin-right: 2rem;
 }
 
 .recipe_view_all a,
@@ -29,8 +28,8 @@
 
 .recipe_view_all img,
 .recipe_view_jang img {
-  width: 6rem;
-  height: 6rem;
+  width: 5rem;
+  height: 5rem;
   margin-right: 1rem;
   filter: drop-shadow(var(--main-text-shadow));
 }
@@ -54,15 +53,16 @@
 }
 
 #main_explain {
-  background-color: var(--main-color-1);
-  font-size: 1.4rem;
+  background-color: #daacaf;
+  font-size: 1rem;
   padding: 1rem;
   margin-right: 1rem;
   color: white;
+  font-family: var(--sub-font);
 }
 
 #main-add img {
-  height: 7rem;
+  height: 6rem;
   filter: drop-shadow(var(--main-text-shadow));
 }
 
@@ -89,7 +89,7 @@
   margin-bottom: 1rem;
   display: grid;
   text-align: center;
-  grid-template-columns: 11rem 11rem 11rem;
+  grid-template-columns: 33% 33% 33%;
   grid-row-gap: 0.5rem;
 }
 
@@ -124,6 +124,7 @@
   text-align: center;
   border: 0;
   outline: none;
+  filter: drop-shadow(var(--main-text-shadow));
 }
 
 #recipe_search {
@@ -138,41 +139,182 @@
 
 .ingredient_error {
   font-family: var(--sub-font);
-  background-color: var(--main-color-1);
   color: var(--main-color-2);
   font-size: 1.5rem;
   border: 0.5rem;
 }
 
 #main_section_3 {
-  margin-left: 2rem;
   margin-right: 2rem;
+  display: flex;
+
 }
 
 #main_create_btn {
-  background: url("../image/재료판자.png");
-  padding: 2rem 1rem;
+  background: url("../image/재료판자_2.png");
+  padding: 1.5rem 1rem;
   box-shadow: var(--main-box-shadow);
+  font-size: var(--main-font-size);
 }
 
 #main_create_btn a {
   color: white;
+  filter: drop-shadow(var(--main-text-shadow));
 }
 
 
-/* 반응형 */
 
 @media (max-width: 1200px) {
+  
   .main_contents {
     flex-direction: column;
   }
+
   #main_section_1 {
-    margin-top: 0;
-    margin-bottom: 5rem;
+    margin: 2rem 0.5rem 4rem 0.5rem;
   }
 
   #main_section_3 {
-    margin-top: 5rem;
-    margin-bottom: 2rem;
+    margin: 4rem 0.5rem;
   }
+
+  .recipe_view {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .recipe_view_all a,
+  .recipe_view_jang a,
+  #main_create_btn {
+    font-size: 2rem;
+  }
+
+  .recipe_view_all img,
+  .recipe_view_jang img {
+    width: 6rem;
+    height: 6rem;
+  }
+
+  #main-btn-container {
+    width: 42rem;
+    grid-template-columns: 33% 33% 33%;
+    grid-row-gap: 0.5rem;
+  }
+  
+  #main-btn-container input {
+    width: 13rem;
+    height: 4rem;
+  }
+  
+  #recipe_search input {
+    width: 30rem;
+  }  
+
+}
+
+
+@media (max-width: 700px) {
+  
+  #main-btn-container {
+    width: 36rem;
+    grid-template-columns: 33% 33% 33%;
+    grid-row-gap: 0.5rem;
+  }
+  
+  #main-btn-container input {
+    width: 11rem;
+    height: 4rem;
+  }
+  
+  #recipe_search input {
+    width: 30rem;
+  }  
+
+}
+
+
+@media (max-width: 600px) {
+  
+  .recipe_view_all a,
+  .recipe_view_jang a,
+  #main_create_btn {
+    font-size: var(--main-font-size);
+  }
+
+  .recipe_view_all img,
+  .recipe_view_jang img {
+    width: 5rem;
+    height: 5rem;
+  }
+
+  .main_top {
+    flex-direction: column;
+  }
+
+  #main-add {
+    margin-top: 1rem;
+  }
+
+  #main-btn-container {
+    width: 26rem;
+    grid-template-columns: 50% 50%;
+    grid-row-gap: 0.5rem;
+  }
+  
+  #main-btn-container input {
+    width: 12rem;
+    height: 5rem;
+  }
+
+  #main-btn-container input,
+  #main-btn-container input::placeholder,
+  #main-btn-container input:focus,
+  #main-btn-container input:focus::placeholder {
+    font-size: 2rem;
+  }
+  
+  #recipe_search input {
+    width: 26rem;
+  }
+
+}
+
+
+@media (max-width: 450px) {
+
+  #main-btn-container {
+    width: 20rem;
+  }
+
+  #main-btn-container input {
+    width: 8rem;
+    height: 3rem;
+  }
+
+  #main_explain {
+    width: 80%;
+    height: auto;
+  }
+
+  #main-btn-container {
+    width: 20rem;
+  }
+  
+  #main-btn-container input {
+    width: 9rem;
+    height: 4rem;
+  }
+  
+  #main-btn-container input,
+  #main-btn-container input::placeholder,
+  #main-btn-container input:focus,
+  #main-btn-container input:focus::placeholder {
+    font-size: var(--main-font-size);
+  }
+  
+  #recipe_search input {
+    width: 20rem;
+    filter: drop-shadow(var(--main-box-shadow));
+  }  
 }

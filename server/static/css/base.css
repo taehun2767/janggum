@@ -191,7 +191,8 @@ input:-webkit-autofill:active {
   --recipe-font: "Ansungtangmyun-Bold"; /* 레시피 */
   --main-box-shadow: 0.4rem 0.2rem 0.2rem #81818177; /* 메인 페이지 상자 그림자 효과 */
   --main-text-shadow: -0.2rem 0.2rem 0.5rem #81818177; /* 메인 페이지 글자 그림자 효과 */
-  --header-giwa-shadow: 0.2rem 0.3rem 1.2rem #585858b4; /* 메인 페이지 글자 그림자 효과 */
+  --header-logo-shadow: -0.25rem 0.2rem 0.07rem #353535; /* 헤더 로고 그림자 */
+  --header-giwa-shadow: 0.2rem 0.3rem 1.2rem #585858b4; /* 기와 밑 그림자 */
 
   /* size */
   --line-size: 0.8rem; /* 헤더밑 & 페이지 나누는 선 넓이 */
@@ -201,15 +202,11 @@ input:-webkit-autofill:active {
 
 body {
   width: 100vw;
-  /* background: url("../image/장금이배경_수정.png") repeat; */
-  background-color: rgb(254, 253, 246);
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
+  background-color: #fffbf8;
   color: black;
   font-family: var(--main-font);
   font-size: 2rem; /* 디폴트 폰트 사이즈가 너무 작아서 대충 2rem으로 설정했는데 변경이 필요하면 변경해도 됩니다. */
+  line-height: 2rem;
 }
 
 header {
@@ -228,6 +225,7 @@ header {
   align-items: center;
   font-size: 3.6rem;
   padding-top: 0.2rem;
+  padding-bottom: 0.3rem;
 }
 
 .nav_logo {
@@ -237,6 +235,7 @@ header {
 .nav_logo img {
   margin-left: 1rem;
   width: 15rem;
+  filter: drop-shadow(var(--header-logo-shadow));
 }
 
 .nav_logo a {
