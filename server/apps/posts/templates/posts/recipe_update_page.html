@@ -70,7 +70,7 @@
         <script>
 
           const $addBtn = document.getElementById("add");
-          const $btnParent = document.getElementById("btn-container");
+          const $btnParent = document.getElementById("update-btn-container");
 
     $addBtn.addEventListener("click", () => {
         let template = `
@@ -116,11 +116,11 @@
                 if (input.files && input.files[0]) {
                   var reader = new FileReader();
                   reader.onload = function(e) {
-                    document.getElementById('preview').src = e.target.result;
+                    document.getElementById('update_preview').src = e.target.result;
                   };
                   reader.readAsDataURL(input.files[0]);
                 } else {
-                  document.getElementById('preview').src = "";
+                  document.getElementById('update_preview').src = "";
                 }
               }
               

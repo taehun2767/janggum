@@ -44,11 +44,6 @@ form {
   vertical-align: middle;
 }
 
-#btn-container {
-  display: flex;
-  justify-content: center;
-}
-
 #btn-container.input {
   margin-right: 3px;
 }
@@ -100,7 +95,6 @@ button img {
   text-align: center;
   color: #fff;
   font-family: var(--sub-font);
-  font-weight: bold;
 }
 
 input::placeholder {
@@ -225,7 +219,7 @@ textarea {
   margin-top: 63.3px;
 }
 
-#create-btn-container {
+#update-btn-container {
   display: grid;
   grid-template-columns: 10rem 10rem 10rem;
 }
