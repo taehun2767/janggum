@@ -20,8 +20,8 @@ urlpatterns = [
     path('posts/<int:pk>', views.posts_retrieve, name='retrieve'),
     path('detail_ajax/', views.detailajax, name='detail_ajax'),
     path('like_ajax/', views.like_ajax, name='like_ajax'),
-    path('comment_ajax/', views.comment_ajax, name='comment_ajax'),
-    path('comment_del_ajax/', views.comment_del_ajax, name='comment_del_ajax'),
+    path('comment/<int:pk>/create/', views.comment_create, name='comment_create'),
+    path('comment/<int:pk>/delete/', views.comment_delete, name='comment_delete'),
 
     # path('posts/<int:pk>/comments', views.comments_create, name='comments_create'),
     # path('posts/<int:post_pk>/comments/<int:comment_pk>/delete', views.comments_delete, name='comments_delete'),

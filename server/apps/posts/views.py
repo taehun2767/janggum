@@ -6,6 +6,10 @@ from .models import User, Post, Comment, Like, Comment
 from django.http.request import HttpRequest
 from django.db.models import Q
 
+from django.http import HttpResponse
+import json
+from django.core import serializers
+from django.core.serializers.json import DjangoJSONEncoder
 
 all_used_ingredient_set = set()
 
@@ -329,6 +333,7 @@ def detailajax(request, *args, **kwargs):
 
 
 
+
 # def comments_create(request:HttpRequest, pk, *args, **kwargs):
 #     if request.user.is_authenticated:
 #         post = get_object_or_404(Post, pk=pk)
@@ -341,30 +346,73 @@ def detailajax(request, *args, **kwargs):
             
 
 @csrf_exempt #403에러 방지
-def comment_ajax(request, *args, **kwargs):
-    if request.user.is_authenticated:
-        req = json.loads(request.body)
+def comment_create(request, pk, *args, **kwargs):
+    post = get_object_or_404(Post, id=pk)
+    comment_writer = request.POST.get('comment_writer')
+    user_id = User.objects.all().get(username=comment_writer)
+    content = request.POST.get('content')
+    if content:
 
-        postid = req['id']
-        userid = request.user
-        contents = req['content']
         comment = Comment.objects.create(
-            post_id = Post.objects.get(id=postid),
-            user_id = Post.objects.get(id=userid),
-            content = contents
+            user_id = user_id,
+            post_id = post,
+            content = content,
         )
-        comment.save()
+        post.save()
+        comments = Comment.objects.all()
+        data = {
+            'comment_writer' : comment_writer,
+            'content' : content,
+            'created': '방금 전',
+            'comment_id' : comment.id,
+        }
+        if request.user == post.user:
+            data['self_comment'] = '(글쓴이)'
 
-    return JsonResponse({'post_id': postid, 'user_id':userid, 'comment_id': comment.pk, 'content': comment.content})
+        print(data)
+        print(type(data))
 
-@csrf_exempt
-def comment_del_ajax(request, *args, **kwargs):
-    req = json.loads(request.body)
+        return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type="application/json")
 
-    post_id = req['post_id']
-    comment_id = req['comment_id']
-    comment = Comment.objects.get(id=comment_id)
-    comment.delete()
-    return JsonResponse({'post_id': post_id, 'comment_id': comment_id})
+def comment_delete(request, pk, *args, **kwargs):
+    post = get_object_or_404(Post, id=pk)
+    comment_id = request.POST.get('comment_id')
+    target_comment = Comment.objects.get(pk = comment_id)
+    
+    if request.user == target_comment.user_id:
+        target_comment.deleted = True
+        target_comment.save()
+        post.save()
+        data = {
+            'comment_id' : comment_id,
+        }
+        
+        return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type = "application/json")
+# @csrf_exempt #403에러 방지
+# def comment_ajax(request, *args, **kwargs):
+#     if request.user.is_authenticated:
+#         req = json.loads(request.body)
+
+#         postid = req['id']
+#         userid = request.user
+#         contents = req['content']
+#         comment = Comment.objects.create(
+#             post_id = Post.objects.get(id=postid),
+#             user_id = Post.objects.get(id=userid),
+#             content = contents
+#         )
+#         comment.save()
+
+#     return JsonResponse({'post_id': postid, 'user_id':userid, 'comment_id': comment.pk, 'content': comment.content})
+
+# @csrf_exempt
+# def comment_del_ajax(request, *args, **kwargs):
+#     req = json.loads(request.body)
+
+#     post_id = req['post_id']
+#     comment_id = req['comment_id']
+#     comment = Comment.objects.get(id=comment_id)
+#     comment.delete()
+#     return JsonResponse({'post_id': post_id, 'comment_id': comment_id})
 
 
