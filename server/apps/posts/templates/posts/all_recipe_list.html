@@ -45,7 +45,11 @@
                     <div class="recipe_content"> 
                         <button onclick="onClickDetail({{post.id}})" style="boarder:0">{{post.title}}</button>
                         {% comment %} <a href= "{%url 'posts:profile' post.user_pk%}" class = "writer_name">{{ post.user }}</a> {% endcomment %}
-                        <div class = "writer_name">{{ post.user }}</div>
+                        <div>
+                            <span>{{post.user.name}}</span>
+                            <span class = "writer_name">({{ post.user }})</span>
+                        </div>
+                    </br>
                         {% if post.photo %}
                         <p>
                             <img src="{{ post.photo.url }}" />
