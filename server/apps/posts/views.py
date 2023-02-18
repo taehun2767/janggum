@@ -401,22 +401,27 @@ def like_ajax(request, *args, **kwargs):
         like = Like.objects.filter(post_id=post, user_id=user)
         like_true = True
 
-        if like.exists(): 
-            like.delete()
-            post.number -= 1
-            post.save()
-            like_true = False
+        if like.exists():
+            like = Like.objects.get(post_id=post, user_id=user)
+            if like.like_value == True:
+                like.like_value = False
+                like.post_id.number -= 1
+                like_true = False
+            else:
+                like.like_value = True
+                like.post_id.number += 1
+                like_true = True
+            like.post_id.save()
+            like.save()
             return JsonResponse({'id':like_id,'like_true': like_true, 'number': post.number})
         
         Like.objects.create(
             post_id = post,
             user_id = user,
             like_value = True,
-            
         )
         post.number += 1
         post.save()
-            
 
     return JsonResponse({'id':like_id, 'like_true': like_true, 'number': post.number})
 

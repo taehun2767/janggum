@@ -246,10 +246,10 @@
                     const originHTML = element.innerHTML;
                     const [text1, text2, num] = originHTML.split(" ");
                     if (like_true == true){
-                        const count = Number(num) - 1;
+                        const count = Number(num) + 1;
                         element.innerHTML = `${text1} ${text2} ${count}`;
                     }else{
-                        const count = Number(num) + 1;
+                        const count = Number(num) - 1;
                         element.innerHTML = `${text1} ${text2} ${count}`;
                     }
                 }
