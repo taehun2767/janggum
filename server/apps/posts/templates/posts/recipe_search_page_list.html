@@ -46,7 +46,7 @@
                     </article>
 
                     {% comment %} 댓글 테스트중 {% endcomment %}
-                    <div>
+                    <div id="comment{{post.id}}">
                         <div>
                             <div>
                                 {%csrf_token%}
@@ -61,7 +61,7 @@
                         </div>
                     </div>
                     <hr />
-                    <div id="more_comment">
+                    <div id="more_comment{{post.id}}">
                         {%if comments%} {%for comment in comments%}
                         <div id="{{comment_id}}">
                             {%if comment.deleted%}
@@ -91,7 +91,7 @@
                         <div class="{{comment.id}}"></div>
                         {% endfor %} {%endif%}
                         <input type="hidden" id="comment_writer" value="{{request.user}}" />
-                        <div id="comment_list"></div>
+                        <div id="comment_list{{post.id}}"></div>
                     </div>
 
                     {% comment %} {% else %} {% endcomment %} {% comment %}
@@ -121,123 +121,101 @@
 
         <script src="http://code.jquery.com/jquery-latest.js"></script>
         <script>
-
-                {% comment %} $(document).ready(function (){
-                    $('#comment_write').click(function () {
-                    console.log("hello")
+            {% comment %} $(document).ready(function () { {% endcomment %}
+                {% comment %} $(`#comment_write`).click(function () { {% endcomment %}
+                const onClickComment = (pk) => {
+                    console.log("hello");
                     var content = $("#content_id").val();
                     var writer = $("#comment_writer").val();
-                    //var url_id = pk
-                    //console.log(writer, pk)
+                    var url_id = $("#post_id").text();
+                    url_id = Number(url_id);
+                    console.log(typeof url_id);
+                    console.log(url_id);
                     $.ajax({
-                        type : "POST",
-                        url: "{% url 'posts:comment_create' 1 %}",
+                        type: "POST",
+                        url: "{% url 'posts:comment_create' 1%}",
                         dataType: "json",
                         data: {
-                            'comment_writer' : writer,
-                            'content' : content,
-                            'csrfmiddlewaretoken': '{{csrf_token}}',
+                            comment_writer: writer,
+                            content: content,
+                            csrfmiddlewaretoken: "{{csrf_token}}",
                         },
-                        success : function (response){
-                            if (response.self_comment){
-                                $('#comment_list').append(
-                                    '<div><div id='+response.comment_id+'><strong>'+response.writer+'&nbsp;<span>'+response.self_comment+'</span></strong>'+
-                                        '<span>'+response.created+'</span>'+
-                                        '<div><div>'+response.content+
-                                        '</div><div><a onclick="commentDelete('+response.comment_id+');">댓글삭제</a></div></div><hr></div><div class='+response.comment_id+'></div>'
+                        success: function (response) {
+                            if (response.self_comment) {
+                                console.log("일치", response);
+
+                                $(`#comment_list${url_id}`).append(
+                                    "<div><div id=" +
+                                        response.comment_id +
+                                        "><strong>" +
+                                        response.comment_writer +
+                                        "&nbsp;<span>" +
+                                        response.self_comment +
+                                        "</span></strong>" +
+                                        "<span>" +
+                                        response.created +
+                                        "</span>" +
+                                        "<div><div>" +
+                                        response.content +
+                                        '</div><div><a onclick="commentDelete(' +
+                                        response.comment_id +
+                                        ');">댓글삭제</a></div></div><hr></div><div class=' +
+                                        response.comment_id +
+                                        "></div>"
+                                );
+                            } else {
+                                console.log("불일치", response);
+                                $(`#comment_list${url_id}`).append(
+                                    "<div><div id=" +
+                                        response.comment_id +
+                                        "><strong>" +
+                                        response.comment_writer +
+                                        "</strong>" +
+                                        "<span>" +
+                                        response.created +
+                                        "</span>" +
+                                        "<div><div >" +
+                                        response.content +
+                                        '</div><div ><a onclick="commentDelete(' +
+                                        response.comment_id +
+                                        ');">댓글삭제</a></div></div><hr></div><div class=' +
+                                        response.comment_id +
+                                        "></div>"
                                 );
                             }
-                            else{
-                                $('#comment_list').append(
-                                    '<div><div id='+response.comment_id+'><strong>'+response.writer+'</strong>'+
-                                    '<span>'+response.created+'</span>'+
-                                    '<div><div >'+response.content+
-                                    '</div><div ><a onclick="commentDelete('+response.comment_id+');">댓글삭제</a></div></div><hr></div><div class='+response.comment_id+'></div>'
-                                );
-                            }
-                            $('#content_id').val("");
+                            $("#content_id").val("");
                         },
-                        error: function (){
-                            if ($('#content_id').val()==""){
-                                alert('댓글을 입력해주세요.');
+                        error: function () {
+                            if ($("#content_id").val() == "") {
+                                alert("댓글을 입력해주세요.");
                             }
                         },
-                    })
-                });
-            }); {% endcomment %}
-                {% comment %} $(document).ready(function (){ {% endcomment %}
-                    const onClickComment = (pk) => {
-                        console.log("hello")
-                        var content = $("#content_id").val();
-                        var writer = $("#comment_writer").val();
-                        var url_id = $("#post_id").text();
-                        url_id = Number(url_id);
-                        console.log(typeof(url_id));
-                        console.log(url_id);
-                        $.ajax({
-                            type : "POST",
-                            url: "{% url 'posts:comment_create' 1%}",
-                            dataType: "json",
-                            data: {
-                                'comment_writer' : writer,
-                                'content' : content,
-                                'csrfmiddlewaretoken': '{{csrf_token}}',
-                            },
-                            success : function (response){
-                                if (response.self_comment){
-                                    console.log("일치", response)
-                                    console.log(type(response))
-                                    $('#comment_list').append(
-                                        '<div><div id='+response.comment_id+'><strong>'+response.comment_writer+'&nbsp;<span>'+response.self_comment+'</span></strong>'+
-                                            '<span>'+response.created+'</span>'+
-                                            '<div><div>'+response.content+
-                                            '</div><div><a onclick="commentDelete('+response.comment_id+');">댓글삭제</a></div></div><hr></div><div class='+response.comment_id+'></div>'
-                                    );
-                                }
-                                else{
-                                    console.log("불일치", response)
-                                    $('#comment_list').append(
-
-                                        '<div><div id='+response.comment_id+'><strong>'+response.comment_writer+'</strong>'+
-                                        '<span>'+response.created+'</span>'+
-                                        '<div><div >'+response.content+
-                                        '</div><div ><a onclick="commentDelete('+response.comment_id+');">댓글삭제</a></div></div><hr></div><div class='+response.comment_id+'></div>'
-                                    );
-                                }
-                                $('#content_id').val("");
-                            },
-                            error: function (){
-                                if ($('#content_id').val()==""){
-                                    alert('댓글을 입력해주세요.');
-                                }
-                            },
-                        })
-                    }
-                {% comment %} }); {% endcomment %}
-
-
-                function commentDelete(value){
-                    var comment_id = value;
-                    var delete_warning = confirm('댓글을 삭제하시겠습니까?');
-                    if (delete_warning == true){
-                        $.ajax({
-                            type: "POST",
-                            url : "{% url 'posts:comment_delete' post.id%}",
-
-                            dataType: "json",
-                            data: {
-                                "comment_id" : comment_id,
-                                'csrfmiddlewaretoken': '{{csrf_token}}',
-                            },
-                            success: function(response){
-                                $('#'+response.comment_id).replaceWith('<span ">삭제된 댓글입니다.</span><hr>');
-                            },
-                            error: function () {
-                                alert('본인 댓글이 아닙니다.');
-                            },
-                        });
-                    }
+                    });
                 }
+            // });
+
+            function commentDelete(value) {
+                var comment_id = value;
+                var delete_warning = confirm("댓글을 삭제하시겠습니까?");
+                if (delete_warning == true) {
+                    $.ajax({
+                        type: "POST",
+                        url: "{% url 'posts:comment_delete' post.id%}",
+
+                        dataType: "json",
+                        data: {
+                            comment_id: comment_id,
+                            csrfmiddlewaretoken: "{{csrf_token}}",
+                        },
+                        success: function (response) {
+                            $("#" + response.comment_id).replaceWith('<span ">삭제된 댓글입니다.</span><hr>');
+                        },
+                        error: function () {
+                            alert("본인 댓글이 아닙니다.");
+                        },
+                    });
+                }
+            }
         </script>
     </body>
 </html>

@@ -305,6 +305,41 @@ def like_ajax(request, *args, **kwargs):
 
     return JsonResponse({'like_true': like_true, 'number': post.number})
 
+# @csrf_exempt #403에러 방지
+# def detailajax(request, *args, **kwargs):
+#     req = json.loads(request.body)
+
+#     post_id = req['id']
+#     post = Post.objects.get(id = post_id)
+#     comments = Comment.objects.filter(post_id=post)
+#     comment_id_L = []
+#     comment_userid_L = []
+#     comment_content_L = []
+#     comment_created_L = []
+#     # for comment in comments:
+#     #     comment_id_L.append(comment.id)
+#     #     comment_userid_L.append(comment.user_id)
+#     #     comment_content_L.append(comment.content)
+#     #     comment_created_L.append(comment.created_at)
+#     post_title = post.title
+#     photo_url = post.photo.url
+#     ingredientStr = post.ingredient[2:-3].replace("'", '')
+#     ingredientL = ingredientStr.split(',')
+#     post_content = post.content
+#     post_created = str(post.created_at).replace("-", '.')
+    
+#     data = {'post_id': post_id, 
+#             'post_title':post_title, 
+#             'post_content': post_content, 
+#             'post_created':post_created,
+#             'photo_url':photo_url,
+#             'ingredientL':ingredientL,
+#             'comments': comments}
+    
+#     return JsonResponse(data)
+
+
+
 @csrf_exempt #403에러 방지
 def detailajax(request, *args, **kwargs):
     req = json.loads(request.body)
@@ -312,25 +347,45 @@ def detailajax(request, *args, **kwargs):
     post_id = req['id']
     post = Post.objects.get(id = post_id)
     comments = Comment.objects.filter(post_id=post)
+    commentList = []
     comment_id_L = []
     comment_userid_L = []
     comment_content_L = []
     comment_created_L = []
     for comment in comments:
         comment_id_L.append(comment.id)
-        comment_userid_L.append(comment.user_id)
+        comment_userid_L.append(comment.user_id.username)
         comment_content_L.append(comment.content)
         comment_created_L.append(comment.created_at)
+        commentList.append(comment)
+    
+    print(comment_id_L)
+    print(comment_userid_L)
+    print(comment_content_L)
+    print(comment_created_L)
+        
     post_title = post.title
     photo_url = post.photo.url
     ingredientStr = post.ingredient[2:-3].replace("'", '')
     ingredientL = ingredientStr.split(',')
     post_content = post.content
     post_created = str(post.created_at).replace("-", '.')
-    
+    commentList = list(comments.values())
+    # commentList = zip(comment_id_L, comment_userid_L, comment_content_L, comment_created_L)
+    # data ={
+    #     'post_id': post_id,
+    #     'post_title':post_title,
+    #     'post_content': post_content, 
+    #     'post_created':post_created,
+    #     'photo_url':photo_url,
+    #     'ingredientL':ingredientL,
+    #     'comments': comments,
+    # }
 
-    return JsonResponse({'post_id': post_id, 'post_title':post_title,  'post_content': post_content, 'post_created':post_created, 'photo_url':photo_url, 'ingredientL':ingredientL, 'comment_id_L':comment_id_L, 'comment_userid_L':comment_userid_L, 'comment_content_L':comment_content_L, 'comment_created_L':comment_created_L})
 
+    return JsonResponse({'post_id': post_id, 'post_title':post_title,  'post_content': post_content, 'post_created':post_created, 'photo_url':photo_url, 'ingredientL':ingredientL, 'comments': commentList})
+    # return JsonResponse({'post_id': post_id, 'post_title':post_title,  'post_content': post_content, 'post_created':post_created, 'photo_url':photo_url, 'ingredientL':ingredientL, 'comment_id_L':comment_id_L, 'comment_content_L':comment_content_L, 'comment_created_L':comment_created_L, 'comment_id_L':comment_id_L})
+# 'comment_id_L':comment_id_L, 'comment_userid_L':comment_userid_L, 'comment_content_L':comment_content_L, 'comment_created_L':comment_created_L
 
 
 
@@ -374,6 +429,7 @@ def comment_create(request, pk, *args, **kwargs):
 
         return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type="application/json")
 
+@csrf_exempt #403에러 방지
 def comment_delete(request, pk, *args, **kwargs):
     post = get_object_or_404(Post, id=pk)
     comment_id = request.POST.get('comment_id')
