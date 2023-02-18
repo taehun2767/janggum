@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from server.apps.posts.forms import SignupForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import auth
@@ -326,6 +326,19 @@ def detailajax(request, *args, **kwargs):
     
 
     return JsonResponse({'post_id': post_id, 'post_title':post_title,  'post_content': post_content, 'post_created':post_created, 'photo_url':photo_url, 'ingredientL':ingredientL, 'comment_id_L':comment_id_L, 'comment_userid_L':comment_userid_L, 'comment_content_L':comment_content_L, 'comment_created_L':comment_created_L})
+
+
+
+# def comments_create(request:HttpRequest, pk, *args, **kwargs):
+#     if request.user.is_authenticated:
+#         post = get_object_or_404(Post, pk=pk)
+#         comment_form = CommentForm(request.POST)
+#         if comment_form.is_valid():
+#             comment = comment_form.save(commit=False)
+#             comment.post_id = post
+#             comment.user_id = request.user
+#             comment.save()
+            
 
 @csrf_exempt #403에러 방지
 def comment_ajax(request, *args, **kwargs):

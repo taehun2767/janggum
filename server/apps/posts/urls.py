@@ -22,4 +22,7 @@ urlpatterns = [
     path('like_ajax/', views.like_ajax, name='like_ajax'),
     path('comment_ajax/', views.comment_ajax, name='comment_ajax'),
     path('comment_del_ajax/', views.comment_del_ajax, name='comment_del_ajax'),
+
+    # path('posts/<int:pk>/comments', views.comments_create, name='comments_create'),
+    # path('posts/<int:post_pk>/comments/<int:comment_pk>/delete', views.comments_delete, name='comments_delete'),
 ]
