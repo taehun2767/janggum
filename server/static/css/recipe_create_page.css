@@ -200,6 +200,12 @@ label,
   justify-content: center;
 }
 
-@media (max-width: 600px){
-  
+@media screen and (max-width: 600px) {
+  .recipe_title {
+    margin-top: 20px;
+  }
+  textarea {
+    height: 5rem;
+    width: 16rem;
+  }
 }
