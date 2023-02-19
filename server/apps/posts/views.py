@@ -67,7 +67,6 @@ def main(request):
                 post.save()
 
             # 페이지네이션
-            page = 1
 
             paginator = Paginator(postList, 1)
 
@@ -95,9 +94,10 @@ def main(request):
                 rightIndex = paginator.num_pages
             custom_range = range(leftIndex, rightIndex + 1)
 
+            flag = True
             context = {
                 "posts" : postList,
-
+                "flag" : flag,
                 "page_obj" : page_obj,
                 "paginator" : paginator,
                 'custom_range' : custom_range,
@@ -564,19 +564,21 @@ def detailajax(request, *args, **kwargs):
     todayObject = datetime.today()
     today = ""
     today += str(todayObject.year).zfill(2)+"."+str(todayObject.month).zfill(2)+"."+str(todayObject.day).zfill(2)
+    print("today", today)
     # print("오늘 날짜", today)
     for ele in commentList:
         time = ""
-        hour = ele['created_at'].hour + 9
-        if hour >= 24:
-            hour -= 24
-        timeStandard = "오전" if 0 <= hour  <12 else "오후" 
+        hour = ele['created_at'].hour
+
+        timeStandard = "오전" if 0 <= hour  <12 else "오후"
+        print(ele['created_at'])
         time += str(ele['created_at'].year) + "." + str(ele['created_at'].month).zfill(2) + "." + str(ele['created_at'].day).zfill(2) + " " \
                 + timeStandard +" "+ str(hour).zfill(2) + ":" + str(ele['created_at'].minute).zfill(2) +":"+str(ele['created_at'].second).zfill(2)
         ele['time'] = time
         day =""
         day += str(ele['created_at'].year) + "." + str(ele['created_at'].month).zfill(2) + "." + str(ele['created_at'].day).zfill(2)
         ele['day'] = day
+        print(ele['day'], ele['time'])
         # print(ele['time'], ele['day'])
         # temp += ele['created_at'].hour + ele['created_at'].hour +ele['created_at'].minute
         # print(ele['created_at'].hour)
