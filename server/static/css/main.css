@@ -155,6 +155,7 @@
   padding: 1.5rem 1rem;
   box-shadow: var(--main-box-shadow);
   font-size: var(--main-font-size);
+  position: relative;
 }
 
 #main_create_btn a {
@@ -162,6 +163,21 @@
   filter: drop-shadow(var(--main-text-shadow));
 }
 
+
+
+.check_img {
+  width: 12rem;
+  height: auto;
+  position: absolute;
+  top: -1.5rem;
+  left: 1.5rem;
+  opacity: 0;
+  transition: opacity 0.3s linear;
+}
+
+#main_create_btn:hover .check_img {
+  opacity: 1;
+}
 
 
 @media (max-width: 1200px) {
@@ -186,8 +202,7 @@
   }
 
   .recipe_view_all a,
-  .recipe_view_jang a,
-  #main_create_btn {
+  .recipe_view_jang a {
     font-size: 2rem;
   }
 
@@ -303,9 +318,13 @@
 @media (max-width: 450px) {
 
   .recipe_view_all a,
-  .recipe_view_jang a,
-  #main_create_btn {
+  .recipe_view_jang a {
     font-size: 1.4rem;
+    margin-top: 1.3rem;
+  }
+
+  
+  #main_create_btn {
     margin-top: 1.3rem;
   }
 
