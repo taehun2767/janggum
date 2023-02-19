@@ -1,147 +1,109 @@
 <!DOCTYPE html>
 <html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>장금이 요리백서</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/recipe_create_page.css'%}" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nanum+Brush+Script&family=Yeon+Sung&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    {% include 'posts/header.html' %}
-    <div class="bottom">
-      <button id="add">
-        <image
-          src="{% static 'image/더하기버튼_샘플.png'%}"
-          style="border: 0; width: 100px"
-          id="add_image"
-        />
-      </button>
-    </div>
-    <form
-      action="{% url 'posts:create' %}"
-      method="post"
-      enctype="multipart/form-data"
-    >
-      {% csrf_token %}
-      <div id="create_main_info_box">
-        <div class="recipe_title">
-          <div>레시피 제목을 입력하세요:</div>
-          <input name="title" placeholder="레시피 제목" />
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>장금이 요리백서</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/recipe_create_page.css'%}" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nanum+Brush+Script&family=Yeon+Sung&display=swap" rel="stylesheet" />
+    </head>
+    <body>
+        {% include 'posts/header.html' %}
+        <div class="bottom">
+            <button id="add">
+                <image src="{% static 'image/더하기버튼_샘플.png'%}" style="border: 0; width: 100px" id="add_image" />
+            </button>
         </div>
-        <div id="create-btn-container">
-          <input
-            name="ingredient[]"
-            list="ingredient_list"
-            placeholder="재료1"
-          />
-          <datalist id="ingredient_list">
-            {%for ele in ingredientList %}
-            <option>{{ele}}</option>
-            {%endfor%}
-          </datalist>
-          <input
-            name="ingredient[]"
-            list="ingredient_list"
-            placeholder="재료2"
-          />
-          <datalist id="ingredient_list">
-            {%for ele in ingredientList %}
-            <option>{{ele}}</option>
-            {%endfor%}
-          </datalist>
-          <input
-            name="ingredient[]"
-            list="ingredient_list"
-            placeholder="재료3"
-          />
-          <datalist id="ingredient_list">
-            {%for ele in ingredientList %}
-            <option>{{ele}}</option>
-            {%endfor%}
-          </datalist>
-        </div>
-        <div id="create_pic">
-          <div id="create_picbutton">
-            <input
-              class="upload-name"
-              value="첨부파일"
-              placeholder="첨부파일"
-            />
-            <label for="file">파일찾기</label>
-            <input
-              type="file"
-              id="file"
-              name="photo"
-              onchange="readURL(this);"
-              accept=".jpg, .jpeg, .png"
-            />
-          </div>
-          <img
-            style="width: 100px; height: 100px; border: none"
-            id="create_preview"
-          />
-        </div>
-        <textarea name="content" placeholder="레시피 소개 내용"></textarea>
-      </div>
-      {% comment %}
-      <textarea name="content" placeholder="재료1 정량"></textarea>
-      <textarea name="content" placeholder="재료2 정량"></textarea>
-      <textarea name="content" placeholder="재료3 정량"></textarea><br /><br />
-      {% endcomment %}
-      <textarea
-        name="ingredient_quantity"
-        placeholder="재료의 양과 사용되는 조미료를 간단하게 적어주세요"
-      ></textarea>
+        <form action="{% url 'posts:create' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div id="create_main_info_box">
+                <div class="recipe_title">
+                    <div>레시피 제목을 입력하세요:</div>
+                    <input name="title" placeholder="레시피 제목" />
+                </div>
+                <div id="create-btn-container">
+                    <input name="ingredient[]" list="ingredient_list" placeholder="재료1" />
+                    <datalist id="ingredient_list">
+                        {%for ele in ingredientList %}
+                        <option>{{ele}}</option>
+                        {%endfor%}
+                    </datalist>
+                    <input name="ingredient[]" list="ingredient_list" placeholder="재료2" />
+                    <datalist id="ingredient_list">
+                        {%for ele in ingredientList %}
+                        <option>{{ele}}</option>
+                        {%endfor%}
+                    </datalist>
+                    <input name="ingredient[]" list="ingredient_list" placeholder="재료3" />
+                    <datalist id="ingredient_list">
+                        {%for ele in ingredientList %}
+                        <option>{{ele}}</option>
+                        {%endfor%}
+                    </datalist>
+                </div>
+                <div id="create_pic">
+                    <div id="create_picbutton">
+                        <input class="upload-name" value="첨부파일" placeholder="첨부파일" />
+                        <label for="file">파일찾기</label>
+                        <input type="file" id="file" name="photo" onchange="readURL(this);" accept=".jpg, .jpeg, .png" />
+                    </div>
+                    <img style="width: 100px; height: 100px; border: none" id="create_preview" />
+                </div>
+                <textarea name="content" placeholder="레시피 소개 내용"></textarea>
+            </div>
+            {% comment %}
+            <textarea name="content" placeholder="재료1 정량"></textarea>
+            <textarea name="content" placeholder="재료2 정량"></textarea>
+            <textarea name="content" placeholder="재료3 정량"></textarea><br /><br />
+            {% endcomment %}
+            <textarea name="ingredient_quantity" placeholder="재료의 양과 사용되는 조미료를 간단하게 적어주세요"></textarea>
 
-      <div class="create-button">
-        <input type="submit" , value="레시피 저장" />
-      </div>
-    </form>
+            <div class="create-button">
+                <input type="submit" , value="레시피 저장" />
+            </div>
+        </form>
 
-    <script>
-      const $addBtn = document.getElementById("add");
-      const $btnParent = document.getElementById("create-btn-container");
+        <script>
+            const $addBtn = document.getElementById("add");
+            const $btnParent = document.getElementById("create-btn-container");
+            let count = 3
+            $addBtn.addEventListener("click", () => {
+                count += 1
+                let template = `
+                <input name="search_keyword" list="ingredient_list" placeholder="재료${count}" />
+                <datalist id="ingredient_list">
+                    {%for ele in ingredientList %}
+                    <option>{{ele}}</option>
+                    {%endfor%}
+                </datalist>
+                `;
 
-      $addBtn.addEventListener("click", () => {
-          let template = `
-          <input name="search_keyword" list="ingredient_list" placeholder="재료" />
-          <datalist id="ingredient_list">
-              {%for ele in ingredientList %}
-              <option>{{ele}}</option>
-              {%endfor%}
-          </datalist>
-          `;
+                const $newBtn = document.createElement("span");
+                $newBtn.name = "ingredient[]";
+                $newBtn.list = "ingredient_list";
+                $newBtn.placeholder = "재료";
+                $newBtn.innerHTML = template;
+                $btnParent.appendChild($newBtn);
 
-          const $newBtn = document.createElement("span");
-          $newBtn.name = "ingredient[]";
-          $newBtn.list = "ingredient_list";
-          $newBtn.placeholder = "재료";
-          $newBtn.innerHTML = template;
-          $btnParent.appendChild($newBtn);
+            });
 
-      });
-
-      {% comment %} 이미지 미리보기 {% endcomment %}
-      function readURL(input) {
-          if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-              document.getElementById('create_preview').src = e.target.result;
-            };
-            reader.readAsDataURL(input.files[0]);
-          } else {
-            document.getElementById('create_preview').src = "";
-          }
-      }
-    </script>
-  </body>
+            {% comment %} 이미지 미리보기 {% endcomment %}
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                  var reader = new FileReader();
+                  reader.onload = function(e) {
+                    document.getElementById('create_preview').src = e.target.result;
+                  };
+                  reader.readAsDataURL(input.files[0]);
+                } else {
+                  document.getElementById('create_preview').src = "";
+                }
+            }
+        </script>
+    </body>
 </html>
