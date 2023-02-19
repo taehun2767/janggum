@@ -57,8 +57,9 @@ img {
   justify-content: end;
   flex-direction: row;
   position: absolute;
-  margin-left: 171px;
-  margin-bottom: 228px;
+  margin-left: 168px;
+  margin-bottom: 236px;
+  font-weight: 800;
 }
 
 .fa-regular {
@@ -115,6 +116,11 @@ img {
   margin-right: 3rem;
   margin-left: 1rem;
 }
+.all_recipe_box {
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+}
 
 .all_recipe_box {
   display: grid;
@@ -150,7 +156,9 @@ img {
   color: white;
   font-size: medium;
   border-radius: 10px;
-  border: 2px solid #ffff;
+  width: 2.3rem;
+  height: 2.4rem;
+  border: none;
 }
 
 .sort_search {
@@ -163,6 +171,7 @@ img {
   background: url("../image/menu\ board.png");
   background-repeat: none;
   background-size: cover;
+  border-radius: 0.5rem;
 }
 
 .both_container {
