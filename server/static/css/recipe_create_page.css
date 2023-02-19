@@ -200,12 +200,21 @@ label,
   justify-content: center;
 }
 
-@media screen and (max-width: 600px) {
-  .recipe_title {
-    margin-top: 20px;
+@media (max-width: 600px) {
+  #create-btn-container{
+    display: flex;
+    justify-content: space-evenly
+  }
+  #create-btn-container input{
+    width: 7rem;
+    height: 3rem;
+  }
+  #create_picbutton .upload-name{
+    width: 18rem;
   }
   textarea {
     height: 5rem;
-    width: 16rem;
+    width: 19rem;
   }
 }
+
