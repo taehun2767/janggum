@@ -423,6 +423,7 @@ def comment_create(request, pk, *args, **kwargs):
     # print(comment_writer)
     # print(type(comment_writer))
     user_id = User.objects.all().get(username=comment_writer)
+    
     # print(user_id, type(user_id))
     content = request.POST.get('content')
     if content:
@@ -436,6 +437,7 @@ def comment_create(request, pk, *args, **kwargs):
 
         data = {
             'comment_writer' : comment_writer,
+            'writer_name' : user_id.name,
             'content' : content,
             'created': '방금 전',
             'comment_id' : comment.id,
@@ -457,6 +459,7 @@ def comment_delete(request, pk, *args, **kwargs):
     print(Comment.objects.all())
     post = get_object_or_404(Post, id=pk)
     comment_id = request.POST.get('comment_id')
+
     target_comment = Comment.objects.get(pk = comment_id)
     print(target_comment)
     print(type(target_comment))
