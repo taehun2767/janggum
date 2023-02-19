@@ -3,7 +3,7 @@
 .recipe_title,
 .ingredient_list,
 .input,
-img {
+#create_preview {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -105,6 +105,26 @@ input::placeholder {
   outline: none;
 }
 
+#update-btn-container input:-webkit-autofill,
+#update-btn-container input:-webkit-autofill:hover,
+#update-btn-container input:-webkit-autofill:focus,
+#update-btn-container input:-webkit-autofill:active {
+  background-image: url("../image/재료판자.png");
+  border: 0;
+  outline: none;
+  -webkit-text-fill-color: var(--ingredient-color);
+}
+
+#update-btn-container input,
+#update-btn-container input::placeholder,
+#update-btn-container input:focus,
+#update-btn-container input:focus::placeholder {
+  color: #fff;
+  font-size: var(--main-font-size);
+  font-family: var(--ingredient-font);
+}
+
+
 #update-btn-container input {
   margin-bottom: 10px;
 }
@@ -160,7 +180,6 @@ textarea {
 
 #update_picbutton label {
   display: inline-block;
-  padding: 7px 8px;
   color: #fff;
   vertical-align: middle;
   background-color: var(--main-color-2);
@@ -168,10 +187,16 @@ textarea {
   font-size: small;
   font-weight: 700;
   cursor: pointer;
-  height: 20px;
-  margin-left: 6px;
+  padding: 4px 0;
   border-radius: 0.5rem;
-  width: 70px;
+  width: 80px;
+  box-sizing: border-box;
+  margin-top: 0;
+  margin-left: 10px;
+}
+
+#update_picbutton label:hover, .update-button input:hover {
+  background-color: var(--main-color-1);
 }
 
 #update_picbutton input[type="file"] {

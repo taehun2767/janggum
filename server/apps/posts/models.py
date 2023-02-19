@@ -7,10 +7,12 @@ class AllUsedIngredient(models.Model):
 
 #유저
 class User(AbstractUser):
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=30, verbose_name="닉네임")
     member_id = models.CharField(max_length=40)
     password = models.CharField(max_length=20)
-    age = models.IntegerField(null=True)
+    age = models.IntegerField(null=True, verbose_name="나이")
+    username = models.CharField(verbose_name="아이디", unique=True, max_length=30)
+
 
 #게시글
 class Post(models.Model):
@@ -37,4 +39,9 @@ class Like(models.Model):
   user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="like_user")
   post_id = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="like_post")
   like_value = models.BooleanField(default=False)
+
+class Store(models.Model):
+  user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="store_user")
+  post_id = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="store_post")
+  store_value = models.BooleanField(default=False)
   

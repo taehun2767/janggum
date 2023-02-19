@@ -122,6 +122,11 @@ img {
   grid-template-columns: 1fr 1fr 1fr;
 }
 
+.all_recipe_box {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
 .search_input,
 #content_id {
   width: 320px;
@@ -170,9 +175,10 @@ img {
 }
 
 .both_container {
+  width: 100vw;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-evenly;
 }
 
 .backgorundcolor {
@@ -188,10 +194,28 @@ img {
   font-family: var(--sub-font);
 }
 
+
 .line_vertical {
-  height: 80%;
-  background-color: var(--main-color-2);
+  display: flex;
+  margin-left: 1rem;
+  margin-right: 2rem;
 }
+
+.line_vertical_1 {
+  height: 10rem;
+  background-color: var(--main-color-1);
+  width: var(--line-size);
+  position: relative;
+  bottom: 10rem;
+  left: var(--line-size);
+}
+
+.line_vertical_2 {
+  height: 100vh;
+  background-color: var(--main-color-1);
+  width: var(--line-size);
+}
+
 
 .detail_middle,
 .detail_top,

@@ -105,7 +105,6 @@
 #main-btn-container input:-webkit-autofill:hover,
 #main-btn-container input:-webkit-autofill:focus,
 #main-btn-container input:-webkit-autofill:active {
-  background: transparent;
   background-image: url("../image/재료판자.png");
   border: 0;
   outline: none;
@@ -155,6 +154,8 @@
   padding: 1.5rem 1rem;
   box-shadow: var(--main-box-shadow);
   font-size: var(--main-font-size);
+  position: relative;
+  cursor: pointer;
 }
 
 #main_create_btn a {
@@ -164,10 +165,26 @@
 
 
 
+.check_img {
+  width: 12rem;
+  height: auto;
+  position: absolute;
+  top: -3rem;
+  left: 0.5rem;
+  opacity: 0;
+  transition: opacity 0.3s linear;
+}
+
+#main_create_btn:hover .check_img {
+  opacity: 1;
+}
+
+
 @media (max-width: 1200px) {
   
   .main_contents {
     flex-direction: column;
+    margin: 0;
   }
 
   #main_section_1 {
@@ -185,8 +202,7 @@
   }
 
   .recipe_view_all a,
-  .recipe_view_jang a,
-  #main_create_btn {
+  .recipe_view_jang a {
     font-size: 2rem;
   }
 
@@ -236,9 +252,18 @@
 
 @media (max-width: 600px) {
   
+  #main_section_1 {
+    margin: 2rem 0.5rem 2.5rem 0.5rem;
+  }
+
+  #main_section_3 {
+    margin: 2.5rem 0.5rem;
+  }
+  
   .recipe_view_all a,
   .recipe_view_jang a,
   #main_create_btn {
+    margin-top: 1.5rem;
     font-size: var(--main-font-size);
   }
 
@@ -247,9 +272,18 @@
     width: 5rem;
     height: 5rem;
   }
+  
+  .recipe_view_all span,
+  .recipe_view_jang span {
+    margin-bottom: 0.65rem;
+  }
 
   .main_top {
     flex-direction: column;
+  }
+
+  #main_explain {
+    margin-right: 0;
   }
 
   #main-add {
@@ -283,6 +317,28 @@
 
 @media (max-width: 450px) {
 
+  .recipe_view_all a,
+  .recipe_view_jang a {
+    font-size: 1.4rem;
+    margin-top: 1.3rem;
+  }
+
+  
+  #main_create_btn {
+    margin-top: 1.3rem;
+  }
+
+  .recipe_view_all img,
+  .recipe_view_jang img {
+    width: 4rem;
+    height: 4rem;
+  }
+  
+  .recipe_view_all span,
+  .recipe_view_jang span {
+    margin-bottom: 0.3rem;
+  }
+
   #main-btn-container {
     width: 20rem;
   }
@@ -293,8 +349,9 @@
   }
 
   #main_explain {
-    width: 80%;
     height: auto;
+    font-size: 0.85rem;
+    padding: 0.8rem;
   }
 
   #main-btn-container {
@@ -317,4 +374,49 @@
     width: 20rem;
     filter: drop-shadow(var(--main-box-shadow));
   }  
+}
+
+
+@media (max-width: 270px) {
+    
+  .recipe_view_all a,
+  .recipe_view_jang a {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .recipe_view_all img,
+  .recipe_view_jang img {
+    margin: 0 0 0.5rem 0;
+  }
+}
+
+
+@keyframes search-ani-hover {
+  0% {
+      transform: translate(0, 0);
+  }
+  100% {
+      transform: translate(0, -0.5rem);
+  }
+}
+
+@keyframes search-ani-back {
+  0% {
+      transform: translate(0, -0.5rem);
+  }
+  100% {
+      transform: translate(0, 0);
+  }
+}
+
+
+#recipe_search:hover, .recipe_view_all:hover, .recipe_view_jang:hover {
+  animation: search-ani-hover 0.5s;
+  animation-fill-mode: forwards;
+}
+
+#recipe_search:not(:hover), .recipe_view_all:not(hover), .recipe_view_jang:not(hover) {
+  animation: search-ani-back 0.5s;
+  animation-fill-mode: forwards;
 }

@@ -160,6 +160,11 @@ input:-webkit-autofill:active {
   transition: background-color 5000s ease-in-out 0s;
 }
 
+input, input:focus, input::placeholder,
+textarea, textarea:focus, textarea::placeholder {
+  outline: none;
+}
+
 @import url("https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nanum+Brush+Script&family=Yeon+Sung&display=swap");
 @font-face {
   font-family: "Ansungtangmyun-Bold";
@@ -213,7 +218,7 @@ header {
   width: 100vw;
   position: sticky;
   top: 0;
-  z-index: 2 !important;
+  z-index: 2;
 }
 
 .header_main {
@@ -243,7 +248,6 @@ header {
 }
 
 .nav {
-  padding-right: 0.5rem;
   margin-top: 0.5rem;
   margin-right: 1rem;
   display: flex;
@@ -265,7 +269,7 @@ header {
   left: 50%;
   width: 2rem;
   height: 8rem;
-  transform: translate(-50%, -52%);
+  transform: translate(-50%, -50%);
   text-align: center;
 }
 
@@ -294,4 +298,78 @@ header {
   width: 80%;
   height: var(--line-size);
   background-color: var(--main-color-2);
+}
+
+
+@media (max-width: 600px) {
+
+  header {
+    position: relative;
+  }
+
+  .nav_logo img {
+    height: 6.5rem;
+    width: auto;
+  }
+  
+  .nav_menu_img img {
+    height: 6.5rem;
+    width: auto;
+  }
+
+  .nav_menu_text {
+    height: 6.5rem;
+  }
+
+  .nav_menu_text span {
+    font-size: 1.35rem;
+  }
+
+  /*
+
+  .nav_i {
+    display: block;
+  }
+
+  .nav_i i {
+    display: block;
+    font-size: 3rem;
+    margin-right: 2rem;
+    color: var(--ingredient-color);
+    filter: drop-shadow(var(--main-text-shadow));
+  }
+
+  .nav_i:hover .nav {
+    background-color: var(--header-color);
+    display: flex;
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-left: solid var(--main-color-2) var(--line-size);
+    border-bottom: solid var(--main-color-2) var(--line-size);
+  } */
+
+}
+
+
+@media (max-width:400px) {
+
+  .nav_logo img {
+    height: 5rem;
+    width: auto;
+  }
+  
+  .nav_menu_img img {
+    height: 5rem;
+    width: auto;
+  }
+
+  .nav_menu_text {
+    height: 5rem;
+  }
+
+  .nav_menu_text span {
+    font-size: 1.05rem;
+  }
+
 }

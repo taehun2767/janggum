@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from server.apps.posts.forms import SignupForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import auth
-from .models import User, Post, Comment, Like, Comment, AllUsedIngredient
+from .models import User, Post, Comment, Like, Comment, AllUsedIngredient, Store
 from django.http.request import HttpRequest
 from django.db.models import Q
 
@@ -175,14 +175,40 @@ def posts_all_list(request:HttpRequest, *args, **kwargs):
     }
     return render(request, "posts/all_recipe_list.html", context=context)
 
-# recipe search page 선택값으로 찾는거 구현 안함
-# def posts_search_list(request:HttpRequest, *args, **kwargs):
-#     posts = Post.objects.all()
+def store_recipe_list(request:HttpRequest, *args, **kwargs):
+    stores = Store.objects.filter(user_id = request.user)
+    comments = Comment.objects.all()
+    posts = []
+    for store in stores:
+        if store.store_value == True:
+            posts.append(store.post_id)
+    for post in posts:
+        user_pk =User.objects.all().filter(name=post.user)
+        if user_pk:
+            user_pk= user_pk[0].pk
+        post.user_pk = user_pk
+        post.save()
+    # sort = request.GET.get('sort', '')
+    # if sort =="likes":
+    #     posts = posts.order_by('-number', '-created_at')
+    # else:
+    #     posts = posts.order_by('-created_at')
+    if request.method == "POST":
+        searchName = request.POST.get("search-name")
+        posts = posts.filter(title__contains=searchName)
+    #데이터 전처리 => 재료가 textfield로 저장되어있으므로 각 재료를 창에 띄울 수 있도록 리스트화
+    for post in posts:
+                ingredientStr = post.ingredient[2:-3].replace("'", '')
+                ingredientList = ingredientStr.split(',')
+                #새 필드 만들어서 html에 데이터 보냄
+                post.ingredientList = ingredientList
+                post.save()   
+    context = {
+        "posts" : posts,
+        'comments' : comments,
+    }
+    return render(request, "posts/store_recipe.html", context=context)
 
-#     context = { 
-#         "posts" : posts,
-#     }
-#     return render(request, "posts/recipe_search_page_list.html", context=context)
 
 # 장금이 레시피 페이지 일단 좋아요 없이 구현
 def posts_janggum_list(request:HttpRequest, *args, **kwargs):
@@ -342,6 +368,30 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
+def store_ajax(request, *args, **kwargs):
+    req = json.loads(request.body)
+    store_id = req['id']
+    store = Store.objects.filter(post_id=store_id, user_id=request.user)
+    store_true = True
+    if not store.exists():
+        Store.objects.create(
+            post_id = Post.objects.get(id=store_id),
+            user_id = request.user,
+            store_value = True
+        )
+        store_true = True
+    else:
+        store = Store.objects.get(post_id=store_id, user_id=request.user)
+        if store.store_value == True:
+            store.store_value = False
+            store.save()
+        else:
+            store.store_value = True
+            store.save()
+        store_true = store.store_value
+    return JsonResponse({'id':store_id, 'store_true': store_true})
+
+@csrf_exempt
 def like_ajax(request, *args, **kwargs):
     if request.user.is_authenticated:
         req = json.loads(request.body)
@@ -351,24 +401,29 @@ def like_ajax(request, *args, **kwargs):
         like = Like.objects.filter(post_id=post, user_id=user)
         like_true = True
 
-        if like.exists(): 
-            like.delete()
-            post.number -= 1
-            post.save()
-            like_true = False
-            return JsonResponse({'like_true': like_true, 'number': post.number})
+        if like.exists():
+            like = Like.objects.get(post_id=post, user_id=user)
+            if like.like_value == True:
+                like.like_value = False
+                like.post_id.number -= 1
+                like_true = False
+            else:
+                like.like_value = True
+                like.post_id.number += 1
+                like_true = True
+            like.post_id.save()
+            like.save()
+            return JsonResponse({'id':like_id,'like_true': like_true, 'number': post.number})
         
         Like.objects.create(
             post_id = post,
             user_id = user,
             like_value = True,
-            
         )
         post.number += 1
         post.save()
-            
 
-    return JsonResponse({'like_true': like_true, 'number': post.number})
+    return JsonResponse({'id':like_id, 'like_true': like_true, 'number': post.number})
 
 @csrf_exempt #403에러 방지
 def detailajax(request, *args, **kwargs):

@@ -87,6 +87,10 @@ button:hover, input[type=submit]:hover {
     color: white;
 }
 
+.google_login_btn:hover {
+    background-color: var(--google-color-2);
+}
+
 .helptext {
     padding-top: 0.4rem;
     opacity: 0.5;
@@ -116,10 +120,8 @@ br {
 /* 구글 소셜 로그인, 회원가입 */
 
 #google_main_section {
-    margin-top: 3rem;
-    width: 100vw;
-    display: flex;
-    justify-content: center;
+    margin: 3rem 1rem 1rem 1rem;
+    text-align: center;
     line-height: 3rem;
     font-family: var(--sub-font);
     font-weight: 700;
@@ -127,7 +129,6 @@ br {
 }
 
 .google_main_div {
-    width: 50rem;
     text-align: center;
 }
 
@@ -167,6 +168,19 @@ br {
 }
 
 
+@media (max-width: 700px) {
+
+    #google_main_section {
+        line-height: 2rem;
+        font-size: 1.2rem;
+    }
+
+    .page_title p {
+        font-size: 2.5rem;
+    }
+}
+
+
 @media (max-width: 450px) {
 
     .helptext {
@@ -175,4 +189,12 @@ br {
         font-size: 0.8rem;
     }
 
+    #google_main_section {
+        font-size: 0.8rem;
+    }
+
+    .page_title p {
+        font-size: 2rem;
+    }
+    
 }

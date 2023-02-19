@@ -7,15 +7,7 @@
     <title>장금이 요리백서</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/jangum_recipe_list.css' %}" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nanum+Brush+Script&family=Yeon+Sung&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    {% include 'posts/header.html' %}
+    {% include 'posts/header_base.html' %}
     <span class="sort_search">
         <div style="font-size: larger;">장금이 레시피</div>
         <form action="{% url 'posts:posts_janggum_list' %}" method="post" enctype="multipart/form-data" style="    border: 1px solid #999999;
@@ -160,7 +152,7 @@
                     <p>
                         <img src="${photo_url}" />
                     </p>
-                    <div class="post_content" style="overflow:auto; margin-left:16px; margin-right: 3%; ">${post_content}</div>
+                    <pre class="post_content" style="overflow:auto; margin-left:16px; white-space:pre-wrap; margin-right: 3%; ">${post_content}</pre>
                 </div>
                 <div class="detail_bottom" style="
                 margin-left: 10%;
