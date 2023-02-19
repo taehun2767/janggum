@@ -68,8 +68,16 @@ button img {
   width: 2rem;
 }
 
+.bottom {
+  position: absolute;
+  left: calc((100% - 634px) / 2 + 573px);
+  top: 305px;
+}
+
 #add {
   position: absolute;
+  box-sizing: border-box;
+  justify-content: center;
 }
 
 .create-button input {
@@ -84,6 +92,12 @@ button img {
   color: white;
   padding: 1rem 1rem;
   border-radius: 0.5rem;
+}
+
+#create-btn-container {
+  margin-top: 35px;
+  margin-bottom: 35px;
+  margin-right: 80px;
 }
 
 #create-btn-container input {
@@ -158,10 +172,13 @@ input::placeholder {
   font-size: small;
   font-weight: 700;
   cursor: pointer;
-  height: 20px;
-  margin-left: 6px;
+  height: 38px;
   border-radius: 0.5rem;
-  width: 70px;
+  width: 80px;
+  box-sizing: border-box;
+  margin-top: 0;
+  margin-left: 10px;
+  padding: 12px;
 }
 
 #create_picbutton input[type="file"] {
@@ -185,8 +202,6 @@ label,
 
 #add_image {
   position: absolute;
-  margin-left: 45rem;
-  margin-top: 63.3px;
 }
 
 #create-btn-container {
@@ -199,30 +214,16 @@ label,
   flex-direction: row;
   justify-content: center;
 }
+@media (max-width: 850px) {
+  .recipe_title input {
+    margin-left: 24px;
+  }
+  .bottom {
+    position: relative;
+    left: 49%;
+    top: 158px;
+  }
 
-@media (max-width: 600px) {
-  .disnone {
-    display: none;
-  }
-  .recipe_title {
-    display: flex;
-    width: 400px;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    box-sizing: border-box;
-    margin: 20px auto 5px auto;
-  }
-  .recipe_title > div {
-    font-size: 24px;
-  }
-  #add {
-    display: flex;
-    box-sizing: border-box;
-    justify-content: center;
-    top: 320px;
-    right: 49%;
-  }
   #add_image {
     margin-left: 0;
     margin-top: 0;
@@ -253,10 +254,9 @@ label,
   #create_picbutton {
     display: flex;
   }
-  #create_picbutton .upload-name{
+  #create_picbutton .upload-name {
     height: 37px;
-    width: 13rem;
-    margin:12px 12px 12px 20px;
+    margin: 12px 12px 12px 20px;
     vertical-align: center;
   }
   #create_picbutton label {
@@ -264,7 +264,28 @@ label,
     box-sizing: border-box;
     padding: 12px 15px;
     height: 38px;
-    width:90px;
+    width: 90px;
+  }
+}
+@media (max-width: 600px) {
+  .disnone {
+    display: none;
+  }
+  .recipe_title {
+    display: flex;
+    width: 400px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    box-sizing: border-box;
+    margin: 20px auto 5px auto;
+  }
+  .recipe_title > div {
+    font-size: 24px;
+  }
+
+  #create_picbutton .upload-name {
+    width: 13rem;
   }
   textarea {
     height: 5rem;
