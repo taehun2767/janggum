@@ -3,7 +3,7 @@
 .recipe_title,
 .ingredient_list,
 .input,
-img {
+#create_preview {
   display: flex;
   flex-direction: row;
   justify-content: center;
