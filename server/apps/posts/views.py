@@ -67,7 +67,7 @@ def main(request):
                 post.save()
 
             # 페이지네이션
-
+            page = request.GET.get('page')
             paginator = Paginator(postList, 1)
 
             # print(page_obj)
@@ -569,7 +569,8 @@ def detailajax(request, *args, **kwargs):
     for ele in commentList:
         time = ""
         hour = ele['created_at'].hour
-
+        # if hour >= 24:
+        #     hour -= 24
         timeStandard = "오전" if 0 <= hour  <12 else "오후"
         print(ele['created_at'])
         time += str(ele['created_at'].year) + "." + str(ele['created_at'].month).zfill(2) + "." + str(ele['created_at'].day).zfill(2) + " " \
@@ -578,7 +579,7 @@ def detailajax(request, *args, **kwargs):
         day =""
         day += str(ele['created_at'].year) + "." + str(ele['created_at'].month).zfill(2) + "." + str(ele['created_at'].day).zfill(2)
         ele['day'] = day
-        print(ele['day'], ele['time'])
+        
         # print(ele['time'], ele['day'])
         # temp += ele['created_at'].hour + ele['created_at'].hour +ele['created_at'].minute
         # print(ele['created_at'].hour)
