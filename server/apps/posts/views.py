@@ -11,7 +11,7 @@ import json
 from django.core import serializers
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage #페이지네이션
-
+from datetime import datetime
 
 all_used_ingredient_set = set()
 
@@ -27,7 +27,7 @@ def main(request):
             if ele:
                 if posts.filter(ingredient__contains=ele):
                     posts = posts.filter(ingredient__contains=ele)
-                    print(posts)
+                    print(posts)    
                 else :
                     error= "재료가 포함된 요리가 없어요!"
                     context={
@@ -415,6 +415,28 @@ def detailajax(request, *args, **kwargs):
         'updated_at',
     ))
 
+    todayObject = datetime.today()
+    today = ""
+    today += str(todayObject.year).zfill(2)+"."+str(todayObject.month).zfill(2)+"."+str(todayObject.day).zfill(2)
+    print("오늘 날짜", today)
+    for ele in commentList:
+        time = ""
+        hour = ele['created_at'].hour + 9
+        if hour >= 24:
+            hour -= 24
+        timeStandard = "오전" if 0 <= hour  <12 else "오후" 
+        time += str(ele['created_at'].year) + "." + str(ele['created_at'].month).zfill(2) + "." + str(ele['created_at'].day).zfill(2) + " " \
+                + timeStandard +" "+ str(hour).zfill(2) + ":" + str(ele['created_at'].minute).zfill(2) +":"+str(ele['created_at'].second).zfill(2)
+        ele['time'] = time
+        day =""
+        day += str(ele['created_at'].year) + "." + str(ele['created_at'].month).zfill(2) + "." + str(ele['created_at'].day).zfill(2)
+        ele['day'] = day
+        print(ele['time'], ele['day'])
+        # temp += ele['created_at'].hour + ele['created_at'].hour +ele['created_at'].minute
+        # print(ele['created_at'].hour)
+        # print(ele['created_at'].minute)
+        
+        
     print(commentList)
     # commentList = zip(comment_id_L, comment_userid_L, comment_content_L, comment_created_L)
     # data ={
@@ -428,7 +450,7 @@ def detailajax(request, *args, **kwargs):
     # }
 
 
-    return JsonResponse({'post_user': post_user, 'post_id': post_id, 'post_title':post_title,  'post_content': post_content, 'post_created':post_created, 'photo_url':photo_url, 'ingredientL':ingredientL, 'comments': commentList})
+    return JsonResponse({'post_user': post_user, 'post_id': post_id, 'post_title':post_title,  'post_content': post_content, 'post_created':post_created, 'photo_url':photo_url, 'ingredientL':ingredientL, 'comments': commentList, 'today':today})
     # return JsonResponse({'post_id': post_id, 'post_title':post_title,  'post_content': post_content, 'post_created':post_created, 'photo_url':photo_url, 'ingredientL':ingredientL, 'comment_id_L':comment_id_L, 'comment_content_L':comment_content_L, 'comment_created_L':comment_created_L, 'comment_id_L':comment_id_L})
 # 'comment_id_L':comment_id_L, 'comment_userid_L':comment_userid_L, 'comment_content_L':comment_content_L, 'comment_created_L':comment_created_L
 

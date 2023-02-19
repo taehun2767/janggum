@@ -117,7 +117,7 @@
             requestDetail.onreadystatechange = () => {
                 if (requestDetail.readyState === XMLHttpRequest.DONE) {
                 if (requestDetail.status < 400) {
-                    const { post_user, post_id, post_title, post_photo, post_content, post_created, photo_url, ingredientL, comments } = JSON.parse(requestDetail.response);
+                    const { post_user, post_id, post_title, post_photo, post_content, post_created, photo_url, ingredientL, comments, today } = JSON.parse(requestDetail.response);
                     console.log(comments)
                     console.log(typeof(comments))
                     console.log(comments.length)
@@ -159,7 +159,7 @@
                                 list_of_comments.innerHTML += `
                                 <div id="${comments[i].id}">
                                 <strong>${comments[i].user_id__name}(${comments[i].user_id__username})<span>글쓴이</span></strong>
-                                <span>${comments[i].created_at}</span>
+
                                 `;
                             }
                             else{
@@ -167,10 +167,20 @@
                                 <div id="${comments[i].id}">
                                 <div id="${comments[i].id}">
                                 <strong>${comments[i].user_id__name}(${comments[i].user_id__username})</strong>
-                                <span>${comments[i].created_at}</span>
+
                                 `;
                             }
-
+                            console.log(today, comments[i].day)
+                            if(today == comments[i].day){
+                                list_of_comments.innerHTML += `
+                                <span>${comments[i].time}</span>
+                                `;
+                            }
+                            else{
+                                list_of_comments.innerHTML += `
+                                <span>${comments[i].day}</span>
+                                `;
+                            }
                             if(comments[i].user_id == requestDetail.response.user){
                                 list_of_comments.innerHTML += `
                                     <div>
