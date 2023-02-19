@@ -8,29 +8,15 @@
         <title>장금이 요리백서</title>
         {% load static %}
         <link rel="stylesheet" href="{% static 'css/main.css' %}" />
-        <link rel="stylesheet" href="{% static 'css/all_recipe_list.css'%}" />
+        <link rel="stylesheet" href="{% static 'css/store_recipe.css'%}" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nanum+Brush+Script&family=Yeon+Sung&display=swap" rel="stylesheet" />
     </head>
     <body>
         {% include 'posts/header.html' %}
-        <div>전체 레시피</div>
-        <span id="user_name">{{ user.username }}</span>
-        <form action = "{% url 'posts:all_recipe'%}" method="get">
-            <select name="sort">
-                {% if sortN == "likes" %}
-                    <option value="recently" id="recently">최신순</option>
-                    <option value="likes" id="likes" selected>좋아요순</option>
-                {% else %}
-                    <option value="recently" id="recently" selected>최신순</option>
-                    <option value="likes" id="likes">좋아요순</option>
-                {% endif %}
-                {% comment %} <option value="comments" id="comments>">댓글순</option> {% endcomment %}
-            </select>
-            <button type="submit">정렬</button>
-        </form>
-        <form action="{% url 'posts:all_recipe' %}" method="post" enctype="multipart/form-data">
+        <div>레시피 저장소</div>
+        <form action="{% url 'posts:store_recipe_list' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <input name="search-name"/>
 
@@ -43,7 +29,7 @@
             <article class="backgorundcolor"></article>
                 <div class="each_recipe">
                     <div class="recipe_content"> 
-                        <button onclick="onClickDetail({{post.id}})" style="boarder:0">{{post.title}}</button>
+                        <button onclick="onClickDetail({{post.id}})" style="border:0">{{post.title}}</button>
                         {% comment %} <a href= "{%url 'posts:profile' post.user_pk%}" class = "writer_name">{{ post.user }}</a> {% endcomment %}
                         <div class = "writer_name">{{ post.user }}</div>
                         {% if post.photo %}
@@ -57,14 +43,9 @@
                                 alt="복주머니"
                                 style="width: 20px; border: 0"
                               /></button>
-                            <div class="like_dislike_{{post.id}}">좋아요 개수: {{post.number}}</div>
-                            <button style=" border: 0" class="store_{{post.id}}" onclick="onClickStore({{post.id}})"><img
-                                src="{% static 'image/복주머니초안적(b).png' %}"
-                                alt="복주머니"
-                                style="width: 20px; border: 0"
-                              /></button>
-                            <div class="store_or_not_{{post.id}}">찜 하기</div>
+                            <div class="like_dislike">좋아요 개수: {{post.number}}</div>
                             <div>{{post.created_at}}</div>
+                            <button style=" border: 0" class="store_{{post.id}}" onclick="onClickStore({{post.id}})"></button>
                         </div>
                         <div class="ingredient_container">
                             {%for ele in post.ingredientList%}
@@ -93,33 +74,6 @@
             const requestDetail = new XMLHttpRequest();
             const requestLike = new XMLHttpRequest();
             const requestComment = new XMLHttpRequest();
-            const requestStore = new XMLHttpRequest();
-            const onClickStore = (id) => {
-                const url = "/store_ajax/";
-                requestStore.open("POST", url, true);
-                requestStore.setRequestHeader(
-                "Content-Type",
-                "application/x-www-form-urlencoded"
-                );
-                requestStore.send(JSON.stringify({ id: id}));
-            };
-
-            requestStore.onreadystatechange = () => {
-                if (requestStore.readyState === XMLHttpRequest.DONE) {
-                if (requestStore.status < 400) {
-                    const { id, store_true } = JSON.parse(requestStore.response);
-                    const element = document.querySelector(`.store_or_not_${id}`);
-                    const originHTML = element.innerHTML;
-                    const text = originHTML;
-                    if (store_true == true){
-                        element.innerHTML = `저장 O`;
-                    }else{
-                        element.innerHTML = `저장 X`;
-                    }
-                }
-                }
-            };
-
             const onClickDetail = (id) => {
                 const url = "/detail_ajax/";
                 requestDetail.open("POST", url, true);
@@ -240,17 +194,18 @@
             requestLike.onreadystatechange = () => {
                 if (requestLike.readyState === XMLHttpRequest.DONE) {
                 if (requestLike.status < 400) {
-                    const { id, like_true, number } = JSON.parse(requestLike.response);
+                    const { like_true, number } = JSON.parse(requestLike.response);
                     // const element = document.querySelector(`.like_{{post.id}}`);
-                    const element = document.querySelector(`.like_dislike_${id}`);
+                    const element = document.querySelector(`.like_dislike`);
                     const originHTML = element.innerHTML;
-                    const [text1, text2, num] = originHTML.split(" ");
-                    if (like_true == true){
-                        const count = Number(num) + 1;
-                        element.innerHTML = `${text1} ${text2} ${count}`;
+                    const like_list = originHTML;
+                    location.reload();
+                    if (like_true = true){
+                        const count = Number(number) - 1;
+                        element.innerHTML = `좋아요 개수: ${count}`;
                     }else{
-                        const count = Number(num) - 1;
-                        element.innerHTML = `${text1} ${text2} ${count}`;
+                        const count = Number(number) + 1;
+                        element.innerHTML = `좋아요 개수: ${count}`;
                     }
                 }
                 }

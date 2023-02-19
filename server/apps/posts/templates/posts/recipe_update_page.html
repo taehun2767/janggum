@@ -13,14 +13,22 @@
     </head>
     <body>
         {% include 'posts/header.html' %}
+        <div class="bottom">
+          <button id="add">
+            <image
+              src="{% static 'image/더하기버튼_샘플.png'%}"
+              style="border: 0; width: 100px" id="add_image"
+            />
+          </button>
+        </div>
         <form action="{% url 'posts:update' post.pk %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div>
-                <div>
+                <div class="recipe_title">
                     <div>레시피 제목을 입력하세요:</div>
                     <input name="title" placeholder="레시피 제목" value="{{post.title}}" />
                 </div>
-                <div id="btn-container">
+                <div id="update-btn-container">
                   {%for ele in post.ingredientList%}
                   <input placeholder="재료" name="ingredient[]" list="ingredient_list" value ="{{ele}}" />
                   {%endfor%}
@@ -42,23 +50,27 @@
                 <label for="file-input" id="id_req  _photo--button">파일 업로드</label> {% endcomment %}
                 {% comment %} <span>기존 파일 이름</span> {% endcomment %}
                 {% comment %} <input style="display:none;" type="file" name="photo"accept=".jpg, .jpeg, .png" onchange="readURL(this);" required="" id="file-input"> {% endcomment %}
-
-                <input type="file" id="file-input" name="photo" onchange="readURL(this);" accept=".jpg, .jpeg, .png" />
-                <img style="width: 200px; height: 200px border:none" id="preview" src="{{post.photo.url}}"/>
+                <div id="update_pic">
+                  <div id="update_picbutton">
+                    <input class="upload-name" value="첨부파일" placeholder="첨부파일" />
+                    <label for="file-input">파일찾기</label>
+                    <input type="file" id="file-input" name="photo" onchange="readURL(this);" accept=".jpg, .jpeg, .png" />
+                  </div>
+                  <img style="boarder:none; width: 100px" id="update_preview" src="{{post.photo.url}}"/>
+                </div>
                 <textarea name="ingredient_quantity" placeholder="재료의 양과 사용되는 조미료를 간단하게 적어주세요">{{post.ingredient_quantity}}</textarea>
                 <textarea name="content" placeholder="레시피 소개">{{post.content}}</textarea>
             </div>
-            <div>
+            <div class="update-button">
                 <input type="submit" , value="레시피 저장" />
             </div>
         </form>
-        <button id="add">+</button>
         {% comment %} <div>{{post.photo.url}}</div> {% endcomment %}
         <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script> 
         <script>
 
           const $addBtn = document.getElementById("add");
-          const $btnParent = document.getElementById("btn-container");
+          const $btnParent = document.getElementById("update-btn-container");
 
     $addBtn.addEventListener("click", () => {
         let template = `
@@ -104,11 +116,11 @@
                 if (input.files && input.files[0]) {
                   var reader = new FileReader();
                   reader.onload = function(e) {
-                    document.getElementById('preview').src = e.target.result;
+                    document.getElementById('update_preview').src = e.target.result;
                   };
                   reader.readAsDataURL(input.files[0]);
                 } else {
-                  document.getElementById('preview').src = "";
+                  document.getElementById('update_preview').src = "";
                 }
               }
               
