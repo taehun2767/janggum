@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from server.apps.posts.forms import SignupForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import auth
@@ -6,36 +6,49 @@ from .models import User, Post, Comment, Like, Comment, AllUsedIngredient, Store
 from django.http.request import HttpRequest
 from django.db.models import Q
 
+from django.http import HttpResponse
+import json
+from django.core import serializers
+from django.core.serializers.json import DjangoJSONEncoder
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage #페이지네이션
+from datetime import datetime
 
 all_used_ingredient_set = set()
-
+ingredientL = []
 #메인 페이지 => main.html을 기본으로 보여주고 재료로 검색시 recipe list 창으로 context 보내며 render
 def main(request):
     #레시피 검색 시 context 넘겨주기 위한 작업
+    global ingredientL
     posts = Post.objects.all()
     posts.delete
     postList = []
 
-    if request.method == "POST":
-        ingredientList = request.POST.getlist("search")
+    if request.GET.get('page'):
+        print(request.GET.get('page'))
+        print(postList)
+        print(ingredientL)
         for post in posts:
                 ingredientStr = post.ingredient[2:-3].replace("'", '')
                 usedIngredientList = ingredientStr.split(',')
+                print(usedIngredientList,"사용한 재료")
                 flag = True
-                for ele in ingredientList:
+                for ele in ingredientL:
+                    print(ele, "검색 재료")
                     if ele: 
                         if ele not in usedIngredientList:
                             flag = False
                             break
                 if flag:
                     postList.append(post)
-
+        print(postList)
+        if postList:
+            print(postList[0].ingredient)
         #각각 검색재료에 대해 필터링
         # for ele in ingredientList:
         #     if ele:
         #         if posts.filter(ingredient__contains=ele):
         #             posts = posts.filter(ingredient__contains=ele)
-        #             print(posts)
+        #             print(posts)    
         #         else :
         #             error= "재료가 포함된 요리가 없어요!"
         #             context={
@@ -43,21 +56,135 @@ def main(request):
         #             }
         #             return render(request, "posts/main.html", context=context)
         
-        context={"posts" : postList}
+        # context={"posts" : postList}
         #해당조건의 레시피가 존재할 때
         if postList:
             #재료를 파이썬 리스트화해야 전체 레시피 보기에서 재료도 보이게 할 수 있음
             ingredientLists = []
             for post in postList:
                 ingredientStr = post.ingredient[2:-3].replace("'", '')
-                ingredientList = ingredientStr.split(',')
+                ingredientLists = ingredientStr.split(',')
                 #약간 야매인 거 같긴한데 새로운 field만들어서 파이썬 리스트 추가
-                post.ingredientList = ingredientList
+                post.ingredientList = ingredientLists
                 post.save()
-            context={
+
+            # 페이지네이션
+            page = request.GET.get('page')
+            paginator = Paginator(postList, 1)
+
+            # print(page_obj)
+            # print(type(page_obj))
+            # for ele in page_obj:
+            #     print(ele)
+            
+            try:
+                page_obj = paginator.page(page)
+            except PageNotAnInteger:
+                page = 1
+                page_obj = paginator.page(page)
+            except EmptyPage:
+                page = paginator.num_pages
+                page_obj = paginator.page(page)
+                
+            leftIndex = (int(page) - 2)
+            if leftIndex < 1:
+                leftIndex = 1
+            
+            rightIndex = (int(page) + 2)
+            
+            if rightIndex > paginator.num_pages:
+                rightIndex = paginator.num_pages
+            custom_range = range(leftIndex, rightIndex + 1)
+
+            flag = True
+            context = {
                 "posts" : postList,
+                "page_obj" : page_obj,
+                "paginator" : paginator,
+                'custom_range' : custom_range,
             }
-            #검색한 경우 레시피 리스트 페이지로 render
+            
+            return render(request, "posts/all_recipe_list.html", context=context)
+    if request.method == "POST":
+        ingredientL = request.POST.getlist("search")
+        print(ingredientL)
+        for post in posts:
+                ingredientStr = post.ingredient[2:-3].replace("'", '')
+                usedIngredientList = ingredientStr.split(',')
+                print(usedIngredientList,"사용한 재료")
+                flag = True
+                for ele in ingredientL:
+                    print(ele, "검색 재료")
+                    if ele: 
+                        if ele not in usedIngredientList:
+                            flag = False
+                            break
+                if flag:
+                    postList.append(post)
+        print(postList)
+        if postList:
+            print(postList[0].ingredient)
+        #각각 검색재료에 대해 필터링
+        # for ele in ingredientList:
+        #     if ele:
+        #         if posts.filter(ingredient__contains=ele):
+        #             posts = posts.filter(ingredient__contains=ele)
+        #             print(posts)    
+        #         else :
+        #             error= "재료가 포함된 요리가 없어요!"
+        #             context={
+        #             "error" : error, 
+        #             }
+        #             return render(request, "posts/main.html", context=context)
+        
+        # context={"posts" : postList}
+        #해당조건의 레시피가 존재할 때
+        if postList:
+            #재료를 파이썬 리스트화해야 전체 레시피 보기에서 재료도 보이게 할 수 있음
+            ingredientLists = []
+            for post in postList:
+                ingredientStr = post.ingredient[2:-3].replace("'", '')
+                ingredientLists = ingredientStr.split(',')
+                #약간 야매인 거 같긴한데 새로운 field만들어서 파이썬 리스트 추가
+                post.ingredientList = ingredientLists
+                post.save()
+
+            # 페이지네이션
+            page = 1
+            paginator = Paginator(postList, 1)
+
+            # print(page_obj)
+            # print(type(page_obj))
+            # for ele in page_obj:
+            #     print(ele)
+            
+            try:
+                page_obj = paginator.page(page)
+            except PageNotAnInteger:
+                page = 1
+                page_obj = paginator.page(page)
+            except EmptyPage:
+                page = paginator.num_pages
+                page_obj = paginator.page(page)
+                
+            leftIndex = (int(page) - 2)
+            if leftIndex < 1:
+                leftIndex = 1
+            
+            rightIndex = (int(page) + 2)
+            
+            if rightIndex > paginator.num_pages:
+                rightIndex = paginator.num_pages
+            custom_range = range(leftIndex, rightIndex + 1)
+
+            flag = True
+            context = {
+                "posts" : postList,
+                "page_obj" : page_obj,
+                "paginator" : paginator,
+                'custom_range' : custom_range,
+            }
+            
             return render(request, "posts/all_recipe_list.html", context=context)
         else:
             error= "재료가 포함된 요리가 없어요!"
@@ -140,7 +267,7 @@ def logout(request):
 # all_recipe_list페이지 
 def posts_all_list(request:HttpRequest, *args, **kwargs):
     posts = Post.objects.all()
-    comments = Comment.objects.all()
+    # comments = Comment.objects.all()
     
     for post in posts:
         user_pk =User.objects.all().filter(name=post.user)
@@ -166,12 +293,45 @@ def posts_all_list(request:HttpRequest, *args, **kwargs):
                 ingredientList = ingredientStr.split(',')
                 #새 필드 만들어서 html에 데이터 보냄
                 post.ingredientList = ingredientList
-                post.save()   
+                post.save()
+                
+    # 페이지네이션
+    page = request.GET.get('page') #html에 get 넣어야함
+    
+    paginator = Paginator(posts, 1)
+
+    # print(page_obj)
+    # print(type(page_obj))
+    # for ele in page_obj:
+    #     print(ele)
+    
+    try:
+        page_obj = paginator.page(page)
+    except PageNotAnInteger:
+        page = 1
+        page_obj = paginator.page(page)
+    except EmptyPage:
+        page = paginator.num_pages
+        page_obj = paginator.page(page)
+        
+    leftIndex = (int(page) - 2)
+    if leftIndex < 1:
+        leftIndex = 1
+    
+    rightIndex = (int(page) + 2)
+    
+    if rightIndex > paginator.num_pages:
+        rightIndex = paginator.num_pages
+    custom_range = range(leftIndex, rightIndex + 1)
+
     context = {
-        'sorted' : sort,
+        # 'sorted' : sort,
         "posts" : posts,
-        'comments' : comments,
-        "sortN" : sort
+        # 'comments' : comments,
+        "sortN" : sort,
+        "page_obj" : page_obj,
+        "paginator" : paginator,
+        'custom_range' : custom_range,
     }
     return render(request, "posts/all_recipe_list.html", context=context)
 
@@ -209,6 +369,14 @@ def store_recipe_list(request:HttpRequest, *args, **kwargs):
     }
     return render(request, "posts/store_recipe.html", context=context)
 
+# recipe search page 선택값으로 찾는거 구현 안함
+# def posts_search_list(request:HttpRequest, *args, **kwargs):
+#     posts = Post.objects.all()
+
+#     context = { 
+#         "posts" : posts,
+#     }
+#     return render(request, "posts/recipe_search_page_list.html", context=context)
 
 # 장금이 레시피 페이지 일단 좋아요 없이 구현
 def posts_janggum_list(request:HttpRequest, *args, **kwargs):
@@ -306,7 +474,14 @@ def posts_update(request:HttpRequest, pk, *args, **kwargs):
     # print(filename)
     post = Post.objects.get(id=pk)
     #재료가 각각 표시되게끔 전처리
-    ingredients = request.POST.getlist('ingredient[]'),
+    photo_url = post.photo.url
+    print(photo_url)
+    
+    for i in reversed(range(len(photo_url))):
+        if photo_url[i] == "/":
+            photo_url = photo_url[i+1:]
+            break
+    ingredients = request.POST.getlist('ingredient[]')
     ingredientStr = post.ingredient[2:-3].replace("'", '')
     ingredientList = ingredientStr.split(',')
     post.ingredientList = ingredientList
@@ -335,6 +510,7 @@ def posts_update(request:HttpRequest, pk, *args, **kwargs):
     post.save()
     context = {
         "post" : post,
+        "photo_url" : photo_url,
         "ingredientList" : all_used_ingredient_set,
     }
     #print(all_used_ingredient_set)
@@ -425,57 +601,193 @@ def like_ajax(request, *args, **kwargs):
 
     return JsonResponse({'id':like_id, 'like_true': like_true, 'number': post.number})
 
+
+
 @csrf_exempt #403에러 방지
 def detailajax(request, *args, **kwargs):
     req = json.loads(request.body)
 
     post_id = req['id']
+
     post = Post.objects.get(id = post_id)
+
     comments = Comment.objects.filter(post_id=post)
+
+    commentList = []
     comment_id_L = []
     comment_userid_L = []
     comment_content_L = []
     comment_created_L = []
     for comment in comments:
         comment_id_L.append(comment.id)
-        comment_userid_L.append(comment.user_id)
+        comment_userid_L.append(comment.user_id.username)
         comment_content_L.append(comment.content)
         comment_created_L.append(comment.created_at)
+
+    post_user = post.user.username
     post_title = post.title
+    post_quantity = post.ingredient_quantity
     photo_url = post.photo.url
     ingredientStr = post.ingredient[2:-3].replace("'", '')
     ingredientL = ingredientStr.split(',')
     post_content = post.content
     post_created = str(post.created_at).replace("-", '.')
-    
+    print()
+    print("코멘트 밸류", comments.values())
+    commentList = list(comments.values(
+        'id',
+        'user_id__username',
+        'user_id__name',
+        'post_id',
+        'content',
+        'created_at',
+        'updated_at',
+    ))
 
-    return JsonResponse({'post_id': post_id, 'post_title':post_title,  'post_content': post_content, 'post_created':post_created, 'photo_url':photo_url, 'ingredientL':ingredientL, 'comment_id_L':comment_id_L, 'comment_userid_L':comment_userid_L, 'comment_content_L':comment_content_L, 'comment_created_L':comment_created_L})
+    todayObject = datetime.today()
+    today = ""
+    today += str(todayObject.year).zfill(2)+"."+str(todayObject.month).zfill(2)+"."+str(todayObject.day).zfill(2)
+    print("today", today)
+    # print("오늘 날짜", today)
+    for ele in commentList:
+        time = ""
+        hour = ele['created_at'].hour
+        # if hour >= 24:
+        #     hour -= 24
+        timeStandard = "오전" if 0 <= hour  <12 else "오후"
+        print(ele['created_at'])
+        time += str(ele['created_at'].year) + "." + str(ele['created_at'].month).zfill(2) + "." + str(ele['created_at'].day).zfill(2) + " " \
+                + timeStandard +" "+ str(hour).zfill(2) + ":" + str(ele['created_at'].minute).zfill(2) +":"+str(ele['created_at'].second).zfill(2)
+        ele['time'] = time
+        day =""
+        day += str(ele['created_at'].year) + "." + str(ele['created_at'].month).zfill(2) + "." + str(ele['created_at'].day).zfill(2)
+        ele['day'] = day
+        
+        # print(ele['time'], ele['day'])
+        # temp += ele['created_at'].hour + ele['created_at'].hour +ele['created_at'].minute
+        # print(ele['created_at'].hour)
+        # print(ele['created_at'].minute)
+        
+        
+    # print(commentList)
+    # commentList = zip(comment_id_L, comment_userid_L, comment_content_L, comment_created_L)
+    # data ={
+    #     'post_id': post_id,
+    #     'post_title':post_title,
+    #     'post_content': post_content, 
+    #     'post_created':post_created,
+    #     'photo_url':photo_url,
+    #     'ingredientL':ingredientL,
+    #     'comments': comments,
+    # }
+
+
+    return JsonResponse({'post_user': post_user, 'post_id': post_id, 'post_title':post_title,  'post_content': post_content, 'post_created':post_created, 'photo_url':photo_url, 'ingredientL':ingredientL, 'comments': commentList, 'today':today, 'post_quantity': post_quantity})
+    # return JsonResponse({'post_id': post_id, 'post_title':post_title,  'post_content': post_content, 'post_created':post_created, 'photo_url':photo_url, 'ingredientL':ingredientL, 'comment_id_L':comment_id_L, 'comment_content_L':comment_content_L, 'comment_created_L':comment_created_L, 'comment_id_L':comment_id_L})
+# 'comment_id_L':comment_id_L, 'comment_userid_L':comment_userid_L, 'comment_content_L':comment_content_L, 'comment_created_L':comment_created_L
+
+
+
+# def comments_create(request:HttpRequest, pk, *args, **kwargs):
+#     if request.user.is_authenticated:
+#         post = get_object_or_404(Post, pk=pk)
+#         comment_form = CommentForm(request.POST)
+#         if comment_form.is_valid():
+#             comment = comment_form.save(commit=False)
+#             comment.post_id = post
+#             comment.user_id = request.user
+#             comment.save()
+            
 
 @csrf_exempt #403에러 방지
-def comment_ajax(request, *args, **kwargs):
-    if request.user.is_authenticated:
-        req = json.loads(request.body)
+def comment_create(request, pk, *args, **kwargs):
+    # req = json.loads(request.body)
 
-        postid = req['id']
-        userid = request.user
-        contents = req['content']
+    # post_id = req['id']
+    # post = get_object_or_404(Post, id=post_id)
+    # 수정전
+    # print(Post.objects.all())
+    post = get_object_or_404(Post, id=pk)
+    comment_writer = request.POST.get('comment_writer')
+    # print(comment_writer)
+    # print(type(comment_writer))
+    user_id = User.objects.all().get(username=comment_writer)
+    
+    # print(user_id, type(user_id))
+    content = request.POST.get('content')
+    if content:
+
         comment = Comment.objects.create(
-            post_id = Post.objects.get(id=postid),
-            user_id = Post.objects.get(id=userid),
-            content = contents
+            user_id = user_id,
+            post_id = post,
+            content = content,
         )
-        comment.save()
+        post.save()
 
-    return JsonResponse({'post_id': postid, 'user_id':userid, 'comment_id': comment.pk, 'content': comment.content})
+        data = {
+            'comment_writer' : comment_writer,
+            'writer_name' : user_id.name,
+            'content' : content,
+            'created': '방금 전',
+            'comment_id' : comment.id,
+        }
+        if request.user == post.user:
+            data['self_comment'] = '(글쓴이)'
 
-@csrf_exempt
-def comment_del_ajax(request, *args, **kwargs):
-    req = json.loads(request.body)
 
-    post_id = req['post_id']
-    comment_id = req['comment_id']
-    comment = Comment.objects.get(id=comment_id)
-    comment.delete()
-    return JsonResponse({'post_id': post_id, 'comment_id': comment_id})
+        return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type="application/json")
+
+@csrf_exempt #403에러 방지
+def comment_delete(request, pk, *args, **kwargs):
+    # req = json.loads(request.body)
+
+    # post_id = req['id']
+    # post = get_object_or_404(Post, id=post_id)
+    
+    # 수정 전
+    print(Comment.objects.all())
+    post = get_object_or_404(Post, id=pk)
+    comment_id = request.POST.get('comment_id')
+
+    target_comment = Comment.objects.get(pk = comment_id)
+    print(target_comment)
+    print(type(target_comment))
+    if request.user == target_comment.user_id:
+
+        target_comment.delete()
+        # target_comment.deleted = True
+        # target_comment.save()
+        post.save()
+        data = {
+            'comment_id' : comment_id,
+        }
+        
+        return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type = "application/json")
+# @csrf_exempt #403에러 방지
+# def comment_ajax(request, *args, **kwargs):
+#     if request.user.is_authenticated:
+#         req = json.loads(request.body)
+
+#         postid = req['id']
+#         userid = request.user
+#         contents = req['content']
+#         comment = Comment.objects.create(
+#             post_id = Post.objects.get(id=postid),
+#             user_id = Post.objects.get(id=userid),
+#             content = contents
+#         )
+#         comment.save()
+
+#     return JsonResponse({'post_id': postid, 'user_id':userid, 'comment_id': comment.pk, 'content': comment.content})
+
+# @csrf_exempt
+# def comment_del_ajax(request, *args, **kwargs):
+#     req = json.loads(request.body)
+
+#     post_id = req['post_id']
+#     comment_id = req['comment_id']
+#     comment = Comment.objects.get(id=comment_id)
+#     comment.delete()
+#     return JsonResponse({'post_id': post_id, 'comment_id': comment_id})
 
 

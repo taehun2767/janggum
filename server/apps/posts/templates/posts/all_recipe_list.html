@@ -7,34 +7,38 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>장금이 요리백서</title>
         {% load static %}
+        {% load filter %}
+        <link rel="stylesheet" href="{% static 'css/main.css' %}" />
         <link rel="stylesheet" href="{% static 'css/all_recipe_list.css'%}" />
         {% include 'posts/header_base.html' %}
         <div>전체 레시피</div>
-        <div class="sort_search">
-            <form id="search_box"action="{% url 'posts:all_recipe' %}" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <input class="search_input" name="search-name"/>
+        
+        <span id="user_name">{{ user.username }}</span>
+        <form action = "{% url 'posts:all_recipe'%}" method="get">
+            <select name="sort">
+                {% if sortN == "likes" %}
+                    <option value="recently" id="recently">최신순</option>
+                    <option value="likes" id="likes" selected>좋아요순</option>
+                {% else %}
+                    <option value="recently" id="recently" selected>최신순</option>
+                    <option value="likes" id="likes">좋아요순</option>
+                {% endif %}
+                {% comment %} <option value="comments" id="comments>">댓글순</option> {% endcomment %}
+            </select>
+            <button type="submit">정렬</button>
+        </form>
+        <form action="{% url 'posts:all_recipe' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input name="search-name"/>
 
                 <input class="search_button" type="submit" , value="검색" />
 
-            </form>
-            <form action = "{% url 'posts:all_recipe'%}" method="get">
-                <select name="sort">
-                    {% if sortN == "likes" %}
-                        <option value="recently" id="recently">최신순</option>
-                        <option value="likes" id="likes" selected>좋아요순</option>
-                    {% else %}
-                        <option value="recently" id="recently" selected>최신순</option>
-                        <option value="likes" id="likes">좋아요순</option>
-                    {% endif %}
-                    {% comment %} <option value="comments" id="comments>">댓글순</option> {% endcomment %}
-                </select>
-                <button type="submit">정렬</button>
-            </form>
-        </div>
-        <div class="both_container">
-            {% for post in posts %}
-            <article class="backgorundcolor">
+        </form>
+        <div>
+
+            {% for post in page_obj %}
+            <article class="backgorundcolor"></article>
+
                 <div class="each_recipe">
                     <div class="recipe_content"> 
                         <button style=" border: 0; position: absolute;
@@ -44,9 +48,9 @@
                         <button onclick="onClickDetail({{post.id}})" style="font-family: var( --recipe-font); width: 60%; margin-left:20%; margin-top: 16px;
                         font-size: x-large">{{post.title}}</button>
                         {% comment %} <a href= "{%url 'posts:profile' post.user_pk%}" class = "writer_name">{{ post.user }}</a> {% endcomment %}
-                        <div class="user_who_write">
-                            <i class="fa-sharp fa-regular fa-circle-user" style="with:8%"></i>
-                            <div class = "writer_name" style="font-size:10px">{{ post.user }}</div>
+                        <div>
+                            <span>{{ post.user.name }}</span><span>(</span>
+                            <span class = "writer_name" >{{post.user}}</span><span>)</span>
                         </div>
                         {% if post.photo %}
                         <p>
@@ -69,7 +73,7 @@
                             <div class="one_ingredient" style="font-weight:600">{{ele}}</div>
                             {%endfor%}
                         </div>
-                        <image>
+
                     </div>
                 </div>
                 <div class="delete_update"
@@ -87,8 +91,27 @@
             <div class="line_vertical"><div>
             <div id="list_container" style="width: 38rem; height:28rem; border-radius: 0.5rem" class="post_detail"></div> 
         </div>
-
-            
+        <div id="list_container" style="width: 500px; height:100%; background-color: aqua" class="post_detail">
+        </div>
+        <div>
+            {% if page_obj.has_other_pages %}
+                <ul style="display:flex; list-style:none;">
+                    {% if page_obj.has_previous %}
+                    <li style="margin:3px;"><a style="text-decoration:none; color: blue;" href="?page={{page_obj.previous_page_number}}">&#10094; Prev</a></li>
+                    {% endif %}
+                    {% for page in custom_range %}
+                    {% if page == page_obj.number%}
+                        <li style="margin:3px;"><a style="text decoration:none; color: red;" href="?page={{page}}">{{page}}</a></li>
+                    {% else %}
+                        <li style="margin:3px;"><a style="text decoration:none; color: blue;" href="?page={{page}}">{{page}}</a></li>
+                    {% endif%}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                    <li style="margin:3px;"><a style="text-decoration:none; color: blue;" href="?page={{page_obj.next_page_number}}">Next &#10095; </a></li>
+                    {% endif %}
+                </ul>
+            {% endif %}
+        </div>        
         <script src="http://code.jquery.com/jquery-latest.js"></script>
         <script>    
             const requestDetail = new XMLHttpRequest();
@@ -134,7 +157,10 @@
             requestDetail.onreadystatechange = () => {
                 if (requestDetail.readyState === XMLHttpRequest.DONE) {
                 if (requestDetail.status < 400) {
-                    const { post_id, post_title, post_photo, post_content, post_created, photo_url, ingredientL, comment_id_L, comment_userid_L, comment_content_L, comment_created_L } = JSON.parse(requestDetail.response);
+                    const { post_user, post_id, post_title, post_photo, post_content, post_created, photo_url, ingredientL, comments, today, post_quantity } = JSON.parse(requestDetail.response);
+                    console.log(comments)
+                    console.log(typeof(comments))
+                    console.log(comments.length)
                     let div_generate = ``;
                     for (let i = 0; i < ingredientL.length; i++){
                          div_generate += `<div class="one_ingredient">${ingredientL[i]}</div>`;
@@ -152,16 +178,83 @@
                     let templatetag2 = "{% endif %}";
                     const element1 = document.querySelector(`.post_detail`);
                     const originHTML1 = element1.innerHTML;
+
                     const detail_list = originHTML1;
-                    element1.innerHTML = `
+                    
+                    let list_of_comments = document.createElement("div");
+                    list_of_comments.id = "more_comments";
+
+                    console.log(list_of_comments.id)
+                    console.log("postuser", post_user)
+
+                    console.log(post_user)
+                    for(let i =0; i < comments.length; i++){
+                        if(comments[i].deleted){
+                            list_of_comments.innerHTML += `
+                            <span>삭제된 댓글입니다.</span><hr>
+                            `;
+                        }
+                        else{
+                            if(comments[i].user_id__username == post_user){
+                                list_of_comments.innerHTML += `
+                                <div id="${comments[i].id}">
+                                <strong>${comments[i].user_id__name}(${comments[i].user_id__username})<span>글쓴이</span></strong>
+
+                                `;
+                            }
+                            else{
+                                list_of_comments.innerHTML += `
+                                <div id="${comments[i].id}">
+                                <div id="${comments[i].id}">
+                                <strong>${comments[i].user_id__name}(${comments[i].user_id__username})</strong>
+
+                                `;
+                            }
+                            console.log(today, comments[i].day)
+                            if(today == comments[i].day){
+                                list_of_comments.innerHTML += `
+                                <span>${comments[i].time}</span>
+                                `;
+                            }
+                            else{
+                                list_of_comments.innerHTML += `
+                                <span>${comments[i].day}</span>
+                                `;
+                            }
+                            if(comments[i].user_id == requestDetail.response.user){
+                                list_of_comments.innerHTML += `
+                                    <div>
+                                        <div>${comments[i].content}</div>
+                                        <div>
+                                            <a onclick="commentDelete('${comments[i].id}');">댓글삭제</a>
+                                        </div>
+                                    </div>
+                                <hr>
+                            </div>
+                                <div class='${comments[i].id}'></div>
+                                `;
+                            }
+                            else{
+                                list_of_comments.innerHTML += `
+                                <div>
+                                    <div>${comments[i].content}</div>
+                                </div>
+                                <hr>
+                            </div>
+                                <div class='${comments[i].id}'></div>
+                                `;
+                            }
+                        }
+                    }
+
+                    element1.innerHTML = `<div>레시피 상세보기</div>
                 <article class="다른 backgorund color클래스">
-                    <div class="detail_top" style="padding-top: 47px; padding-bottom: 20px">
-                        <div class="post_title" style="font-siz:40px">${post_title}</div>
-                        <div class="ingredient_container">` 
-                            + div_generate +
-                        `</div>
-                    </div>
-                    <div class="detail_middle" style="margin-bottom:1.5rem">
+                    <div class="post_title">${post_title}</div>
+                    <div>` 
+                        + div_generate +
+                    `</div>
+                    <pre style="white-space:pre-wrap">${post_quantity}</pre>
+                    <div>
                         <p>
                             <img src="${photo_url}"/>
                         </p>
@@ -173,66 +266,34 @@
                         <div>
                             <div class="post_created" style="font-size:medium">${post_created.slice(2, 10)}</div>
                         </div>
-        
-                        <div class="comment_main" style="width: 20rem; float:right">
-                            <div class="comment">
-                                <textarea class="comment_form_${post_id}" 
-                                    id="content_id" 
-                                    cols="30" rows="1" 
-                                    style="    width: 17.5rem; background-color: #F7F5EB;"
-                                    placeholder="댓글을 입력하세요.">
-                                </textarea>
-                            </div>
-                            <div class="comment_send">
-                                <button onclick="onClickComment(${post_id})" id="comment_write"><i class="fa-regular fa-paper-plane"></i></button>
+                    </div>
+
+                    <div>
+                        <div>
+                            <div>
+                                {%csrf_token%}
+                                <div>
+                                    <textarea id="content_id" placeholder="댓글을 입력해주세요"></textarea>
+                                </div>
+                                
+                                <div>
+                                    
+                                    <button id="comment_write" onClick="onClickComment(${post_id})">댓글달기</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </article>
-                <div class="comment_list_${post_id}">
-                    {% if comments %}
-                        {% for comment in comments %}`
-                            + templatetag +
-                            `<div class="comment_id_{{comment.id}}">
-                                <p>댓글: {{comment.content}}</p>
-                                <button onclick="onClickDelete({${post_id}, {{comment.id}})">댓글 삭제</button>
-                                <hr>
-                            </div>`
-                            + templatetag2 +
-                        `{% endfor %}
-                    {% endif %}
-                </div>
-                `;
+                    <hr>
+                    <input type="hidden" id="comment_writer" value={{request.user}}>
+                        <div id="comment_list${post_id}"></div>
+                    </div>
+                    <div id="pid">${post_id}<div>`; // 히든으로 만들어야함
+
+                        element1.innerHTML += list_of_comments.innerHTML;
                 }
                 }
             };
         
-            const onClickComment = (id) => {
-                const url = "/comment_ajax/";
-                let content = document.querySelector(`.comment_form_${id}`).value;
-                requestComment.open("POST", url, true);
-                requestComment.setRequestHeader(
-                    "Content-Type",
-                    "application/x-www-form-urlencoded"
-                );
-                requestComment.send(JSON.stringify({ id: id, content: content}));
-            };
-        
-            requestComment.onreadystatechange = () => {
-                if (requestComment.readyState === XMLHttpRequest.DONE) {
-                if (requestComment.status < 400) {
-                    const { post_id, user_id, comment_id, content } = JSON.parse(requestComment.response);
-                    const element = document.querySelector(`.comment_list_${post_id}`);
-                    const originHTML = element.innerHTML;
-                    element.innerHTML = originHTML + `
-                    <div class="comment_id_${comment_id}">
-                        <p>댓글: ${content}</p>
-                        <button onclick="onClickDelete(${post_id}, ${comment_id})">삭제</button>
-                        <hr>
-                    </div>`;
-                }
-                }
-            };
             
             const onClickLike = (id) => {
                 const url = "/like_ajax/";
@@ -263,10 +324,87 @@
                 }
             };
             
+
+            const onClickComment = (pk) => {
+                console.log("hello")
+                var content = $("#content_id").val();
+                var writer = $("#comment_writer").val();
+                
+                var pk = pk
+                console.log(pk)
+                var url = "{% url 'posts:comment_create' 1234%}".replace(/1234/, pk);
+                $.ajax({
+                    type : "POST",
+                    url: url,
+                    dataType: "json",
+                    data: {
+                        'comment_writer' : writer,
+                        'content' : content,
+                        'csrfmiddlewaretoken': '{{csrf_token}}',
+                    },
+                    success : function (response){
+                        if (response.self_comment){
+                            console.log("일치", response)
+
+                            $(`#comment_list${pk}`).append(
+                                '<div><div id='+response.comment_id+'><strong>'+response.writer_name+"("+response.comment_writer+")"+'&nbsp;<span>'+response.self_comment+'</span></strong>'+
+                                    '<span>'+response.created+'</span>'+
+                                    '<div><div>'+response.content+
+                                    '</div><div><a onclick="commentDelete('+response.comment_id+');">댓글삭제</a></div></div><hr></div><div class='+response.comment_id+'></div>'
+                            );
+                        }
+                        else{
+                            console.log("불일치", response)
+                            $(`#comment_list${pk}`).append(
+
+                                '<div><div id='+response.comment_id+'><strong>'+response.writer_name+"("+response.comment_writer+")"+'</strong>'+
+                                '<span>'+response.created+'</span>'+
+                                '<div><div >'+response.content+
+                                '</div><div ><a onclick="commentDelete('+response.comment_id+');">댓글삭제</a></div></div><hr></div><div class='+response.comment_id+'></div>'
+                            );
+                        }
+                        $('#content_id').val("");
+                    },
+                    error: function (){
+                        if ($('#content_id').val()==""){
+                            alert('댓글을 입력해주세요.');
+                        }
+                    },
+                })
+            }
+
+            function commentDelete(value){
+                var comment_id = value;
+                var pid = $("#pid").text();
+                pid = pid.trim();
+                console.log(pid);
+                var delete_warning = confirm('댓글을 삭제하시겠습니까?');
+                if (delete_warning == true){
+                    $.ajax({
+                        type: "POST",
+                        url : "{% url 'posts:comment_delete' 1234%}".replace(/1234/, pid),
+
+                        dataType: "json",
+                        data: {
+                            "comment_id" : comment_id,
+                            'csrfmiddlewaretoken': '{{csrf_token}}',
+                        },
+                        success: function(response){
+                            $('#'+response.comment_id).replaceWith('<span ">삭제된 댓글입니다.</span><hr>');
+                        },
+                        error: function () {
+                            alert('본인 댓글이 아닙니다.');
+                        },
+                    });
+                }
+            }
+
             //수정, 삭제 버튼 해당 유저만 보이도록 구현
             $username = $("#user_name").text()
-            $(".writer_name")[0].innerHTML
+            console.log($username)
+            {% comment %} $(".writer_name")[0].innerHTML {% endcomment %}
             for(i = 0; i < $(".writer_name").length; i++){
+                console.log($(".writer_name")[i].innerHTML);
                 if($("#user_name").text() != $(".writer_name")[i].innerHTML){
                   
                   $(".update")[i].type = "hidden";

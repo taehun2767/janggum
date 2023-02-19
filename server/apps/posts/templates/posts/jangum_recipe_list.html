@@ -33,7 +33,7 @@
     <div>
 
         {% for post in posts %}
-        {% if post.number >= 0 %}
+        {% if post.number >= 10 %}
         <article class="backgorundcolor"></article>
             <div>
                 <button onclick="onClickDetail({{post.id}})">{{post.title}}</button>

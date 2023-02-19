@@ -25,7 +25,7 @@
                 </div>
                 <div id="update-btn-container">
                   {%for ele in post.ingredientList%}
-                  <input placeholder="재료" name="ingredient[]" list="ingredient_list" value ="{{ele}}" />
+                  <input placeholder="재료" name="ingredient[]" list="ingredient_list" value ="{{ele}}" onkeyup="noSpace(this);" />
                   {%endfor%}
                 </div>
                 <datalist id="ingredient_list">
@@ -45,10 +45,15 @@
                 <label for="file-input" id="id_req  _photo--button">파일 업로드</label> {% endcomment %}
                 {% comment %} <span>기존 파일 이름</span> {% endcomment %}
                 {% comment %} <input style="display:none;" type="file" name="photo"accept=".jpg, .jpeg, .png" onchange="readURL(this);" required="" id="file-input"> {% endcomment %}
+                <input type="hidden" value ="{{photo_url}}" id="photo_url" />
+                <input type="file" id="file-input" name="photo" onchange="readURL(this);" accept=".jpg, .jpeg, .png" style="display:none"/>
+                <label for="file-input" >파일선택</label>
+                <span id="fileName">{{photo_url}}</span>
                 <div id="update_pic">
                   <div id="update_picbutton">
                     <input class="upload-name" value="첨부파일" placeholder="첨부파일" />
                     <label for="file-input">파일찾기</label>
+
                     <input type="file" id="file-input" name="photo" onchange="readURL(this);" accept=".jpg, .jpeg, .png" />
                   </div>
                   <img style="boarder:none; width: 100px" id="update_preview" src="{{post.photo.url}}"/>
@@ -63,13 +68,15 @@
         {% comment %} <div>{{post.photo.url}}</div> {% endcomment %}
         <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script> 
         <script>
-
+          var fileName = $("#file-input").val();
+          console.log(fileName);
           const $addBtn = document.getElementById("add");
           const $btnParent = document.getElementById("update-btn-container");
-
+          let count = 3;
     $addBtn.addEventListener("click", () => {
+        count += 1;
         let template = `
-        <input name="search_keyword" list="ingredient_list" placeholder="재료" />
+        <input name="search_keyword" list="ingredient_list" placeholder="재료${count}" onkeyup="noSpace(this);"/>
         <datalist id="ingredient_list">
             {%for ele in ingredientList %}
             <option>{{ele}}</option>
@@ -105,6 +112,12 @@
             dataTransfer.items.add($file);
             fileInput.files = dataTransfer.files; {% endcomment %}
 
+            // 앞뒤 공백 제거
+            function noSpace(obj){
+
+              obj.value = obj.value.trim();
+              console.log(obj.value);
+          }
 
             {% comment %} 이미지 미리보기 {% endcomment %}
             function readURL(input) {
@@ -119,6 +132,16 @@
                 }
               }
               
+              document.getElementById('file-input').addEventListener('change', function(){
+                let filename = document.getElementById('fileName');
+                const photo_url = $("#photo_url").val();
+                console.log(photo_url);
+                if(this.files[0] == undefined){
+                  filename.innerText = photo_url;
+                  return;
+                }
+                filename.innerText = this.files[0].name;
+              });
 
 
         </script>
