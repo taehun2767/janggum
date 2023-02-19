@@ -21,7 +21,7 @@
           <div class="nav_menu_img">
             <img src="{% static 'image/헤더메뉴판자2.png' %}" />
           </div>
-          <div class="nav_menu_text"><span>저장소</span></div>
+          <div class="nav_menu_text"><span>찜한 레시피</span></div>
         </a>
       </li>
       <li>
@@ -30,7 +30,8 @@
             <img src="{% static 'image/헤더메뉴판자3.png' %}" />
           </div>
           <div class="nav_menu_text"><span>로그아웃</span></div>
-        </a></li>
+        </a>
+      </li>
       {% else %}
       <li>
         <a href="{% url 'posts:login' %}">
@@ -38,21 +39,24 @@
             <img src="{% static 'image/헤더메뉴판자1.png' %}" />
           </div>
           <div class="nav_menu_text"><span>내프로필</span></div>
-        </a></li>
+        </a>
+      </li>
       <li>
         <a href="{% url 'posts:login' %}">
           <div class="nav_menu_img">
             <img src="{% static 'image/헤더메뉴판자2.png' %}" />
           </div>
           <div class="nav_menu_text"><span>로 그 인</span></div>
-        </a></li>
+        </a>
+      </li>
       <li>
         <a href="{% url 'posts:signup' %}">
           <div class="nav_menu_img">
             <img src="{% static 'image/헤더메뉴판자3.png' %}" />
           </div>
           <div class="nav_menu_text"><span>회원가입</span></div>
-        </a></li>
+        </a>
+      </li>
       {% endif %}
     </div>
   </div>
