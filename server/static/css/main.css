@@ -105,7 +105,6 @@
 #main-btn-container input:-webkit-autofill:hover,
 #main-btn-container input:-webkit-autofill:focus,
 #main-btn-container input:-webkit-autofill:active {
-  background: transparent;
   background-image: url("../image/재료판자.png");
   border: 0;
   outline: none;

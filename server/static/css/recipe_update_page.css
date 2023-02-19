@@ -105,6 +105,26 @@ input::placeholder {
   outline: none;
 }
 
+#update-btn-container input:-webkit-autofill,
+#update-btn-container input:-webkit-autofill:hover,
+#update-btn-container input:-webkit-autofill:focus,
+#update-btn-container input:-webkit-autofill:active {
+  background-image: url("../image/재료판자.png");
+  border: 0;
+  outline: none;
+  -webkit-text-fill-color: var(--ingredient-color);
+}
+
+#update-btn-container input,
+#update-btn-container input::placeholder,
+#update-btn-container input:focus,
+#update-btn-container input:focus::placeholder {
+  color: #fff;
+  font-size: var(--main-font-size);
+  font-family: var(--ingredient-font);
+}
+
+
 #update-btn-container input {
   margin-bottom: 10px;
 }
@@ -173,6 +193,10 @@ textarea {
   box-sizing: border-box;
   margin-top: 0;
   margin-left: 10px;
+}
+
+#update_picbutton label:hover, .update-button input:hover {
+  background-color: var(--main-color-1);
 }
 
 #update_picbutton input[type="file"] {
