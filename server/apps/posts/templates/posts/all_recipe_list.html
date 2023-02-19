@@ -50,18 +50,10 @@
                         <button onclick="onClickDetail({{post.id}})" style="font-family: var( --recipe-font); width: 60%; margin-left:20%; margin-top: 16px;
                         font-size: x-large">{{post.title}}</button>
                         {% comment %} <a href= "{%url 'posts:profile' post.user_pk%}" class = "writer_name">{{ post.user }}</a> {% endcomment %}
-<<<<<<< HEAD
                         <div class="user_who_write">
                             <i class="fa-sharp fa-regular fa-circle-user" style="with:8%"></i>
                             <div class = "writer_name" style="font-size:10px">{{ post.user }}</div>
                         </div>
-=======
-                        <div>
-                            <span>{{post.user.name}}</span>
-                            <span class = "writer_name">({{ post.user }})</span>
-                        </div>
-                    </br>
->>>>>>> kgoni_
                         {% if post.photo %}
                         <p>
                             <img style="height:100px; width:100px"src="{{ post.photo.url }}" />
