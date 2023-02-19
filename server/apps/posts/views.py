@@ -262,6 +262,13 @@ def posts_update(request:HttpRequest, pk, *args, **kwargs):
     # print(filename)
     post = Post.objects.get(id=pk)
     #재료가 각각 표시되게끔 전처리
+    photo_url = post.photo.url
+    print(photo_url)
+    
+    for i in reversed(range(len(photo_url))):
+        if photo_url[i] == "/":
+            photo_url = photo_url[i+1:]
+            break
 
     ingredientStr = post.ingredient[2:-3].replace("'", '')
     ingredientList = ingredientStr.split(',')
@@ -282,6 +289,7 @@ def posts_update(request:HttpRequest, pk, *args, **kwargs):
     #수정 페이지에 원래 레시피 정보 뜨게끔 context로 보냄
     context = {
         "post" : post,
+        "photo_url" : photo_url,
     }
     return render(request, "posts/recipe_update_page.html", context=context)
 
@@ -437,7 +445,7 @@ def detailajax(request, *args, **kwargs):
         # print(ele['created_at'].minute)
         
         
-    print(commentList)
+    # print(commentList)
     # commentList = zip(comment_id_L, comment_userid_L, comment_content_L, comment_created_L)
     # data ={
     #     'post_id': post_id,
