@@ -41,7 +41,7 @@
         </form>
         <div>
 
-            {% for post in posts %}
+            {% for post in page_obj %}
             <article class="backgorundcolor"></article>
                 <div>
                     <div id="post_id{{post.id}}">{{post.id}}</div>
@@ -80,6 +80,25 @@
         </div>
         <div id="list_container" style="width: 500px; height:100%; background-color: aqua" class="post_detail">
         </div>
+        <div>
+            {% if page_obj.has_other_pages %}
+                <ul style="display:flex; list-style:none;">
+                    {% if page_obj.has_previous %}
+                    <li style="margin:3px;"><a style="text-decoration:none; color: blue;" href="?page={{page_obj.previous_page_number}}">&#10094; Prev</a></li>
+                    {% endif %}
+                    {% for page in custom_range %}
+                    {% if page == page_obj.number%}
+                        <li style="margin:3px;"><a style="text decoration:none; color: red;" href="?page={{page}}">{{page}}</a></li>
+                    {% else %}
+                        <li style="margin:3px;"><a style="text decoration:none; color: blue;" href="?page={{page}}">{{page}}</a></li>
+                    {% endif%}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                    <li style="margin:3px;"><a style="text-decoration:none; color: blue;" href="?page={{page_obj.next_page_number}}">Next &#10095; </a></li>
+                    {% endif %}
+                </ul>
+            {% endif %}
+        </div>        
         <script src="http://code.jquery.com/jquery-latest.js"></script>
         <script>    
             const requestDetail = new XMLHttpRequest();
@@ -329,7 +348,7 @@
 
             //수정, 삭제 버튼 해당 유저만 보이도록 구현
             $username = $("#user_name").text()
-            $(".writer_name")[0].innerHTML
+            {% comment %} $(".writer_name")[0].innerHTML {% endcomment %}
             for(i = 0; i < $(".writer_name").length; i++){
                 if($("#user_name").text() != $(".writer_name")[i].innerHTML){
                   
