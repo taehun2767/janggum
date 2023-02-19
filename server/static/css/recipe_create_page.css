@@ -201,15 +201,23 @@ label,
 }
 
 @media (max-width: 600px) {
-  #create-btn-container{
+  .recipe_title {
     display: flex;
-    justify-content: space-evenly
+    width: 400px;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 30px;
+    box-sizing: border-box;
   }
-  #create-btn-container input{
+  #create-btn-container {
+    display: flex;
+    justify-content: space-evenly;
+  }
+  #create-btn-container input {
     width: 7rem;
     height: 3rem;
   }
-  #create_picbutton .upload-name{
+  #create_picbutton .upload-name {
     width: 18rem;
   }
   textarea {
@@ -217,4 +225,3 @@ label,
     width: 19rem;
   }
 }
-
