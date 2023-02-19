@@ -24,30 +24,36 @@ def main(request):
 
     if request.method == "POST":
         ingredientList = request.POST.getlist("search")
+        print(ingredientList)
         for post in posts:
                 ingredientStr = post.ingredient[2:-3].replace("'", '')
                 usedIngredientList = ingredientStr.split(',')
+                print(usedIngredientList,"사용한 재료")
                 flag = True
                 for ele in ingredientList:
+                    print(ele, "검색 재료")
                     if ele: 
                         if ele not in usedIngredientList:
                             flag = False
                             break
                 if flag:
                     postList.append(post)
-
+        print(postList)
+        if postList:
+            print(postList[0].ingredient)
         #각각 검색재료에 대해 필터링
-        for ele in ingredientList:
-            if ele:
-                if posts.filter(ingredient__contains=ele):
-                    posts = posts.filter(ingredient__contains=ele)
-                    print(posts)    
-                else :
-                    error= "재료가 포함된 요리가 없어요!"
-                    context={
-                    "error" : error, 
-                    }
-                    return render(request, "posts/main.html", context=context)
+        # for ele in ingredientList:
+        #     if ele:
+        #         if posts.filter(ingredient__contains=ele):
+        #             posts = posts.filter(ingredient__contains=ele)
+        #             print(posts)    
+        #         else :
+        #             error= "재료가 포함된 요리가 없어요!"
+        #             context={
+        #             "error" : error, 
+        #             }
+        #             return render(request, "posts/main.html", context=context)
+        
         # context={"posts" : postList}
         #해당조건의 레시피가 존재할 때
         if postList:
@@ -59,11 +65,43 @@ def main(request):
                 #약간 야매인 거 같긴한데 새로운 field만들어서 파이썬 리스트 추가
                 post.ingredientList = ingredientList
                 post.save()
-            context={
+
+            # 페이지네이션
+            page = 1
+
+            paginator = Paginator(postList, 1)
+
+            # print(page_obj)
+            # print(type(page_obj))
+            # for ele in page_obj:
+            #     print(ele)
+            
+            try:
+                page_obj = paginator.page(page)
+            except PageNotAnInteger:
+                page = 1
+                page_obj = paginator.page(page)
+            except EmptyPage:
+                page = paginator.num_pages
+                page_obj = paginator.page(page)
+                
+            leftIndex = (int(page) - 2)
+            if leftIndex < 1:
+                leftIndex = 1
+            
+            rightIndex = (int(page) + 2)
+            
+            if rightIndex > paginator.num_pages:
+                rightIndex = paginator.num_pages
+            custom_range = range(leftIndex, rightIndex + 1)
+
+            context = {
                 "posts" : postList,
-                "page_obj" : postList,
+
+                "page_obj" : page_obj,
+                "paginator" : paginator,
+                'custom_range' : custom_range,
             }
-            #검색한 경우 레시피 리스트 페이지로 render
             return render(request, "posts/all_recipe_list.html", context=context)
         else:
             error= "재료가 포함된 요리가 없어요!"

@@ -25,7 +25,7 @@
                 </div>
                 <div id="update-btn-container">
                   {%for ele in post.ingredientList%}
-                  <input placeholder="재료" name="ingredient[]" list="ingredient_list" value ="{{ele}}" />
+                  <input placeholder="재료" name="ingredient[]" list="ingredient_list" value ="{{ele}}" onkeyup="noSpace(this);" />
                   {%endfor%}
                 </div>
                 <datalist id="ingredient_list">
@@ -72,10 +72,11 @@
           console.log(fileName);
           const $addBtn = document.getElementById("add");
           const $btnParent = document.getElementById("update-btn-container");
-
+          let count = 3;
     $addBtn.addEventListener("click", () => {
+        count += 1;
         let template = `
-        <input name="search_keyword" list="ingredient_list" placeholder="재료" />
+        <input name="search_keyword" list="ingredient_list" placeholder="재료${count}" onkeyup="noSpace(this);"/>
         <datalist id="ingredient_list">
             {%for ele in ingredientList %}
             <option>{{ele}}</option>
@@ -111,6 +112,12 @@
             dataTransfer.items.add($file);
             fileInput.files = dataTransfer.files; {% endcomment %}
 
+            // 앞뒤 공백 제거
+            function noSpace(obj){
+
+              obj.value = obj.value.trim();
+              console.log(obj.value);
+          }
 
             {% comment %} 이미지 미리보기 {% endcomment %}
             function readURL(input) {
