@@ -14,23 +14,25 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage #페이
 from datetime import datetime
 
 all_used_ingredient_set = set()
-
+ingredientL = []
 #메인 페이지 => main.html을 기본으로 보여주고 재료로 검색시 recipe list 창으로 context 보내며 render
 def main(request):
     #레시피 검색 시 context 넘겨주기 위한 작업
+    global ingredientL
     posts = Post.objects.all()
     posts.delete
     postList = []
 
-    if request.method == "POST":
-        ingredientList = request.POST.getlist("search")
-        print(ingredientList)
+    if request.GET.get('page'):
+        print(request.GET.get('page'))
+        print(postList)
+        print(ingredientL)
         for post in posts:
                 ingredientStr = post.ingredient[2:-3].replace("'", '')
                 usedIngredientList = ingredientStr.split(',')
                 print(usedIngredientList,"사용한 재료")
                 flag = True
-                for ele in ingredientList:
+                for ele in ingredientL:
                     print(ele, "검색 재료")
                     if ele: 
                         if ele not in usedIngredientList:
@@ -61,9 +63,9 @@ def main(request):
             ingredientLists = []
             for post in postList:
                 ingredientStr = post.ingredient[2:-3].replace("'", '')
-                ingredientList = ingredientStr.split(',')
+                ingredientLists = ingredientStr.split(',')
                 #약간 야매인 거 같긴한데 새로운 field만들어서 파이썬 리스트 추가
-                post.ingredientList = ingredientList
+                post.ingredientList = ingredientLists
                 post.save()
 
             # 페이지네이션
@@ -97,11 +99,92 @@ def main(request):
             flag = True
             context = {
                 "posts" : postList,
-                "flag" : flag,
                 "page_obj" : page_obj,
                 "paginator" : paginator,
                 'custom_range' : custom_range,
             }
+            
+            return render(request, "posts/all_recipe_list.html", context=context)
+    if request.method == "POST":
+        ingredientL = request.POST.getlist("search")
+        print(ingredientL)
+        for post in posts:
+                ingredientStr = post.ingredient[2:-3].replace("'", '')
+                usedIngredientList = ingredientStr.split(',')
+                print(usedIngredientList,"사용한 재료")
+                flag = True
+                for ele in ingredientL:
+                    print(ele, "검색 재료")
+                    if ele: 
+                        if ele not in usedIngredientList:
+                            flag = False
+                            break
+                if flag:
+                    postList.append(post)
+        print(postList)
+        if postList:
+            print(postList[0].ingredient)
+        #각각 검색재료에 대해 필터링
+        # for ele in ingredientList:
+        #     if ele:
+        #         if posts.filter(ingredient__contains=ele):
+        #             posts = posts.filter(ingredient__contains=ele)
+        #             print(posts)    
+        #         else :
+        #             error= "재료가 포함된 요리가 없어요!"
+        #             context={
+        #             "error" : error, 
+        #             }
+        #             return render(request, "posts/main.html", context=context)
+        
+        # context={"posts" : postList}
+        #해당조건의 레시피가 존재할 때
+        if postList:
+            #재료를 파이썬 리스트화해야 전체 레시피 보기에서 재료도 보이게 할 수 있음
+            ingredientLists = []
+            for post in postList:
+                ingredientStr = post.ingredient[2:-3].replace("'", '')
+                ingredientLists = ingredientStr.split(',')
+                #약간 야매인 거 같긴한데 새로운 field만들어서 파이썬 리스트 추가
+                post.ingredientList = ingredientLists
+                post.save()
+
+            # 페이지네이션
+            page = 1
+            paginator = Paginator(postList, 1)
+
+            # print(page_obj)
+            # print(type(page_obj))
+            # for ele in page_obj:
+            #     print(ele)
+            
+            try:
+                page_obj = paginator.page(page)
+            except PageNotAnInteger:
+                page = 1
+                page_obj = paginator.page(page)
+            except EmptyPage:
+                page = paginator.num_pages
+                page_obj = paginator.page(page)
+                
+            leftIndex = (int(page) - 2)
+            if leftIndex < 1:
+                leftIndex = 1
+            
+            rightIndex = (int(page) + 2)
+            
+            if rightIndex > paginator.num_pages:
+                rightIndex = paginator.num_pages
+            custom_range = range(leftIndex, rightIndex + 1)
+
+            flag = True
+            context = {
+                "posts" : postList,
+                "page_obj" : page_obj,
+                "paginator" : paginator,
+                'custom_range' : custom_range,
+            }
+            
             return render(request, "posts/all_recipe_list.html", context=context)
         else:
             error= "재료가 포함된 요리가 없어요!"
