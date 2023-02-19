@@ -156,6 +156,7 @@
   box-shadow: var(--main-box-shadow);
   font-size: var(--main-font-size);
   position: relative;
+  cursor: pointer;
 }
 
 #main_create_btn a {
@@ -169,8 +170,8 @@
   width: 12rem;
   height: auto;
   position: absolute;
-  top: -1.5rem;
-  left: 1.5rem;
+  top: -3rem;
+  left: 0.5rem;
   opacity: 0;
   transition: opacity 0.3s linear;
 }
@@ -389,4 +390,34 @@
   .recipe_view_jang img {
     margin: 0 0 0.5rem 0;
   }
+}
+
+
+@keyframes search-ani-hover {
+  0% {
+      transform: translate(0, 0);
+  }
+  100% {
+      transform: translate(0, -0.5rem);
+  }
+}
+
+@keyframes search-ani-back {
+  0% {
+      transform: translate(0, -0.5rem);
+  }
+  100% {
+      transform: translate(0, 0);
+  }
+}
+
+
+#recipe_search:hover, .recipe_view_all:hover, .recipe_view_jang:hover {
+  animation: search-ani-hover 0.5s;
+  animation-fill-mode: forwards;
+}
+
+#recipe_search:not(:hover), .recipe_view_all:not(hover), .recipe_view_jang:not(hover) {
+  animation: search-ani-back 0.5s;
+  animation-fill-mode: forwards;
 }

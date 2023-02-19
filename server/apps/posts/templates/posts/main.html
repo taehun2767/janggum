@@ -57,11 +57,12 @@
       <section id="main_section_3">
         <div id="main_create_btn">
           {% if user.is_authenticated %}
-          <a href="{% url 'posts:create' %}">새 레시피 추가하러 가기</a>
-          <img src="{% static 'image/체크핑크.png' %}" class="check_img" />
+          <a href="{% url 'posts:create' %}"><span>새 레시피 추가하러 가기</span>
+            <img src="{% static 'image/체크핑크.png' %}" class="check_img" /></a>
           {% else %}
-          <a href="{% url 'posts:login' %}">새 레시피 추가하러 가기</a>
-          <img src="{% static 'image/체크핑크.png' %}" class="check_img" />
+          <a href="{% url 'posts:login' %}"><span>새 레시피 추가하러 가기</span>
+            <img src="{% static 'image/체크핑크.png' %}" class="check_img" />
+          </a>
         </div>
       </section>
     </div>
