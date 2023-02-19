@@ -9,25 +9,25 @@
         {% load static %}
         <link rel="stylesheet" href="{% static 'css/all_recipe_list.css'%}" />
         {% include 'posts/header_base.html' %}
-    <span class="sort_search">
-        {% csrf_token %}
-        <input class="search_input" name="search-name" />
-      >
-        style="margin: 0 2rem 0 2rem"
-        enctype="multipart/form-data"
-        method="post"
-        action="{% url 'posts:all_recipe' %}"
-        id="search_box"
-      <form
-      <div style="font-size: larger">전체 레시피</div>
-
-        <input class="search_button" type="submit" , value="검색" />
-      </form>
-      <form
-        action="{% url 'posts:all_recipe'%}"
-        method="get"
-        style="width: 10rem; border: 1px solid #ffff"
-      >
+        <span class="sort_search">
+            <div style="font-size: larger">전체 레시피</div>
+            <form
+              id="search_box"
+              action="{% url 'posts:all_recipe' %}"
+              method="post"
+              style="margin: 0 2rem 0 2rem"
+              enctype="multipart/form-data"
+            >
+              {% csrf_token %}
+              <input class="search_input" name="search-name" />
+      
+              <input class="search_button" type="submit" , value="검색" />
+            </form>
+            <form
+              action="{% url 'posts:all_recipe'%}"
+              method="get"
+              style="width: 10rem; border: 1px solid #ffff"
+            >
         <select
           name="sort"
           style="
@@ -131,7 +131,7 @@
                     onclick="onClickLike({{post.id}})"
                   >
                     <img
-                      src="{% static 'image/복주머니초안적(b).png' %}"
+                      src="{% static 'image/복주머니_빨강.png' %}"
                       alt="복주머니"
                       style="width: 20px; border: 0"
                     />
@@ -173,7 +173,10 @@
         </article>
         {% endfor %}
       </div>
-
+      <div class="line_vertical">
+        <div class="line_vertical_1"></div>
+        <div class="line_vertical_2"></div>
+    </div>
       <div
         id="list_container"
         style="width: 40rem; height: 29rem; border-radius: 0.5rem"
