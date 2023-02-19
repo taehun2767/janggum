@@ -418,7 +418,7 @@ def detailajax(request, *args, **kwargs):
     todayObject = datetime.today()
     today = ""
     today += str(todayObject.year).zfill(2)+"."+str(todayObject.month).zfill(2)+"."+str(todayObject.day).zfill(2)
-    print("오늘 날짜", today)
+    # print("오늘 날짜", today)
     for ele in commentList:
         time = ""
         hour = ele['created_at'].hour + 9
@@ -431,7 +431,7 @@ def detailajax(request, *args, **kwargs):
         day =""
         day += str(ele['created_at'].year) + "." + str(ele['created_at'].month).zfill(2) + "." + str(ele['created_at'].day).zfill(2)
         ele['day'] = day
-        print(ele['time'], ele['day'])
+        # print(ele['time'], ele['day'])
         # temp += ele['created_at'].hour + ele['created_at'].hour +ele['created_at'].minute
         # print(ele['created_at'].hour)
         # print(ele['created_at'].minute)
