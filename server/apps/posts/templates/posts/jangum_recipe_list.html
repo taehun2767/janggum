@@ -8,8 +8,8 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/jangum_recipe_list.css' %}" />
     {% include 'posts/header_base.html' %}
-    <span class="sort_search">
-        <div style="font-size: larger;">장금이 레시피</div>
+    <div class="sort_search">
+        <div style="font-size: larger;"><a href="{% url 'posts:posts_janggum_list' %}">장금이 레시피</a></div>
         <form action="{% url 'posts:posts_janggum_list' %}" method="post" enctype="multipart/form-data" style="    border: 1px solid #999999;
         border-radius: 0.5rem;
         margin-left: 1rem;
@@ -43,7 +43,7 @@
             border-radius: 10px;
             border: 2px solid #ffff;">정렬</button>
         </form>
-    </span>
+    </div>
     <div class="both_container">
         <div class="all_recipe_box">
             {% for post in posts %}
@@ -55,8 +55,10 @@
                         margin-left: 20px;
                         margin-bottom: 219px;" class="store_{{post.id}}" onclick="onClickStore({{post.id}})"><i class="fa-solid fa-bookmark" style="color:#A64D4B; margin-left:5px"></i></button>
                         <div class="store_or_not_{{post.id}}"></div>
-                        <button onclick="onClickDetail({{post.id}})" style="font-family: var( --recipe-font); width: 60%; margin-left:20%; margin-top: 16px;
-                        font-size: x-large; margin-bottom: 6px; background-color:#F7CF61;">{{post.title}}</button>
+                        <div class="recipe_title">
+                            <button onclick="onClickDetail({{post.id}})" style="font-family: var( --recipe-font); width: 60%; margin-top: 16px;
+                            font-size: x-large; margin-bottom: 6px; background-color:#F7CF61;">{{post.title}}</button>
+                        </div>
                         {% comment %} <a href= "{%url 'posts:profile' post.user_pk%}" class = "writer_name">{{ post.user }}</a> {% endcomment %}
                         <div class="user_who_write">
                             <i class="fa-sharp fa-regular fa-circle-user" style="with:8%"></i>
@@ -70,7 +72,7 @@
                         <div class="recipe_content_bottom">
                             <div class="like_container">
                                 <button class="like_{{post.id}}" onclick="onClickLike({{post.id}})"><img
-                                    src="{% static 'image/복주머니초안적(b).png' %}"
+                                    src="{% static 'image/복주머니_빨강.png' %}"
                                     alt="복주머니"
                                     style="width: 20px; border: 0"
                                 /></button>
@@ -98,6 +100,10 @@
             </article>
             {% endif %}
             {% endfor %}
+        </div>
+        <div class="line_vertical">
+            <div class="line_vertical_1"></div>
+            <div class="line_vertical_2"></div>
         </div>
         <div id="list_container" style="width: 38rem; height:28rem; border-radius: 0.5rem" class="post_detail"></div> 
         </div>
