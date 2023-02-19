@@ -160,7 +160,6 @@ textarea {
 
 #update_picbutton label {
   display: inline-block;
-  padding: 7px 8px;
   color: #fff;
   vertical-align: middle;
   background-color: var(--main-color-2);
@@ -168,10 +167,12 @@ textarea {
   font-size: small;
   font-weight: 700;
   cursor: pointer;
-  height: 20px;
-  margin-left: 6px;
+  padding: 4px 0;
   border-radius: 0.5rem;
-  width: 70px;
+  width: 80px;
+  box-sizing: border-box;
+  margin-top: 0;
+  margin-left: 10px;
 }
 
 #update_picbutton input[type="file"] {

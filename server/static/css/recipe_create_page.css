@@ -164,7 +164,6 @@ input::placeholder {
 
 #create_picbutton label {
   display: inline-block;
-  padding: 7px 8px;
   color: #fff;
   vertical-align: middle;
   background-color: var(--main-color-2);
@@ -172,13 +171,13 @@ input::placeholder {
   font-size: small;
   font-weight: 700;
   cursor: pointer;
-  height: 38px;
+  padding: 4px 0;
   border-radius: 0.5rem;
   width: 80px;
   box-sizing: border-box;
   margin-top: 0;
   margin-left: 10px;
-  padding: 12px;
+
 }
 
 #create_picbutton input[type="file"] {
@@ -262,9 +261,7 @@ label,
   #create_picbutton label {
     margin: auto;
     box-sizing: border-box;
-    padding: 12px 15px;
-    height: 38px;
-    width: 90px;
+
   }
 }
 @media (max-width: 600px) {
