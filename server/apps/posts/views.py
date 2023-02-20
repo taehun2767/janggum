@@ -29,6 +29,7 @@ def main(request):
         print(ingredientL)
         for post in posts:
                 ingredientStr = post.ingredient[2:-3].replace("'", '')
+                
                 usedIngredientList = ingredientStr.split(',')
                 print(usedIngredientList,"사용한 재료")
                 flag = True
@@ -63,7 +64,9 @@ def main(request):
             ingredientLists = []
             for post in postList:
                 ingredientStr = post.ingredient[2:-3].replace("'", '')
+                ingredientStr = ingredientStr.replace(" ", "")
                 ingredientLists = ingredientStr.split(',')
+                
                 #약간 야매인 거 같긴한데 새로운 field만들어서 파이썬 리스트 추가
                 post.ingredientList = ingredientLists
                 post.save()
@@ -106,10 +109,15 @@ def main(request):
             
             return render(request, "posts/all_recipe_list.html", context=context)
     if request.method == "POST":
-        ingredientL = request.POST.getlist("search")
-        print(ingredientL)
+        ingredientLtemp = request.POST.getlist("search")
+        ingredientL = []
+        for ele in ingredientLtemp:
+            ele = ele.replace(" ", "")
+            ingredientL.append(ele)
+
         for post in posts:
                 ingredientStr = post.ingredient[2:-3].replace("'", '')
+                ingredientStr = ingredientStr.replace(" ", "")
                 usedIngredientList = ingredientStr.split(',')
                 print(usedIngredientList,"사용한 재료")
                 flag = True
@@ -144,6 +152,7 @@ def main(request):
             ingredientLists = []
             for post in postList:
                 ingredientStr = post.ingredient[2:-3].replace("'", '')
+                ingredientStr = ingredientStr.replace(" ", "")
                 ingredientLists = ingredientStr.split(',')
                 #약간 야매인 거 같긴한데 새로운 field만들어서 파이썬 리스트 추가
                 post.ingredientList = ingredientLists
