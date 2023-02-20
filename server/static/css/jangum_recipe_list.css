@@ -7,6 +7,7 @@
 .each_recipe {
   text-align: center;
   font-size: medium;
+  position: relative;
 }
 
 img {
@@ -18,7 +19,7 @@ img {
   justify-content: center;
   flex-direction: column;
   width: 15rem;
-  background: url("../image/메뉴판\(장금\).png");
+  background: url("../image/메뉴판\(핑크\).png");
   background-repeat: no-repeat;
   background-size: contain;
   height: 19rem;
@@ -35,34 +36,19 @@ img {
   margin-left: 10.5%;
 }
 
-/* kgoni 추가 */
-/* .ingredient_container { */
-  /* grid-template-columns: 4rem 4rem 4rem; */
-  /* width: 250px; */
-  /* margin-left: 2rem; */
-  /* display: grid;
-  grid-gap: 0.5rem;
-  grid-template-columns: 3rem 3rem 3rem;
-  justify-content: center;
-  color: white;
-  font-family: var(--sub-font);
-  font-size: smaller;
-} */
-/*  */
 
 .recipe_content button {
   border: none;
-  background-color: #f7cf61;
+  background-color: #f7f5ea;
 }
 
 .user_who_write {
   display: flex;
-  justify-content: end;
-  flex-direction: row;
-  position: absolute;
+  justify-content: center;
+  /* position: absolute;
   margin-left: 168px;
   margin-bottom: 236px;
-  font-weight: 800;
+  font-weight: 800; */
 }
 
 .fa-regular {
@@ -103,7 +89,7 @@ img {
 }
 
 .one_ingredient {
-  background-color: #bb8b88;
+  background-color: #dcb7b7;
   width: max-content;
   padding: 0 9%;
 }
@@ -116,7 +102,6 @@ img {
   border: 1px solid #dddddd;
   color: #999999;
   border-radius: 10px;
-  margin-right: 3rem;
   margin-left: 1rem;
 }
 
@@ -167,7 +152,7 @@ img {
 }
 
 #list_container {
-  background: url("../image/메뉴판\(장금_상세\).png");
+  background: url("../image/menu\ board.png");
   background-repeat: none;
   background-size: cover;
   border-radius: 0.5rem;
@@ -177,7 +162,7 @@ img {
   width: 100vw;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-evenly;
 }
 
 .backgorundcolor {
@@ -200,11 +185,11 @@ img {
 }
 
 .line_vertical_1 {
-  height: 10rem;
+  height: 15rem;
   background-color: var(--main-color-1);
   width: var(--line-size);
   position: relative;
-  bottom: 10rem;
+  bottom: 15rem;
   left: var(--line-size);
 }
 
@@ -213,9 +198,9 @@ img {
   width: var(--line-size);
 }
 
-#detail_middle,
+.detail_middle,
 .detail_top,
-#detail_bottom {
+.detail_bottom {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -228,7 +213,7 @@ img {
 }
 
 .post_created {
-  margin: 2.5rem -1rem 0 -0.5rem;
+  margin: 2.5rem -4rem 0 -3.5rem;
 }
 
 @media (max-width: 1500px) {
@@ -348,7 +333,7 @@ img {
 /* kgoni 추가 */
 .user_who_write {
   width: max-content;
-  margin: -17px 0 1.5rem 5rem;
+  margin: 0 0 0.3rem 5rem;
   font-size: initial;
 }
 /* kgoni -- */
