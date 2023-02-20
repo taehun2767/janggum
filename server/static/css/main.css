@@ -416,7 +416,7 @@
   animation-fill-mode: forwards;
 }
 
-#recipe_search:not(:hover), .recipe_view_all:not(hover), .recipe_view_jang:not(hover) {
+#recipe_search:not(:hover), .recipe_view_all:not(:hover), .recipe_view_jang:not(:hover) {
   animation: search-ani-back 0.5s;
   animation-fill-mode: forwards;
 }

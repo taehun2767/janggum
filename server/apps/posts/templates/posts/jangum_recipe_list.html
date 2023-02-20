@@ -8,67 +8,105 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/jangum_recipe_list.css' %}" />
     {% include 'posts/header_base.html' %}
-    <div>전체 레시피</div>
-    <span id="user_name">{{ user.username }}</span>
-    <form action = "{% url 'posts:posts_janggum_list'%}" method="get">
-        <select name="sort">
-            {% if sortN == "likes" %}
-                <option value="recently" id="recently">최신순</option>
-                <option value="likes" id="likes" selected>좋아요순</option>
-            {% else %}
-                <option value="recently" id="recently" selected>최신순</option>
-                <option value="likes" id="likes">좋아요순</option>
-            {% endif %}
-            {% comment %} <option value="comments" id="comments>">댓글순</option> {% endcomment %}
-        </select>
-        <button type="submit">정렬</button>
-    </form>
-    <form action="{% url 'posts:posts_janggum_list' %}" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <input name="search-name"/>
-
-        <input type="submit" , value="검색" />
-
-    </form>
-    <div>
-
-        {% for post in posts %}
-        {% if post.number >= 10 %}
-        <article class="backgorundcolor"></article>
-            <div>
-                <button onclick="onClickDetail({{post.id}})">{{post.title}}</button>
-                {% comment %} <a href= "{%url 'posts:profile' post.user_pk%}" class = "writer_name">{{ post.user }}</a> {% endcomment %}
-                <div class = "writer_name">{{ post.user }}</div>
-                {% if post.photo %}
-                <p>
-                    <img src="{{ post.photo.url }}" />
-                </p>
+    <div class="sort_search">
+        <div style="font-size: larger;"><a href="{% url 'posts:posts_janggum_list' %}">장금이 레시피</a></div>
+        <form action="{% url 'posts:posts_janggum_list' %}" method="post" enctype="multipart/form-data" style="    border: 1px solid #999999;
+        border-radius: 0.5rem; margin-left: 1rem;}">
+            {% csrf_token %}
+            <input name="search-name"/>
+            <input type="submit" , value="검색" />
+        </form>
+        <form id="search_box" action = "{% url 'posts:posts_janggum_list'%}" method="get" style="width: 10rem;
+        border: 1px solid #ffff;">
+            <select name="sort" style=" background-color: #e5e5e5; font-family:var(--sub-font); font-size:medium; border:0">
+                {% if sortN == "likes" %}
+                    <option value="recently" id="recently">최신순</option>
+                    <option value="likes" id="likes" selected>좋아요순</option>
+                {% else %}
+                    <option value="recently" id="recently" selected>최신순</option>
+                    <option value="likes" id="likes">좋아요순</option>
                 {% endif %}
-                <div>
-                    <button class="like_{{post.id}}" onclick="onClickLike({{post.id}})">좋아요</button>
-                    <div class="like_dislike">좋아요 개수: {{post.number}}</div>
-                    <div>{{post.created_at}}</div>
-                </div>
-                <div>
-                    {%for ele in post.ingredientList%}
-                    <div>{{ele}}</div>
-                    {%endfor%}
-                </div>
-            </div>
-        </article>
-        <form action="{% url 'posts:delete' post.pk %}" method="post">
-            {% csrf_token %}
-            <input type="submit" class="delete", value="삭제하기" />
+                {% comment %} <option value="comments" id="comments>">댓글순</option> {% endcomment %}
+            </select>
+            <button type="submit" style="width: 50px;
+            height: 100%;
+            border: 0;
+            background-color: var(--main-color-2);
+            outline: 0;
+            float: right;
+            color: white;
+            font-size: small;
+            border-radius: 10px;
+            border: 2px solid #ffff;">정렬</button>
         </form>
-        <form action="{% url 'posts:update' post.pk %}" method="get">
-            {% csrf_token %}
-            <input type="submit" class="update" value="수정하기" />
-        </form>
-        {% endif %}
-        {% endfor %}
     </div>
-    <div id="list_container" style="width: 500px; height:100%; background-color: aqua" class="post_detail">
+    <div class="both_container">
+        <div class="all_recipe_box">
+            {% for post in posts %}
+            {% if post.number >= 0 %}
+            <article class="backgorundcolor">
+                <div class="each_recipe">
+                    <div class="recipe_content">
+                        <button style=" border: 0; position: absolute;
+                        margin-left: 20px;
+                        margin-bottom: 219px;" class="store_{{post.id}}" onclick="onClickStore({{post.id}})"><i class="fa-solid fa-bookmark" style="color:#A64D4B; margin-left:5px"></i></button>
+                        <div class="store_or_not_{{post.id}}"></div>
+                        <div class="recipe_title">
+                            <button onclick="onClickDetail({{post.id}})" style="font-family: var( --recipe-font); width: 60%; margin-top: 16px;
+                            font-size: x-large; margin-bottom: 6px; background-color:#F7CF61;">{{post.title}}</button>
+                        </div>
+                        {% comment %} <a href= "{%url 'posts:profile' post.user_pk%}" class = "writer_name">{{ post.user }}</a> {% endcomment %}
+                        <div class="user_who_write">
+                            <i class="fa-sharp fa-regular fa-circle-user" style="with: 8%"></i>
+                            <div class="writer_name" style="font-size: 10px">
+                                <span>{{ post.user.name }}</span><span> (</span><span class = "writer_name" >{{post.user}}</span><span>)</span>
+                            </div>
+                        </div>
+                        {% if post.photo %}
+                        <p>
+                            <img style="height:100px; width:100px" src="{{ post.photo.url }}" />
+                        </p>
+                        {% endif %}
+                        <div class="recipe_content_bottom">
+                            <div class="like_container">
+                                <button class="like_{{post.id}}" onclick="onClickLike({{post.id}})"><img
+                                    src="{% static 'image/복주머니_빨강.png' %}"
+                                    alt="복주머니"
+                                    style="width: 20px; border: 0"
+                                /></button>
+                                <div class="like_dislike">좋아요 개수: {{post.number}}</div>
+                            </div>
+                            <div style="margin-top: -11px;">{{post.created_at}}</div>
+                        </div>
+                        <div class="ingredient_container">
+                            {%for ele in post.ingredientList%}
+                            <div class="one_ingredient" style="font-weight:600">{{ele}}</div>
+                            {%endfor%}
+                        </div>
+                    </div>
+                </div>
+                <div class="delete_update">
+                    <form action="{% url 'posts:delete' post.pk %}" method="post">
+                        {% csrf_token %}
+                        <input type="submit" style=" border: 0" class="delete", value="삭제하기" />
+                    </form>
+                    <form action="{% url 'posts:update' post.pk %}" method="get">
+                        {% csrf_token %}
+                        <input type="submit" style=" border: 0" class="update" value="수정하기" />
+                    </form>
+                </div>
+            </article>
+            {% endif %}
+            {% endfor %}
+        </div>
+        <div class="line_vertical">
+            <div class="line_vertical_1"></div>
+            <div class="line_vertical_2"></div>
+        </div>
+        <div id="list_container" style="width: 38rem; height:28rem; border-radius: 0.5rem" class="post_detail"></div> 
+        </div>
     </div>
+    
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script>    
         const requestDetail = new XMLHttpRequest();
@@ -90,7 +128,7 @@
                 const { post_id, post_title, post_photo, post_content, post_created, photo_url, ingredientL, comment_id_L, comment_userid_L, comment_content_L, comment_created_L } = JSON.parse(requestDetail.response);
                 let div_generate = ``;
                 for (let i = 0; i < ingredientL.length; i++){
-                        div_generate += `<div>${ingredientL[i]}</div>`;
+                        div_generate += `<div class="one_ingredient" style="margin-left:1rem">${ingredientL[i]}</div>`;
                 }
                 // let comments_list = ``;
                 // for (let k = 0; k < comment_id_L.length; k++){
@@ -106,33 +144,38 @@
                 const element1 = document.querySelector(`.post_detail`);
                 const originHTML1 = element1.innerHTML;
                 const detail_list = originHTML1;
-                element1.innerHTML = `<div>레시피 상세보기</div>
+                element1.innerHTML = `
             <article class="다른 backgorund color클래스">
-                <div class="post_title">${post_title}</div>
-                <div>` 
-                    + div_generate +
-                `</div>
-                <div>
+                <div class="detail_top" style="padding-top: 47px; padding-bottom: 20px">
+                    <div class="post_title" style="font-siz:40px; font-family: var( --recipe-font); margin-left: 1rem; ">${post_title}</div>
+                    <div class="ingredient_container">` 
+                        + div_generate +
+                    `</div>
+                </div>
+                <div class="detail_middle" style="margin-bottom:1.5rem">
                     <p>
                         <img src="${photo_url}" />
                     </p>
-                    <div class="post_content">${post_content}</div>
+                    <pre class="post_content" style="overflow:auto; margin-left:16px; white-space:pre-wrap; margin-right: 3%; ">${post_content}</pre>
                 </div>
-                <div>
+                <div class="detail_bottom" style="margin-left: 10%; position: absolute;">
                     <div>
-                        <div class="post_created">${post_created.slice(2, 10)}</div>
+                        <div class="post_created"  style="font-size:medium">${post_created.slice(2, 10)}</div>
                     </div>
-                </div>
-                <div class="comment_main">
-                    <div class="comment">
-                        <textarea class="comment_form_${post_id}" 
-                            id="content_id" 
-                            cols="30" rows="1" 
-                            placeholder="댓글을 입력하세요.">
-                        </textarea>
-                    </div>
-                    <div class="comment_send">
-                        <button onclick="onClickComment(${post_id})" id="comment_write">댓글 달기</button>
+                
+                    <div class="comment_main" style="width: 20rem; float:right">
+                        <div class="comment">
+                            <textarea class="comment_form_${post_id}" 
+                                id="content_id" 
+                                cols="30" rows="1" 
+                                style="width: 17.5rem; background-color: #F7CF63;
+                                height: 2rem;"
+                                placeholder="댓글을 입력하세요.">
+                            </textarea>
+                        </div>
+                        <div class="comment_send">
+                            <button onclick="onClickComment(${post_id})" id="comment_write"><i class="fa-regular fa-paper-plane"></i></button>
+                        </div>
                     </div>
                 </div>
             </article>
@@ -222,5 +265,6 @@
             }
             }
     </script>
+    <script src="https://kit.fontawesome.com/6fbcf91afd.js" crossorigin="anonymous"></script>
 </body>
 </html>
