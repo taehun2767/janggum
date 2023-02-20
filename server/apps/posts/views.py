@@ -215,10 +215,43 @@ def profile(request:HttpRequest, pk, *args, **kwargs):
                 ingredientList = ingredientStr.split(',')
                 #새 필드 만들어서 html에 데이터 보냄
                 post.ingredientList = ingredientList
-                post.save()   
+                post.save()  
+    # 페이지네이션
+    page = request.GET.get('page') #html에 get 넣어야함
+    
+    paginator = Paginator(Posts, 12)
+
+    # print(page_obj)
+    # print(type(page_obj))
+    # for ele in page_obj:
+    #     print(ele)
+    
+    try:
+        page_obj = paginator.page(page)
+    except PageNotAnInteger:
+        page = 1
+        page_obj = paginator.page(page)
+    except EmptyPage:
+        page = paginator.num_pages
+        page_obj = paginator.page(page)
+        
+    leftIndex = (int(page) - 2)
+    if leftIndex < 1:
+        leftIndex = 1
+    
+    rightIndex = (int(page) + 2)
+    
+    if rightIndex > paginator.num_pages:
+        rightIndex = paginator.num_pages
+    custom_range = range(leftIndex, rightIndex + 1)
+
     context = {
-        "posts" : Posts
+        "posts" : Posts,
+        "page_obj" : page_obj,
+        "paginator" : paginator,
+        'custom_range' : custom_range,
     }
+
     return render(request,"posts/profile.html", context=context)
 
 #회원가입
@@ -372,10 +405,46 @@ def store_recipe_list(request:HttpRequest, *args, **kwargs):
                 #새 필드 만들어서 html에 데이터 보냄
                 post.ingredientList = ingredientList
                 post.save()   
+                
+    # 페이지네이션
+    page = request.GET.get('page') #html에 get 넣어야함
+    
+    paginator = Paginator(posts, 12)
+
+    # print(page_obj)
+    # print(type(page_obj))
+    # for ele in page_obj:
+    #     print(ele)
+    
+    try:
+        page_obj = paginator.page(page)
+    except PageNotAnInteger:
+        page = 1
+        page_obj = paginator.page(page)
+    except EmptyPage:
+        page = paginator.num_pages
+        page_obj = paginator.page(page)
+        
+    leftIndex = (int(page) - 2)
+    if leftIndex < 1:
+        leftIndex = 1
+    
+    rightIndex = (int(page) + 2)
+    
+    if rightIndex > paginator.num_pages:
+        rightIndex = paginator.num_pages
+    custom_range = range(leftIndex, rightIndex + 1)
+
     context = {
+
         "posts" : posts,
         'comments' : comments,
+
+        "page_obj" : page_obj,
+        "paginator" : paginator,
+        'custom_range' : custom_range,
     }
+
     return render(request, "posts/store_recipe.html", context=context)
 
 # recipe search page 선택값으로 찾는거 구현 안함
