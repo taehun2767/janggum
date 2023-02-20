@@ -402,12 +402,51 @@ def posts_janggum_list(request:HttpRequest, *args, **kwargs):
                 ingredientList = ingredientStr.split(',')
                 post.ingredientList = ingredientList
                 post.save()
+    # context = {
+    #     "posts" : posts,
+    #     'comments' : comments,
+    #     "sortN" : sort
+    # }
+    
+    # 페이지네이션
+    page = request.GET.get('page')
+    paginator = Paginator(posts, 12)
+
+    # print(page_obj)
+    # print(type(page_obj))
+    # for ele in page_obj:
+    #     print(ele)
+    
+    try:
+        page_obj = paginator.page(page)
+    except PageNotAnInteger:
+        page = 1
+        page_obj = paginator.page(page)
+    except EmptyPage:
+        page = paginator.num_pages
+        page_obj = paginator.page(page)
+        
+    leftIndex = (int(page) - 2)
+    if leftIndex < 1:
+        leftIndex = 1
+    
+    rightIndex = (int(page) + 2)
+    
+    if rightIndex > paginator.num_pages:
+        rightIndex = paginator.num_pages
+    custom_range = range(leftIndex, rightIndex + 1)
+
+
     context = {
         "posts" : posts,
-        'comments' : comments,
-        "sortN" : sort
+        "page_obj" : page_obj,
+        "paginator" : paginator,
+        'custom_range' : custom_range,
+        "sortN" : sort,
     }
+    
     return render(request, "posts/jangum_recipe_list.html", context=context)
+
 
 # create page
 def create(request:HttpRequest, *args, **kwargs):
