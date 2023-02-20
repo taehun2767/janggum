@@ -348,3 +348,12 @@ img {
   color: var(--ingredient-color);
   filter: drop-shadow(var(--main-text-shadow));
 }
+
+.recipe_content button {
+  font-family: var(--main-font);
+  font: inherit;
+}
+
+.recipe_content button, .delete, .update {
+  cursor: pointer;
+}
