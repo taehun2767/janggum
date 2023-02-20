@@ -68,12 +68,6 @@
                               {% comment %}
                               <a href="{%url 'posts:profile' post.user_pk%}" class="writer_name">{{ post.user }}</a>
                               {% endcomment %}
-                            <!-- <div class="user_who_write">
-                                <i class="fa-sharp fa-regular fa-circle-user" style="with: 8%"></i>
-                                <div class="writer_name" style="font-size: 10px">
-                                    <span>{{ post.user.name }}</span><span> (</span><span class = "writer_name" >{{post.user}}</span><span>)</span>
-                                </div>
-                            </div> -->
                             {% if post.photo %}
                             <p>
                                 <img style="height: 100px; width: 100px" src="{{ post.photo.url }}" />
@@ -125,9 +119,9 @@
                     {% endif %}
                     {% for page in custom_range %}
                     {% if page == page_obj.number%}
-                        <li style="margin:3px;"><a style="text-decoration:none; color: red;" href="?page={{page}}">{{page}}</a></li>
+                        <li style="margin:3px;"><a style="text decoration:none; color: red;" href="?page={{page}}">{{page}}</a></li>
                     {% else %}
-                        <li style="margin:3px;"><a style="text-decoration:none; color: blue;" href="?page={{page}}">{{page}}</a></li>
+                        <li style="margin:3px;"><a style="text decoration:none; color: blue;" href="?page={{page}}">{{page}}</a></li>
                     {% endif%}
                     {% endfor %}
                     {% if page_obj.has_next %}
@@ -181,7 +175,7 @@
             requestDetail.onreadystatechange = () => {
                 if (requestDetail.readyState === XMLHttpRequest.DONE) {
                 if (requestDetail.status < 400) {
-                    const { post_username, post_user, post_id, post_title, post_photo, post_content, post_created, photo_url, ingredientL, comments, today, post_quantity } = JSON.parse(requestDetail.response);
+                    const { post_user, post_id, post_title, post_photo, post_content, post_created, photo_url, ingredientL, comments, today, post_quantity } = JSON.parse(requestDetail.response);
                     console.log(comments)
                     console.log(typeof(comments))
                     console.log(comments.length)
@@ -272,12 +266,7 @@
                     }
 
                     element1.innerHTML =
-                        `   <div class="user_who_write">
-                                <i class="fa-sharp fa-regular fa-circle-user" style="with: 8%"></i>
-                                <div class="writer_name" style="font-size: 10px">
-                                    <span>${ post_username }</span><span> (</span><span class = "writer_name" >${post_user}</span><span>)</span>
-                                </div>
-                            </div>
+                        `
                             <article class="다른 backgorund color클래스">
                                 <div class="detail_top" style="padding-top: 47px; padding-bottom: 20px">
                                     <div class="post_title" style="font-size:40px; font-family: var(--recipe-font); margin-left: 1rem; ">${post_title}</div>
@@ -286,13 +275,19 @@
                         `</div>
                             </div>
                             <pre style="white-space:pre-wrap">${post_quantity}</pre>
+                            <div class="user_who_write">
+                              <i class="fa-sharp fa-regular fa-circle-user" style="with: 8%"></i>
+                              <div class="writer_name" style="font-size: 10px">
+                                  <span>{{ post.user.name }}</span><span> (</span><span class = "writer_name" >{{post.user}}</span><span>)</span>
+                            </div>
+                            </div>
                             <div class="detail_middle" style="margin-bottom:1.5rem">
                                 <p>
                                     <img src="${photo_url}" />
                                 </p>
                                 <pre class="post_content" style="overflow:auto; margin-left:16px; white-space:pre-wrap; margin-right: 3%; ">${post_content}</pre>
                             </div>
-                            <div class="detail_bottom" style="margin-left: 3%;">
+                            <div class="detail_bottom" style=" margin-left: 4%; margin-top: -3rem;">
                                 <div class="like_container" style="float:right;">
                                     <button
                                         style="border: 0"
@@ -328,7 +323,7 @@
                         <input type="hidden" id="comment_writer" value={{request.user}}>
                             <div id="comment_list${post_id}"></div>
                         </div>
-                        <div class="hidden">${post_id}<div>`; // 히든으로 만들어야함
+                        <div id="pid">${post_id}<div>`; // 히든으로 만들어야함
 
                         element1.innerHTML += list_of_comments.innerHTML;
                 }
