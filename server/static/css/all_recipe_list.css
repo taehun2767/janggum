@@ -36,12 +36,9 @@ img {
 
 .ingredient_container {
   display: grid;
-  /* grid-template-columns: 4rem 4rem 4rem; */
   grid-gap: 0.5rem;
-  /* width: 250px; */
   grid-template-columns: 3rem 3rem 3rem;
   justify-content: center;
-  /* margin-left: 2rem; */
   color: white;
   font-family: var(--sub-font);
   font-size: smaller;
@@ -194,7 +191,6 @@ img {
   font-family: var(--sub-font);
 }
 
-
 .line_vertical {
   display: flex;
   margin-left: 1rem;
@@ -215,7 +211,6 @@ img {
   background-color: var(--main-color-1);
   width: var(--line-size);
 }
-
 
 .detail_middle,
 .detail_top,

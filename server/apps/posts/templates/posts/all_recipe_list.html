@@ -198,19 +198,7 @@
           requestDetail.onreadystatechange = () => {
             if (requestDetail.readyState === XMLHttpRequest.DONE) {
               if (requestDetail.status < 400) {
-                const {
-                  post_id,
-                  post_title,
-                  post_photo,
-                  post_content,
-                  post_created,
-                  photo_url,
-                  ingredientL,
-                  comment_id_L,
-                  comment_userid_L,
-                  comment_content_L,
-                  comment_created_L,
-                } = JSON.parse(requestDetail.response);
+                const { post_user, post_id, post_title, post_photo, post_content, post_created, photo_url, ingredientL, comments, today, post_quantity } = JSON.parse(requestDetail.response);
                 let div_generate = ``;
                 for (let i = 0; i < ingredientL.length; i++) {
                   div_generate += `<div class="one_ingredient" style="margin-left:1rem">${ingredientL[i]}</div>`;
