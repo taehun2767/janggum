@@ -30,9 +30,10 @@ img {
 .delete_update {
   display: flex;
   flex-direction: row;
+  justify-content: center;
   border: 0;
   width: 15rem;
-  margin-left: 14.5%;
+  margin-left: 10.5%;
 }
 
 .ingredient_container {
@@ -220,9 +221,11 @@ img {
   margin-left: 38%;
 }
 
+.post_created {
+  margin: 2.5rem -4rem 0 -3.5rem;
+}
 
 @media (max-width: 1500px) {
-
   #search_box {
     width: 200px;
   }
@@ -236,16 +239,13 @@ img {
     display: grid;
     grid-template-columns: 1fr 1fr;
   }
-
 }
 
 @media (max-width: 1300px) {
-  
   .sort_search {
     margin: 2.5rem 0 0 1rem;
     flex-direction: column;
     align-items: baseline;
-
   }
 
   .all_recipe_box {
@@ -261,29 +261,25 @@ img {
   #sort_box {
     margin-top: 1rem;
   }
-  
 }
-
 
 @keyframes recipe-ani-hover {
   0% {
-      transform: translate(0, 0);
+    transform: translate(0, 0);
   }
   100% {
-      transform: translate(0, -0.25rem);
+    transform: translate(0, -0.25rem);
   }
 }
-
 
 @keyframes recipe-ani-back {
   0% {
-      transform: translate(0, -0.25rem);
+    transform: translate(0, -0.25rem);
   }
   100% {
-      transform: translate(0, 0);
+    transform: translate(0, 0);
   }
 }
-
 
 .recipe_content:hover {
   animation: recipe-ani-hover 0.5s;
@@ -298,4 +294,22 @@ img {
 .recipe_title button:hover {
   color: var(--main-color-2);
   cursor: pointer;
+}
+
+.recipe_content > button {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  top: 1.2rem;
+  left: 1rem;
+}
+
+.recipe_content > button > i {
+  margin-right: 0.4rem;
+}
+
+.user_who_write {
+  width: max-content;
+  margin: 0 0 0.3rem 5rem;
+  font-size: initial;
 }
