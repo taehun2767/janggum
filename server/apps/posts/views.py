@@ -70,7 +70,7 @@ def main(request):
 
             # 페이지네이션
             page = request.GET.get('page')
-            paginator = Paginator(postList, 1)
+            paginator = Paginator(postList, 12)
 
             # print(page_obj)
             # print(type(page_obj))
@@ -151,7 +151,7 @@ def main(request):
 
             # 페이지네이션
             page = 1
-            paginator = Paginator(postList, 1)
+            paginator = Paginator(postList, 12)
 
             # print(page_obj)
             # print(type(page_obj))
@@ -298,7 +298,7 @@ def posts_all_list(request:HttpRequest, *args, **kwargs):
     # 페이지네이션
     page = request.GET.get('page') #html에 get 넣어야함
     
-    paginator = Paginator(posts, 1)
+    paginator = Paginator(posts, 12)
 
     # print(page_obj)
     # print(type(page_obj))
