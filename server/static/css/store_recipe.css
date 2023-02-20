@@ -36,15 +36,6 @@ img {
   margin-left: 10.5%;
 }
 
-.ingredient_container {
-  display: grid;
-  grid-gap: 0.5rem;
-  grid-template-columns: 3rem 3rem 3rem;
-  justify-content: center;
-  color: white;
-  font-family: var(--sub-font);
-  font-size: smaller;
-}
 
 .recipe_content button {
   border: none;
@@ -168,7 +159,7 @@ img {
 }
 
 .both_container {
-  width: 100vw;
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
@@ -308,8 +299,41 @@ img {
   margin-right: 0.4rem;
 }
 
+/* main 추가 */
+.recipe_content .ingredient_container {
+  width: 11rem;
+  display: flex;
+  justify-content: space-around;
+  margin-left: 2rem;
+}
+
+.recipe_content .one_ingredient {
+  padding: 0 0.3rem;
+}
+
+.ingredient_container {
+  justify-content: center;
+  color: white;
+  font-family: var(--sub-font);
+  font-size: smaller;
+}
+
+
+.detail_top .ingredient_container {
+  width: 15rem;
+  overflow: auto;
+  white-space: nowrap;
+}
+
+.one_ingredient {
+  display: inline-block;
+  text-align: center;
+}
+/* main -- */
+/* kgoni 추가 */
 .user_who_write {
   width: max-content;
   margin: 0 0 0.3rem 5rem;
   font-size: initial;
 }
+/* kgoni -- */

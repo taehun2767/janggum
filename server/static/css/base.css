@@ -206,7 +206,7 @@ textarea, textarea:focus, textarea::placeholder {
 }
 
 body {
-  width: 100vw;
+  width: 100%;
   background-color: #fffbf8;
   color: black;
   font-family: var(--main-font);
@@ -215,7 +215,7 @@ body {
 }
 
 header {
-  width: 100vw;
+  width: 100%;
   position: sticky;
   top: 0;
   z-index: 2;
@@ -223,7 +223,7 @@ header {
 
 .header_main {
   background-color: var(--header-color);
-  width: 100vw;
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -282,7 +282,7 @@ header {
 }
 
 .header_line {
-  width: 100vw;
+  width: 100%;
   height: var(--line-size);
   display: flex;
   flex-direction: row;

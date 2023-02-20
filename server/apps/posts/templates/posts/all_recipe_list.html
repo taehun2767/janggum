@@ -100,33 +100,36 @@
                     <div style="display:none;"class="writer_name">{{ post.user }}</div>
                 </article>
                 {% endfor %}
+                <br>
+                <div>
+                    {% if page_obj.has_other_pages %}
+                        <ul style="display:flex; list-style:none;">
+                            {% if page_obj.has_previous %}
+                            <li style="margin:3px;"><a style="text-decoration:none; color: blue;" href="?page={{page_obj.previous_page_number}}">&#10094; Prev</a></li>
+                            {% endif %}
+                            {% for page in custom_range %}
+                            {% if page == page_obj.number%}
+                                <li style="margin:3px;"><a style="text-decoration:none; color: red;" href="?page={{page}}">{{page}}</a></li>
+                            {% else %}
+                                <li style="margin:3px;"><a style="text-decoration:none; color: blue;" href="?page={{page}}">{{page}}</a></li>
+                            {% endif%}
+                            {% endfor %}
+                            {% if page_obj.has_next %}
+                            <li style="margin:3px;"><a style="text-decoration:none; color: blue;" href="?page={{page_obj.next_page_number}}">Next &#10095; </a></li>
+                            {% endif %}
+                        </ul>
+                    {% endif %}
+                </div>
             </div>
             <div class="line_vertical">
                 <div class="line_vertical_1"></div>
                 <div class="line_vertical_2"></div>
             </div>
-            <div id="list_container" style="width: 40rem; height: 29rem; border-radius: 0.5rem" class="post_detail">
+            <div class="scroll_list_container">
+                <div id="list_container" style="width: 40rem; height: 29rem; border-radius: 0.5rem" class="post_detail">
+                </div>
             </div>
-        </div>
-        <div>
-            {% if page_obj.has_other_pages %}
-                <ul style="display:flex; list-style:none;">
-                    {% if page_obj.has_previous %}
-                    <li style="margin:3px;"><a style="text-decoration:none; color: blue;" href="?page={{page_obj.previous_page_number}}">&#10094; Prev</a></li>
-                    {% endif %}
-                    {% for page in custom_range %}
-                    {% if page == page_obj.number%}
-                        <li style="margin:3px;"><a style="text decoration:none; color: red;" href="?page={{page}}">{{page}}</a></li>
-                    {% else %}
-                        <li style="margin:3px;"><a style="text decoration:none; color: blue;" href="?page={{page}}">{{page}}</a></li>
-                    {% endif%}
-                    {% endfor %}
-                    {% if page_obj.has_next %}
-                    <li style="margin:3px;"><a style="text-decoration:none; color: blue;" href="?page={{page_obj.next_page_number}}">Next &#10095; </a></li>
-                    {% endif %}
-                </ul>
-            {% endif %}
-        </div>        
+        </div>  
         <script src="http://code.jquery.com/jquery-latest.js"></script>
         <script>    
             const requestDetail = new XMLHttpRequest();
@@ -172,7 +175,7 @@
             requestDetail.onreadystatechange = () => {
                 if (requestDetail.readyState === XMLHttpRequest.DONE) {
                 if (requestDetail.status < 400) {
-                    const { post_user, post_id, post_title, post_photo, post_content, post_created, photo_url, ingredientL, comments, today, post_quantity ,post_number} = JSON.parse(requestDetail.response);
+                    const { post_user, post_username, post_id, post_title, post_photo, post_content, post_created, photo_url, ingredientL, comments, today, post_quantity ,post_number} = JSON.parse(requestDetail.response);
                     console.log(comments)
                     console.log(typeof(comments))
                     console.log(comments.length)
@@ -273,9 +276,9 @@
                             </div>
                             <pre style="white-space:pre-wrap">${post_quantity}</pre>
                             <div class="user_who_write">
-                              <i class="fa-sharp fa-regular fa-circle-user" style="with: 8%"></i>
-                              <div class="writer_name" style="font-size: 10px">
-                                  <span>{{ post.user.name }}</span><span> (</span><span class = "writer_name" >{{post.user}}</span><span>)</span>
+                                <i class="fa-sharp fa-regular fa-circle-user" style="with: 8%"></i>
+                                <div class="writer_name" style="font-size: 10px">
+                                    <span>${ post_user }</span><span> (</span><span class = "writer_name" >${post_username}</span><span>)</span>
                             </div>
                             </div>
                             <div class="detail_middle" style="margin-bottom:1.5rem">
@@ -321,8 +324,7 @@
                         <input type="hidden" id="comment_writer" value={{request.user}}>
                             <div id="comment_list${post_id}"></div>
                         </div>
-                        <div style="display:none;" id="pid">${post_id}<div>`; // 히든으로 만들어야함
-
+                        <div class="hidden" id="pid">${post_id}<div>`; // 히든으로 만들어야함
                         element1.innerHTML += list_of_comments.innerHTML;
                 }
                 }
@@ -435,8 +437,6 @@
                     });
                 }
             }
-
-
         </script>
         <script
           src="https://kit.fontawesome.com/6fbcf91afd.js"

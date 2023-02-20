@@ -10,13 +10,11 @@
         {% load filter %}
         <link rel="stylesheet" href="{% static 'css/all_recipe_list.css'%}" />
         <style>
-            .one_ingredient:nth-child(even) {
+            .one_ingredient:nth-child(odd) {
               background-color : #994d48;
             }
         </style>
         {% include 'posts/header_base.html' %}
-        <span id="user_name" style="display: none;">{{ user.username }}</span>
-        
         <div class="sort_search">
             <div style="font-size: larger">
                 <a href="{% url 'posts:posts_janggum_list' %}">장금이 레시피</a>
@@ -97,7 +95,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div style="display:none;"class="writer_name">{{ post.user }}</div>
                 </article>
                 {% endif%}
@@ -118,9 +115,9 @@
                     {% endif %}
                     {% for page in custom_range %}
                     {% if page == page_obj.number%}
-                        <li style="margin:3px;"><a style="text decoration:none; color: red;" href="?page={{page}}">{{page}}</a></li>
+                        <li style="margin:3px;"><a style="text-decoration:none; color: red;" href="?page={{page}}">{{page}}</a></li>
                     {% else %}
-                        <li style="margin:3px;"><a style="text decoration:none; color: blue;" href="?page={{page}}">{{page}}</a></li>
+                        <li style="margin:3px;"><a style="text-decoration:none; color: blue;" href="?page={{page}}">{{page}}</a></li>
                     {% endif%}
                     {% endfor %}
                     {% if page_obj.has_next %}
@@ -160,7 +157,6 @@
                 }
                 }
             };
-
             const onClickDetail = (id) => {
                 const url = "/detail_ajax/";
                 requestDetail.open("POST", url, true);
@@ -174,7 +170,7 @@
             requestDetail.onreadystatechange = () => {
                 if (requestDetail.readyState === XMLHttpRequest.DONE) {
                 if (requestDetail.status < 400) {
-                    const { post_user, post_id, post_title, post_photo, post_content, post_created, photo_url, ingredientL, comments, today, post_quantity ,post_number} = JSON.parse(requestDetail.response);
+                    const { post_user, post_id, post_title, post_photo, post_content, post_created, photo_url, ingredientL, comments, today, post_quantity ,post_number, post_username} = JSON.parse(requestDetail.response);
                     console.log(comments)
                     console.log(typeof(comments))
                     console.log(comments.length)
@@ -277,7 +273,7 @@
                             <div class="user_who_write">
                               <i class="fa-sharp fa-regular fa-circle-user" style="with: 8%"></i>
                               <div class="writer_name" style="font-size: 10px">
-                                  <span>{{ post.user.name }}</span><span> (</span><span class = "writer_name" >{{post.user}}</span><span>)</span>
+                                  <span>${ post_user }</span><span> (</span><span class = "writer_name" >${post_username}</span><span>)</span>
                             </div>
                             </div>
                             <div class="detail_middle" style="margin-bottom:1.5rem">
@@ -326,11 +322,9 @@
                         <div style="display:none;" id="pid">${post_id}<div>`; // 히든으로 만들어야함
 
                         element1.innerHTML += list_of_comments.innerHTML;
-                }
+                    }
                 }
             };
-        
-            
             const onClickLike = (id) => {
                 const url = "/like_ajax/";
                 requestLike.open("POST", url, true);
@@ -368,7 +362,7 @@
                 console.log("hello")
                 var content = $("#content_id").val();
                 var writer = $("#comment_writer").val();
-                
+
                 var pk = pk
                 console.log(pk)
                 var url = "{% url 'posts:comment_create' 1234%}".replace(/1234/, pk);
@@ -437,8 +431,6 @@
                     });
                 }
             }
-
-
         </script>
         <script
           src="https://kit.fontawesome.com/6fbcf91afd.js"
