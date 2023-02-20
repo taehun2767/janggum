@@ -338,25 +338,3 @@ img {
   font-weight: 600;
 }
 /* kgoni -- */
-
-
-
-.page_container a {
-  font-size: var(--main-font-size);
-  color: black;
-}
-
-
-.page_container a:link {
-  color: black;
-  text-decoration-line: none;
-}
-.page_container a:visited {
-  color: black;
-}
-.page_container a:hover {
-  color: black;
-}
-.page_container a:active {
-  color: black;
-}
