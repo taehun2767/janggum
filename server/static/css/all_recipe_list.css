@@ -106,10 +106,18 @@ img {
 }
 
 .all_recipe_box {
-  height: 100%;
+  height: calc(100vh - 250px );
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  overflow-y: scroll;
+  overflow-x: none;
+  -ms-overflow-style: none;
 }
+
+.all_recipe_box::-webkit-scrollbar{
+  display: none;
+}
+
 
 .search_input,
 #content_id {
@@ -159,7 +167,7 @@ img {
 }
 
 .both_container {
-  width: 100vw;
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
@@ -338,3 +346,18 @@ img {
   font-weight: 600;
 }
 /* kgoni -- */
+/* body{
+  -ms-overflow-style: none;
+  }
+  
+ ::-webkit-scrollbar {
+   display: none;
+ } */
+.scroll_list_container{
+  height: calc(100vh - 250px);
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+}
+.scroll_list_container::-webkit-scrollbar{
+  display:none;
+}
