@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>장금이 요리백서</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}" />
+    {% include 'posts/header_giwa.html' %}
+    <section class="member_form" id="login_form">
+      {% load socialaccount %}
+      <form method="POST" action="">
+        {% csrf_token %} {{ form }}
+        <button class="login_btn">Login</button>
+      </form>
+      <button class="google_login_btn">
+        <a href=" {% provider_login_url 'google' %}">구글 계정으로 로그인</a>
+      </button>
+      <p></p>
+        <button class="signup_btn">
+          <a href="{% url 'posts:signup' %}">회원가입</a>
+        </button>
+      </p>
+    </section>
+  </body>
+</html>

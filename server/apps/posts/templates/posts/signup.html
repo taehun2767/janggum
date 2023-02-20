@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>장금이 요리백서</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}" />
+    {% include 'posts/header_giwa.html' %}
+    <section class="member_form" id="signup_form">
+      <form method="POST" action="">
+        {% csrf_token %} {{ form }} {% if error %}
+        <p id="signup_fail">회원가입에 실패하였습니다</p>
+        <p>올바른 비밀번호를 작성하였는지 확인해주세요</p>
+        <p>또는, 양식에 맞춰진 사용자 이름을 작성하였는지 확인해주세요</p>
+        <button class="signup_btn">
+          <a href="{% url 'posts:signup' %}"> 회원가입 다시하기 </a>
+        </button>
+        {% else %}
+        <input type="submit" value="SignUp" />
+        {% endif %}
+      </form>
+    </section>
+  </body>
+</html>

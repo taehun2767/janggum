@@ -1,0 +1,20 @@
+{% load static %}
+  <link rel="shortcut icon" href="{% static 'image/favicon2.ico' %}">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nanum+Brush+Script&family=Yeon+Sung&display=swap"
+    rel="stylesheet"
+  />
+</head>
+<body>
+    <header>
+        <div class="header_giwa">
+          <img src="{% static 'image/기와지붕초안.png' %}" class="giwa_img" />
+          <div class="giwa_logo_container">
+            <a href="{% url 'posts:main' %}">
+              <img src="{% static 'image/헤더로고_채운.png' %}" class="giwa_logo" />
+            </a>
+          </div>
+        </div>
+    </header>

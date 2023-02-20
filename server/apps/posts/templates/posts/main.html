@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>장금이 요리백서</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+    {% include 'posts/header_base.html' %}
+    <div class="main_contents">
+      <section id="main_section_1">
+        <div class="recipe_view">
+          <div class="recipe_view_all">
+            <a href="{% url 'posts:all_recipe' %}">
+              <img
+                src="{% static 'image/복주머니_빨강.png' %}"
+                alt="복주머니"
+              />
+              <span>전체 레시피 보기</span>
+            </a>
+          </div>
+          <div class="recipe_view_jang">
+            <a href="{% url 'posts:posts_janggum_list' %}">
+              <img
+                src="{% static 'image/복주머니_노랑.png' %}"
+                alt="복주머니"
+              />
+              <span>장금이 레시피 보기</span>
+            </a>
+          </div>
+        </div>
+      </section>
+      <section id="main_section_2">
+        <div class="main_top">
+          <div id="main_explain">원하는 재료가 들어가는 레시피를 찾아 보세요!</div>
+          <button id="main-add">
+            <img src="{% static 'image/더하기버튼_샘플.png' %}" />
+          </button>
+        </div>
+        <form action="{% url 'posts:main' %}" method="post">
+          {% csrf_token %}
+          <div id="main-btn-container">
+            <input placeholder="재료1" type="" name="search" />
+            <input placeholder="재료2" type="" name="search" />
+            <input placeholder="재료3" type="" name="search" />
+          </div>
+          <div class="ingredient_error">{% if error %}{{error}}{% endif %}</div>
+          <div id="recipe_search">
+            <input
+              type="image"
+              src="{% static 'image/메인페이지레시피조회.png' %}"
+            />
+          </div>
+        </form>
+      </section>
+      <section id="main_section_3">
+        <div id="main_create_btn">
+          {% if user.is_authenticated %}
+          <a href="{% url 'posts:create' %}"><span>새 레시피 추가하러 가기</span>
+            <img src="{% static 'image/체크핑크.png' %}" class="check_img" /></a>
+          {% else %}
+          <a href="{% url 'posts:login' %}"><span>새 레시피 추가하러 가기</span>
+            <img src="{% static 'image/체크핑크.png' %}" class="check_img" />
+          </a>
+        </div>
+      </section>
+    </div>
+    {% endif %}
+    <script>
+      const $addBtn = document.getElementById("main-add");
+      const $btnParent = document.getElementById("main-btn-container");
+      let $count = 4;
+      $addBtn.addEventListener("click", () => {
+        const $newBtn = document.createElement("input");
+        $newBtn.name = "search";
+        $newBtn.placeholder = "재료" + $count;
+        $count += 1;
+        $btnParent.appendChild($newBtn);
+      });
+    </script>
+  </body>
+</html>

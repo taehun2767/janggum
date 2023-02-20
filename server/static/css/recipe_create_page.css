@@ -1,0 +1,318 @@
+@import "base.css";
+
+.recipe_title,
+.ingredient_list,
+.input,
+#create_preview {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-bottom: 12px;
+  font-size: 22px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-bottom: 15px;
+  /* padding-top: 0px; */
+  margin-top: 7px;
+  margin-left: 12%;
+  margin-right: 12%;
+  border-radius: 20px;
+}
+
+.recipe_title {
+  margin-top: 55px;
+  margin-bottom: 5px;
+  line-height: 62px;
+}
+
+#create_main_info_box {
+  vertical-align: middle;
+}
+
+#btn-container {
+  display: flex;
+  justify-content: center;
+}
+
+#btn-container.input {
+  margin-right: 3px;
+}
+
+input {
+  margin-left: 24px;
+}
+
+textarea {
+  height: 6rem;
+  width: 26rem;
+  margin-bottom: 20px;
+  box-shadow: var(--main-box-shadow);
+  border: solid #dcdcdc 0.1rem;
+  border-radius: 0.5rem;
+}
+
+button {
+  border: none;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+}
+
+button img {
+  width: 2rem;
+}
+
+.bottom {
+  position: absolute;
+  left: calc((100% - 634px) / 2 + 573px);
+  top: 305px;
+}
+
+#add {
+  position: absolute;
+  box-sizing: border-box;
+  justify-content: center;
+}
+
+.create-button input {
+  width: 11rem;
+  height: 3.5rem;
+  background-color: var(--main-color-2);
+  border: 0;
+  outline: none;
+  font-family: var(--sub-font);
+  font-size: var(--login-form-font);
+  font-weight: 700;
+  color: white;
+  padding: 1rem 1rem;
+  border-radius: 0.5rem;
+}
+
+#create-btn-container {
+  margin-top: 35px;
+  margin-bottom: 35px;
+  margin-right: 80px;
+}
+
+#create-btn-container input {
+  background: url("../image/재료판자.png");
+  width: 8.5rem;
+  height: 3rem;
+  border: 0;
+  box-shadow: var(--main-box-shadow);
+  text-align: center;
+  color: #fff;
+  font-size: smaller;
+  margin-bottom: 13px;
+}
+
+#create-btn-container input:-webkit-autofill,
+#create-btn-container input:-webkit-autofill:hover,
+#create-btn-container input:-webkit-autofill:focus,
+#create-btn-container input:-webkit-autofill:active {
+  background-image: url("../image/재료판자.png");
+  border: 0;
+  outline: none;
+  -webkit-text-fill-color: var(--ingredient-color);
+}
+
+#create-btn-container input,
+#create-btn-container input::placeholder,
+#create-btn-container input:focus,
+#create-btn-container input:focus::placeholder {
+  color: #fff;
+  font-size: smaller;
+  font-family: var(--ingredient-font);
+}
+
+.recipe_title input {
+  width: 16rem;
+  height: 2.4rem;
+  box-shadow: var(--main-box-shadow);
+  text-align: center;
+  border: solid #dcdcdc 0.1rem;
+  border-radius: 0.5rem;
+}
+
+textarea::placeholder {
+  color: rgb(54, 54, 54);
+  font-family: var(--sub-font);
+  font-weight: 1000;
+  padding-top: 15px;
+  padding-left: 10px;
+}
+
+input::placeholder {
+  color: white;
+  font-family: var(--ingredient-font);
+  font-size: var(--main-font-size);
+  border: 0;
+  outline: none;
+}
+
+.update_preview {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+#create_main_box input {
+  height: 3rem;
+}
+
+#create_picbutton input {
+  background: none;
+}
+
+#create_picbutton .upload-name {
+  display: inline-block;
+  height: 37px;
+  padding: 0 10px;
+  vertical-align: middle;
+  border: 1px solid #dddddd;
+  width: 21rem;
+  color: #999999;
+  border-radius: 10px;
+}
+
+#create_picbutton label {
+  display: inline-block;
+  color: #fff;
+  vertical-align: middle;
+  background-color: var(--main-color-2);
+  font-family: var(--sub-font);
+  font-size: small;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 4px 0;
+  border-radius: 0.5rem;
+  width: 80px;
+  box-sizing: border-box;
+  margin-top: 0;
+  margin-left: 10px;
+}
+
+#create_picbutton label:hover, .create-button input:hover {
+  background-color: var(--main-color-1);
+}
+
+#create_picbutton input[type="file"] {
+  position: absolute;
+  width: 0;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+}
+
+label,
+#update-btn-container input::placeholder {
+  margin-top: 10px;
+}
+
+#create_picbutton {
+  margin-top: 2rem;
+  margin-right: 2.5rem;
+}
+
+#add_image {
+  position: absolute;
+}
+
+#create-btn-container {
+  display: grid;
+  grid-template-columns: 10rem 10rem 10rem;
+}
+
+#create_pic {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+@media (max-width: 850px) {
+  .recipe_title input {
+    margin-left: 24px;
+  }
+  .bottom {
+    position: relative;
+    left: 49%;
+    top: 158px;
+  }
+
+  #add_image {
+    margin-left: 0;
+    margin-top: 0;
+  }
+  #create-btn-container {
+    box-sizing: border-box;
+    margin: 135px auto 0 auto;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    width: 95vw;
+    justify-content: center;
+  }
+  input {
+    margin: 0;
+  }
+  #create-btn-container input {
+    width: 9rem;
+    height: 3.5rem;
+    box-sizing: border-box;
+    margin: 10px;
+  }
+  #create_pic {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  #create_picbutton {
+    display: flex;
+  }
+  #create_picbutton .upload-name {
+    height: 37px;
+    margin: 12px 12px 12px 20px;
+    vertical-align: center;
+  }
+  #create_picbutton label {
+    margin: auto;
+    box-sizing: border-box;
+
+  }
+}
+@media (max-width: 600px) {
+  .disnone {
+    display: none;
+  }
+  .recipe_title {
+    display: flex;
+    width: 400px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    box-sizing: border-box;
+    margin: 20px auto 5px auto;
+  }
+  .recipe_title > div {
+    font-size: 24px;
+  }
+
+  .recipe_title input {
+    margin: 0;
+  }
+
+  #create_picbutton .upload-name {
+    width: 13rem;
+  }
+  textarea {
+    height: 5rem;
+    width: 19rem;
+  }
+}

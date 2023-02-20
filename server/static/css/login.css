@@ -1,0 +1,200 @@
+@import "base.css";
+
+header {
+    width: 100vw;
+    position: sticky;
+}
+
+.header_giwa {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.giwa_img {
+    width: 100vw;
+    filter: drop-shadow(var(--header-giwa-shadow));
+}
+
+.giwa_logo_container {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.giwa_logo {
+    width: 15rem;
+    margin: 0;
+    filter: drop-shadow(var(--header-logo-shadow));
+}
+
+.member_form {
+    margin: 2rem;
+    font-family: var(--sub-font);
+    font-size: var(--login-form-font);
+    font-weight: 700;
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+form > * {
+    padding-top: 1rem;
+    padding-bottom: 0.4rem;
+}
+
+input, input:focus, input::placeholder {
+    background-color: white;
+    border: solid #dcdcdc 0.1rem;
+    outline: none;
+    font-family: var(--sub-font);
+    font-size: var(--login-form-font);
+    width: 12rem;
+    height: 2rem;
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+}
+
+button, input[type=submit] {
+    width: 14rem;
+    height: 4rem;
+    background-color: var(--main-color-2);
+    border: 0;
+    outline: none;
+    font-family: var(--sub-font);
+    font-size: var(--login-form-font);
+    font-weight: 700;
+    color: white;
+    padding: 1rem 1rem;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+}
+
+button:hover, input[type=submit]:hover {
+    background-color: var(--main-color-1);
+}
+
+.google_login_btn a, .signup_btn a, .home_btn a {
+    cursor: default;
+    color: white;
+}
+
+.google_login_btn:hover {
+    background-color: var(--google-color-2);
+}
+
+.helptext {
+    padding-top: 0.4rem;
+    opacity: 0.5;
+    font-size: 0.9rem;
+}
+
+br {
+    display: none;
+}
+
+#section_success {
+    text-align: center;
+    margin: 5rem;
+    font-family: var(--sub-font);
+}
+
+.success_message {
+    font-size: 1.5rem;
+}
+
+#signup_fail {
+    font-size: 1.5rem;
+    color: red;
+}
+
+
+/* 구글 소셜 로그인, 회원가입 */
+
+#google_main_section {
+    margin: 3rem 1rem 1rem 1rem;
+    text-align: center;
+    line-height: 3rem;
+    font-family: var(--sub-font);
+    font-weight: 700;
+    font-size: 1.4rem;
+}
+
+.google_main_div {
+    text-align: center;
+}
+
+.page_title p {
+    padding: 2rem;
+    font-size: 3rem;
+    font-family: var(--main-font);
+    font-weight: 400;
+    text-shadow: var(--main-text-shadow);
+}
+
+#google_main_section h1 {
+    color: var(--google-color-1);
+}
+
+#google_main_section button {
+    background-color: var(--google-color-1);
+}
+
+#google_main_section button:hover {
+    background-color: var(--google-color-2);
+}
+
+
+@media (max-width: 1400px) {
+    
+    .header_giwa {
+        width: 100vw;
+        height: 11rem;
+    }
+
+    .giwa_img {
+        display: block;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+
+@media (max-width: 700px) {
+
+    #google_main_section {
+        line-height: 2rem;
+        font-size: 1.2rem;
+    }
+
+    .page_title p {
+        font-size: 2.5rem;
+    }
+}
+
+
+@media (max-width: 450px) {
+
+    .helptext {
+        padding-top: 0.4rem;
+        opacity: 0.5;
+        font-size: 0.8rem;
+    }
+
+    #google_main_section {
+        font-size: 0.8rem;
+    }
+
+    .page_title p {
+        font-size: 2rem;
+    }
+    
+}

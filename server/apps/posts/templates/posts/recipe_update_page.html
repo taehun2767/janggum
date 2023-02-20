@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>장금이 요리백서</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/recipe_update_page.css' %}" />
+        {% include 'posts/header_base.html' %}
+        <div class="bottom">
+          <button id="add">
+            <image
+              src="{% static 'image/더하기버튼_샘플.png'%}"
+              style="border: 0; width: 100px" id="add_image"
+            />
+          </button>
+        </div>
+        <form action="{% url 'posts:update' post.pk %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div>
+                <div class="recipe_title">
+                    <div>레시피 제목을 입력하세요:</div>
+                    <input name="title" placeholder="레시피 제목" value="{{post.title}}" />
+                </div>
+                <div id="update-btn-container">
+                  {%for ele in post.ingredientList%}
+                  <input placeholder="재료" name="ingredient[]" list="ingredient_list" value ="{{ele}}" onkeyup="noSpace(this);" />
+                  {%endfor%}
+                </div>
+                <datalist id="ingredient_list">
+                  {%for ele in ingredientList %}
+                  <option>{{ele}}</option>
+                  {%endfor%}
+              </datalist>
+                    {% comment %} <input placeholder="재료" name="ingredient[]" value ="{{post.ingredient}}"/>
+                    <input placeholder="재료" name="ingredient[]" />
+                    <input placeholder="재료" name="ingredient[]" /> {% endcomment %}
+                </div>
+
+
+                {% comment %} 수정중 {% endcomment %}
+                {% comment %} <input placeholder="파일을 선택해 주세요">
+                
+                <label for="file-input" id="id_req  _photo--button">파일 업로드</label> {% endcomment %}
+                {% comment %} <span>기존 파일 이름</span> {% endcomment %}
+                {% comment %} <input style="display:none;" type="file" name="photo"accept=".jpg, .jpeg, .png" onchange="readURL(this);" required="" id="file-input"> {% endcomment %}
+                <input type="hidden" value ="{{photo_url}}" id="photo_url" />
+                <input type="file" id="file-input" name="photo" onchange="readURL(this);" accept=".jpg, .jpeg, .png" style="display:none"/>
+                <label for="file-input" >파일선택</label>
+                <span id="fileName">{{photo_url}}</span>
+                <div id="update_pic">
+                  <div id="update_picbutton">
+                    <input class="upload-name" value="첨부파일" placeholder="첨부파일" />
+                    <label for="file-input">파일찾기</label>
+
+                    <input type="file" id="file-input" name="photo" onchange="readURL(this);" accept=".jpg, .jpeg, .png" />
+                  </div>
+                  <img style="boarder:none; width: 100px" id="update_preview" src="{{post.photo.url}}"/>
+                </div>
+                <textarea name="content" placeholder="레시피 소개">{{post.content}}</textarea>
+                <textarea name="ingredient_quantity" placeholder="재료의 양과 사용되는 조미료를 간단하게 적어주세요">{{post.ingredient_quantity}}</textarea>
+            </div>
+            <div class="update-button">
+                <input type="submit" , value="레시피 저장" />
+            </div>
+        </form>
+        {% comment %} <div>{{post.photo.url}}</div> {% endcomment %}
+        <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script> 
+        <script>
+          var fileName = $("#file-input").val();
+          console.log(fileName);
+          const $addBtn = document.getElementById("add");
+          const $btnParent = document.getElementById("update-btn-container");
+          let count = 3;
+    $addBtn.addEventListener("click", () => {
+        count += 1;
+        let template = `
+        <input name="search_keyword" list="ingredient_list" placeholder="재료${count}" onkeyup="noSpace(this);"/>
+        <datalist id="ingredient_list">
+            {%for ele in ingredientList %}
+            <option>{{ele}}</option>
+            {%endfor%}
+        </datalist>
+        `;
+
+              const $newBtn = document.createElement("span");
+              $newBtn.name = "ingredient[]";
+              $newBtn.list = "ingredient_list";
+              $newBtn.placeholder = "재료";
+              $newBtn.innerHTML = template;
+              $btnParent.appendChild($newBtn);
+
+          });
+
+            {% comment %} var fileName = $("#file-input").val();
+            console.log(fileName);
+
+
+            {% comment %} const fileInput = document.querySelector('input[type="file"]');
+
+            const urlToObject= async()=> {
+                const response = await fetch(image);
+                // here image is url/location of image
+                const blob = await response.blob();
+                const file = new File([blob], 'image.jpg', {type: blob.type});
+                console.log(file);
+              }
+
+            const $file = urlToObject({{post.photo.url}});
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add($file);
+            fileInput.files = dataTransfer.files; {% endcomment %}
+
+            // 앞뒤 공백 제거
+            function noSpace(obj){
+
+              obj.value = obj.value.trim();
+              console.log(obj.value);
+          }
+
+            {% comment %} 이미지 미리보기 {% endcomment %}
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                  var reader = new FileReader();
+                  reader.onload = function(e) {
+                    document.getElementById('update_preview').src = e.target.result;
+                  };
+                  reader.readAsDataURL(input.files[0]);
+                } else {
+                  document.getElementById('update_preview').src = "";
+                }
+              }
+              
+              document.getElementById('file-input').addEventListener('change', function(){
+                let filename = document.getElementById('fileName');
+                const photo_url = $("#photo_url").val();
+                console.log(photo_url);
+                if(this.files[0] == undefined){
+                  filename.innerText = photo_url;
+                  return;
+                }
+                filename.innerText = this.files[0].name;
+              });
+
+
+        </script>
+    </body>
+</html>
