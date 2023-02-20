@@ -6,119 +6,113 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>장금이 요리백서</title>
         {% load static %}
-        <link rel="stylesheet" href="{% static 'css/main.css' %}" />
         <link rel="stylesheet" href="{% static 'css/recipe_create_page.css'%}" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nanum+Brush+Script&family=Yeon+Sung&display=swap" rel="stylesheet" />
-    </head>
-    <body>
-        {% include 'posts/header.html' %}
+        {% include 'posts/header_base.html' %}
         <div class="bottom">
-          <button id="add">
-            <image
-              src="{% static 'image/더하기버튼_샘플.png'%}"
-              style="border: 0; width: 100px"
-              id="add_image"
-            />
-          </button>
-        </div>
-        <form action="{% url 'posts:create' %}" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div id="create_main_info_box">
-                <div class="recipe_title">
-                    <div>레시피 제목을 입력하세요<span class="disnone">:</span></div>
-                    <input name="title" placeholder="레시피 제목" />
-                </div>
-                <div id="create-btn-container">
-                    <input name="ingredient[]" list="ingredient_list" placeholder="재료1" onkeyup="noSpace(this);" />
-                    <datalist id="ingredient_list">
-                        {%for ele in ingredientList %}
-                        <option>{{ele}}</option>
-                        {%endfor%}
-                    </datalist>
-                    <input name="ingredient[]" list="ingredient_list" placeholder="재료2" onkeyup="noSpace(this);" />
-                    <datalist id="ingredient_list">
-                        {%for ele in ingredientList %}
-                        <option>{{ele}}</option>
-                        {%endfor%}
-                    </datalist>
-                    <input name="ingredient[]" list="ingredient_list" placeholder="재료3" onkeyup="noSpace(this);" />
-                    <datalist id="ingredient_list">
-                        {%for ele in ingredientList %}
-                        <option>{{ele}}</option>
-                        {%endfor%}
-                    </datalist>
-                </div>
-
-                <br />
-                {% comment %} 백엔드 input {% endcomment %}
-                <input type="file" name="photo" onchange="readURL(this);" accept=".jpg, .jpeg, .png" />
-                {% comment %} 프론트엔드 input {% endcomment %}
-                <div id="create_pic">
-                    <div id="create_picbutton">
-                        <input class="upload-name" value="첨부파일" placeholder="첨부파일" />
-                        <label for="file">파일찾기</label>
-                        <input type="file" id="file" name="photo" onchange="readURL(this);" accept=".jpg, .jpeg, .png" />
-                    </div>
-                    <img style="width: 100px; height: 100px; border: none" id="create_preview" />
-                </div>
-            </div>
-            {% comment %}
-            <textarea name="content" placeholder="재료1 정량"></textarea>
-            <textarea name="content" placeholder="재료2 정량"></textarea>
-            <textarea name="content" placeholder="재료3 정량"></textarea><br /><br />
-            {% endcomment %}
-            <textarea name="content" placeholder="레시피 소개 내용"></textarea>
-            <textarea name="ingredient_quantity" placeholder="재료의 양과 사용되는 조미료를 간단하게 적어주세요"></textarea>
-
-            <div class="create-button">
-                <input type="submit" , value="레시피 저장" />
-            </div>
-        </form>
-
-        <script>
-                  const $addBtn = document.getElementById("add");
-                  const $btnParent = document.getElementById("create-btn-container");
-                  let count = 3;
-                  $addBtn.addEventListener("click", () => {
-                      count =count + 1
-                      let template = `
-                      <input name="search_keyword" list="ingredient_list" placeholder="재료${count}" onkeyup="noSpace(this);" />
+            <button id="add">
+              <image
+                src="{% static 'image/더하기버튼_샘플.png'%}"
+                style="border: 0; width: 100px"
+                id="add_image"
+              />
+            </button>
+          </div>
+          <form action="{% url 'posts:create' %}" method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div id="create_main_info_box">
+                  <div class="recipe_title">
+                      <div>레시피 제목을 입력하세요<span class="disnone">:</span></div>
+                      <input name="title" placeholder="레시피 제목" />
+                  </div>
+                  <div id="create-btn-container">
+                      <input name="ingredient[]" list="ingredient_list" placeholder="재료1" onkeyup="noSpace(this);" />
                       <datalist id="ingredient_list">
                           {%for ele in ingredientList %}
                           <option>{{ele}}</option>
                           {%endfor%}
                       </datalist>
-                      `;
-
-                      const $newBtn = document.createElement("span");
-                      $newBtn.name = "ingredient[]";
-                      $newBtn.list = "ingredient_list";
-                      $newBtn.placeholder = "재료";
-                      $newBtn.innerHTML = template;
-                      $btnParent.appendChild($newBtn);
-
-                  });
-
-
-            function noSpace(obj){
-
-                obj.value = obj.value.trim();
-                console.log(obj.value);
-            }
-            {% comment %} 이미지 미리보기 {% endcomment %}
-            function readURL(input) {
-                if (input.files && input.files[0]) {
-                  var reader = new FileReader();
-                  reader.onload = function(e) {
-                    document.getElementById('create_preview').src = e.target.result;
-                  };
-                  reader.readAsDataURL(input.files[0]);
-                } else {
-                  document.getElementById('create_preview').src = "";
-                }
-            }
-        </script>
-    </body>
-</html>
+                      <input name="ingredient[]" list="ingredient_list" placeholder="재료2" onkeyup="noSpace(this);" />
+                      <datalist id="ingredient_list">
+                          {%for ele in ingredientList %}
+                          <option>{{ele}}</option>
+                          {%endfor%}
+                      </datalist>
+                      <input name="ingredient[]" list="ingredient_list" placeholder="재료3" onkeyup="noSpace(this);" />
+                      <datalist id="ingredient_list">
+                          {%for ele in ingredientList %}
+                          <option>{{ele}}</option>
+                          {%endfor%}
+                      </datalist>
+                  </div>
+  
+                  <br />
+                  {% comment %} 백엔드 input {% endcomment %}
+                  <input type="file" name="photo" onchange="readURL(this);" accept=".jpg, .jpeg, .png" />
+                  {% comment %} 프론트엔드 input {% endcomment %}
+                  <div id="create_pic">
+                      <div id="create_picbutton">
+                          <input class="upload-name" value="첨부파일" placeholder="첨부파일" />
+                          <label for="file">파일찾기</label>
+                          <input type="file" id="file" name="photo" onchange="readURL(this);" accept=".jpg, .jpeg, .png" />
+                      </div>
+                      <img style="width: 100px; height: 100px; border: none" id="create_preview" />
+                  </div>
+              </div>
+              {% comment %}
+              <textarea name="content" placeholder="재료1 정량"></textarea>
+              <textarea name="content" placeholder="재료2 정량"></textarea>
+              <textarea name="content" placeholder="재료3 정량"></textarea><br /><br />
+              {% endcomment %}
+              <textarea name="content" placeholder="레시피 소개 내용"></textarea>
+              <textarea name="ingredient_quantity" placeholder="재료의 양과 사용되는 조미료를 간단하게 적어주세요"></textarea>
+  
+              <div class="create-button">
+                  <input type="submit" , value="레시피 저장" />
+              </div>
+          </form>
+  
+          <script>
+                    const $addBtn = document.getElementById("add");
+                    const $btnParent = document.getElementById("create-btn-container");
+                    let count = 3;
+                    $addBtn.addEventListener("click", () => {
+                        count =count + 1
+                        let template = `
+                        <input name="search_keyword" list="ingredient_list" placeholder="재료${count}" onkeyup="noSpace(this);" />
+                        <datalist id="ingredient_list">
+                            {%for ele in ingredientList %}
+                            <option>{{ele}}</option>
+                            {%endfor%}
+                        </datalist>
+                        `;
+  
+                        const $newBtn = document.createElement("span");
+                        $newBtn.name = "ingredient[]";
+                        $newBtn.list = "ingredient_list";
+                        $newBtn.placeholder = "재료";
+                        $newBtn.innerHTML = template;
+                        $btnParent.appendChild($newBtn);
+  
+                    });
+  
+  
+              function noSpace(obj){
+  
+                  obj.value = obj.value.trim();
+                  console.log(obj.value);
+              }
+              {% comment %} 이미지 미리보기 {% endcomment %}
+              function readURL(input) {
+                  if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                      document.getElementById('create_preview').src = e.target.result;
+                    };
+                    reader.readAsDataURL(input.files[0]);
+                  } else {
+                    document.getElementById('create_preview').src = "";
+                  }
+              }
+          </script>
+      </body>
+  </html>

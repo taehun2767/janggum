@@ -18,7 +18,7 @@ img {
   justify-content: center;
   flex-direction: column;
   width: 15rem;
-  background: url("../image/메뉴판\(장금\).png");
+  background: url("../image/메뉴판\(핑크\).png");
   background-repeat: no-repeat;
   background-size: contain;
   height: 19rem;
@@ -29,15 +29,27 @@ img {
 .delete_update {
   display: flex;
   flex-direction: row;
-  justify-content: center;
   border: 0;
   width: 15rem;
-  margin-left: 10.5%;
+  margin-left: 14.5%;
+}
+
+.ingredient_container {
+  display: grid;
+  /* grid-template-columns: 4rem 4rem 4rem; */
+  grid-gap: 0.5rem;
+  /* width: 250px; */
+  grid-template-columns: 3rem 3rem 3rem;
+  justify-content: center;
+  /* margin-left: 2rem; */
+  color: white;
+  font-family: var(--sub-font);
+  font-size: smaller;
 }
 
 .recipe_content button {
   border: none;
-  background-color: #f7cf61;
+  background-color: #f7f5ea;
 }
 
 .user_who_write {
@@ -88,13 +100,12 @@ img {
 }
 
 .one_ingredient {
-  background-color: #bb8b88;
+  background-color: #dcb7b7;
   width: max-content;
   padding: 0 9%;
 }
 
-#search_box,
-.comment_main {
+#search_box {
   height: 40px;
   width: 400px;
   vertical-align: middle;
@@ -106,13 +117,17 @@ img {
 }
 
 .all_recipe_box {
-  height: 100%;
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.all_recipe_box {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
 }
 
-.search_input,
-#content_id {
+.search_input {
   width: 320px;
   padding: 1px;
   border: 0;
@@ -152,7 +167,7 @@ img {
 }
 
 #list_container {
-  background: url("../image/메뉴판\(장금_상세\).png");
+  background: url("../image/menu\ board.png");
   background-repeat: none;
   background-size: cover;
   border-radius: 0.5rem;
@@ -162,7 +177,7 @@ img {
   width: 100vw;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-evenly;
 }
 
 .backgorundcolor {
@@ -194,13 +209,14 @@ img {
 }
 
 .line_vertical_2 {
+  height: 100vh;
   background-color: var(--main-color-1);
   width: var(--line-size);
 }
 
-#detail_middle,
+.detail_middle,
 .detail_top,
-#detail_bottom {
+.detail_bottom {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -210,131 +226,4 @@ img {
   height: auto;
   width: 135px;
   margin-left: 38%;
-}
-
-.post_created {
-  margin: 2.5rem -4rem 0 -3.5rem;
-}
-
-
-@media (max-width: 1500px) {
-
-  #search_box {
-    width: 200px;
-  }
-
-  .search_input {
-    width: 140px;
-  }
-
-  .all_recipe_box {
-    height: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
-
-}
-
-@media (max-width: 1300px) {
-  
-  .sort_search {
-    margin: 2.5rem 0 0 1rem;
-    flex-direction: column;
-    align-items: baseline;
-
-  }
-
-  .all_recipe_box {
-    height: 100%;
-    display: grid;
-    grid-template-columns: 1fr;
-  }
-
-  .sort_search :nth-child(1) {
-    margin-bottom: 1rem;
-  }
-
-  #sort_box {
-    margin-top: 1rem;
-  }
-  
-}
-
-
-@keyframes recipe-ani-hover {
-  0% {
-      transform: translate(0, 0);
-  }
-  100% {
-      transform: translate(0, -0.25rem);
-  }
-}
-
-@keyframes recipe-ani-back {
-  0% {
-      transform: translate(0, -0.25rem);
-  }
-  100% {
-      transform: translate(0, 0);
-  }
-}
-
-
-.recipe_content:hover {
-  animation: recipe-ani-hover 0.5s;
-  animation-fill-mode: forwards;
-}
-
-.recipe_content:not(:hover) {
-  animation: recipe-ani-back 0.5s;
-  animation-fill-mode: forwards;
-}
-
-.recipe_title button:hover {
-  color: var(--main-color-2);
-  cursor: pointer;
-}
-
-
-.recipe_content > button {
-  display: flex;
-  align-items: center;
-  background-color: transparent;
-  top: 1.2rem;
-  left: 1rem;
-}
-
-.recipe_content > button > i {
-  margin-right: 0.4rem;
-}
-
-
-.recipe_content .ingredient_container {
-  width: 11rem;
-  display: flex;
-  justify-content: space-around;
-  margin-left: 2rem;
-}
-
-.recipe_content .one_ingredient {
-  padding: 0 0.3rem;
-}
-
-.ingredient_container {
-  justify-content: center;
-  color: white;
-  font-family: var(--sub-font);
-  font-size: smaller;
-}
-
-
-.detail_top .ingredient_container {
-  width: 15rem;
-  overflow: auto;
-  white-space: nowrap;
-}
-
-.one_ingredient {
-  display: inline-block;
-  text-align: center;
 }

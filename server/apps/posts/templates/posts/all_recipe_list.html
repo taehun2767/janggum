@@ -8,8 +8,12 @@
         <title>장금이 요리백서</title>
         {% load static %}
         {% load filter %}
-        <link rel="stylesheet" href="{% static 'css/main.css' %}" />
         <link rel="stylesheet" href="{% static 'css/all_recipe_list.css'%}" />
+        <style>
+            .one_ingredient:nth-child(even) {
+              background-color : #994d48;
+            }
+        </style>
         {% include 'posts/header_base.html' %}
         <div class="sort_search">
             <div style="font-size: larger">
@@ -52,9 +56,10 @@
                 <article class="backgorundcolor">
                     <div class="each_recipe">
                         <div class="recipe_content"> 
-                            <button style="border: 0; position: absolute; margin-left: 20px; margin-bottom: 219px;"
+                            <button style="border: 0; position: absolute;"
                                 class="store_{{post.id}}" onclick="onClickStore({{post.id}})">
                                 <i class="fa-solid fa-bookmark" style="color: #a64d4b; margin-left: 5px"></i>
+                                <div class="store_or_not_{{post.id}}">찜 하기</div>
                             </button>
                             <div class="recipe_title">
                                 <button onclick="onClickDetail({{post.id}})" style="font-family: var(--recipe-font); width: 60%; margin-top: 16px;
@@ -287,7 +292,7 @@
                                 </p>
                                 <pre class="post_content" style="overflow:auto; margin-left:16px; white-space:pre-wrap; margin-right: 3%; ">${post_content}</pre>
                             </div>
-                            <div class="detail_bottom" style="margin-left: 10%;">
+                            <div class="detail_bottom" style="margin-left: 3%;">
                                 <div class="like_container" style="float:right;">
                                     <button
                                         style="border: 0"
