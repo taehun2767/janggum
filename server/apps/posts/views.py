@@ -500,34 +500,37 @@ def create(request:HttpRequest, *args, **kwargs):
 
 
         # 대체 이미지 넣을 셰도 코드
-        # if request.FILES.get('photo'):
-        #     Post.objects.create(
-        #         ingredient = ingredients,
-        #         user=request.user,
-        #         title=request.POST["title"],
-        #         photo=request.FILES.get('photo'),
-        #         content=request.POST["content"],
-        #         ingredient_quantity = request.POST["ingredient_quantity"],
-        #     )
-        # else:
-        #     Post.objects.create(
-        #         ingredient = ingredients,
-        #         user=request.user,
-        #         title=request.POST["title"],
-        #         photo= #민지가 만든 대체 이미지를 넣으면 될 거 같은데?
-        #         content=request.POST["content"],
-        #         ingredient_quantity = request.POST["ingredient_quantity"],
-        #     )
+        print("request photo", request.FILES.get('photo'))
+        if request.FILES.get('photo'):
+            # print("if")
+            temp = Post.objects.create(
+                ingredient = ingredients,
+                user=request.user,
+                title=request.POST["title"],
+                photo=request.FILES.get('photo'),
+                content=request.POST["content"],
+                ingredient_quantity = request.POST["ingredient_quantity"],
+            )
+        else:
+            # print("else")
+            temp = Post.objects.create(
+                ingredient = ingredients,
+                user=request.user,
+                title=request.POST["title"],
+                content=request.POST["content"],
+                ingredient_quantity = request.POST["ingredient_quantity"],
+            )
             
-    
-        Post.objects.create(
-            ingredient = ingredients,
-            user=request.user,
-            title=request.POST["title"],
-            photo=request.FILES.get('photo'),
-            content=request.POST["content"],
-            ingredient_quantity = request.POST["ingredient_quantity"],
-        )
+        # print(temp.photo)
+        # Post.objects.create(
+        #     ingredient = ingredients,
+        #     user=request.user,
+        #     title=request.POST["title"],
+        #     photo=request.FILES.get('photo'),
+        #     content=request.POST["content"],
+        #     ingredient_quantity = request.POST["ingredient_quantity"],
+        # )
+        print(type(request.FILES.get('photo')))
         return redirect("/")
     return render(request, "posts/recipe_create_page.html", context=context)
 
@@ -591,6 +594,8 @@ def posts_update(request:HttpRequest, pk, *args, **kwargs):
 def posts_delete(request:HttpRequest, pk, *args, **kwargs):
     if request.method == "POST":
         post = Post.objects.get(id=pk)
+        print(post.user, User.objects.get(username= request.user.get_username()))
+        
         if post.user == User.objects.get(username= request.user.get_username()):
             post.delete()
     return redirect("posts:all_recipe")

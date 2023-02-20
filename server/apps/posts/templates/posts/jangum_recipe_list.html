@@ -14,7 +14,6 @@
     </style>
     {% include 'posts/header_base.html' %}
     <span id="user_name" style="display: none;">{{ user.username }}</span>
-    <div style="display:none;"class="writer_name">{{ post.user }}</div>
     <div class="sort_search">
         <div style="font-size: larger;"><a href="{% url 'posts:posts_janggum_list' %}">장금이 레시피</a></div>
         <form id="search_box" action="{% url 'posts:all_recipe' %}" method="post" style="margin: 0 2rem 0 2rem" enctype="multipart/form-data">
@@ -88,13 +87,14 @@
                 <div class="delete_update">
                     <form action="{% url 'posts:delete' post.pk %}" method="post">
                         {% csrf_token %}
-                        <input type="submit" style=" border: 0" class="delete", value="삭제하기" />
+                        <input type="hidden" style=" border: 0" class="delete", value="삭제하기" />
                     </form>
                     <form action="{% url 'posts:update' post.pk %}" method="get">
                         {% csrf_token %}
-                        <input type="submit" style=" border: 0" class="update" value="수정하기" />
+                        <input type="hidden" style=" border: 0" class="update" value="수정하기" />
                     </form>
                 </div>
+                <div style="display:none;"class="writer_name">{{ post.user }}</div>
             </article>
             {% endif %}
             {% endfor %}
@@ -268,10 +268,10 @@
         $username = $("#user_name").text()
         $(".writer_name")[0].innerHTML
         for(i = 0; i < $(".writer_name").length; i++){
-            if($("#user_name").text() != $(".writer_name")[i].innerHTML){
+            if($("#user_name").text() == $(".writer_name")[i].innerHTML){
                 
-                $(".update")[i].type = "hidden";
-                $(".delete")[i].type = "hidden";
+                $(".update")[i].type = "submit";
+                $(".delete")[i].type = "submit";
             }
             }
     </script>
