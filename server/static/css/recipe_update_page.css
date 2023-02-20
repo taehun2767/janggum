@@ -72,6 +72,18 @@ button img {
   width: 2rem;
 }
 
+.bottom {
+  position: absolute;
+  left: calc((100% - 634px) / 2 + 573px);
+  top: 305px;
+}
+
+#add {
+  position: absolute;
+  box-sizing: border-box;
+  justify-content: center;
+}
+
 .update-button input {
   width: 11rem;
   height: 3.5rem;
@@ -86,6 +98,12 @@ button img {
   border-radius: 0.5rem;
 }
 
+#update-btn-container {
+  margin-top: 35px;
+  margin-bottom: 35px;
+  margin-right: 80px;
+}
+
 #update-btn-container input {
   background: url(../image/재료판자.png);
   width: 8.5rem;
@@ -95,6 +113,7 @@ button img {
   text-align: center;
   color: #fff;
   font-family: var(--sub-font);
+  margin-bottom: 13px;
 }
 
 input::placeholder {
@@ -135,6 +154,14 @@ textarea::placeholder {
   font-weight: 1000;
   padding-top: 15px;
   padding-left: 10px;
+}
+
+input::placeholder {
+  color: white;
+  font-family: var(--ingredient-font);
+  font-size: var(--main-font-size);
+  border: 0;
+  outline: none;
 }
 
 #update_preview {
@@ -188,6 +215,7 @@ textarea {
   font-weight: 700;
   cursor: pointer;
   padding: 4px 0;
+  height: 38px;
   border-radius: 0.5rem;
   width: 80px;
   box-sizing: border-box;
@@ -197,6 +225,7 @@ textarea {
 
 #update_picbutton label:hover, .update-button input:hover {
   background-color: var(--main-color-1);
+  padding: 12px;
 }
 
 #update_picbutton input[type="file"] {
@@ -240,8 +269,6 @@ textarea {
 
 #add_image {
   position: absolute;
-  margin-left: 45rem;
-  margin-top: 63.3px;
 }
 
 #update-btn-container {
