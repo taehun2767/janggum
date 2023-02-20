@@ -454,7 +454,7 @@ def create(request:HttpRequest, *args, **kwargs):
             ingredient = ingredients,
             user=request.user,
             title=request.POST["title"],
-            photo=request.FILES['photo'],
+            photo=request.FILES.get('photo'),
             content=request.POST["content"],
             ingredient_quantity = request.POST["ingredient_quantity"],
         )
@@ -614,26 +614,27 @@ def detailajax(request, *args, **kwargs):
     comments = Comment.objects.filter(post_id=post)
 
     commentList = []
-    comment_id_L = []
-    comment_userid_L = []
-    comment_content_L = []
-    comment_created_L = []
-    for comment in comments:
-        comment_id_L.append(comment.id)
-        comment_userid_L.append(comment.user_id.username)
-        comment_content_L.append(comment.content)
-        comment_created_L.append(comment.created_at)
+    # comment_id_L = []
+    # comment_userid_L = []
+    # comment_content_L = []
+    # comment_created_L = []
+    # for comment in comments:
+    #     comment_id_L.append(comment.id)
+    #     comment_userid_L.append(comment.user_id.username)
+    #     comment_content_L.append(comment.content)
+    #     comment_created_L.append(comment.created_at)
 
     post_user = post.user.username
     post_title = post.title
     post_quantity = post.ingredient_quantity
     photo_url = post.photo.url
+    print(photo_url, "photo url")
     ingredientStr = post.ingredient[2:-3].replace("'", '')
     ingredientL = ingredientStr.split(',')
     post_content = post.content
     post_created = str(post.created_at).replace("-", '.')
-    print()
-    print("코멘트 밸류", comments.values())
+    # print()
+    # print("코멘트 밸류", comments.values())
     commentList = list(comments.values(
         'id',
         'user_id__username',
