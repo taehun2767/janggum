@@ -98,6 +98,7 @@ button img {
   margin-top: 35px;
   margin-bottom: 35px;
   margin-right: 80px;
+  margin-left: 10rem;
 }
 
 #create-btn-container input {
@@ -198,7 +199,7 @@ input::placeholder {
   margin-left: 10px;
 }
 
-#create_picbutton label:hover, .create-button input:hover {
+.create-button input:hover {
   background-color: var(--main-color-1);
 }
 
@@ -284,7 +285,6 @@ label,
   #create_picbutton label {
     margin: auto;
     box-sizing: border-box;
-
   }
 }
 @media (max-width: 600px) {
@@ -315,4 +315,16 @@ label,
     height: 5rem;
     width: 19rem;
   }
+}
+
+input[type="file"]::file-selector-button {
+  width: 120px;
+  height: 40px;
+  color: #fff;
+  font-family: var(--sub-font);
+  font-weight: 800;
+  background: var(--main-color-2);
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
 }

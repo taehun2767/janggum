@@ -8,7 +8,7 @@
         <title>장금이 요리백서</title>
         {% load static %}
         {% load filter %}
-        <link rel="stylesheet" href="{% static 'css/all_recipe_list.css'%}" />
+        <link rel="stylesheet" href="{% static 'css/jangum_recipe_list.css'%}" />
         <style>
             .one_ingredient:nth-child(odd) {
               background-color : #994d48;
@@ -24,7 +24,7 @@
                 <input class="search_input" name="search-name" />
                 <input class="search_button" type="submit" , value="검색" />
             </form>
-            <form id="sort_box" action = "{% url 'posts:all_recipe'%}" method="get" style="width: 10rem; border: 1px solid #ffff">
+            <form id="sort_box" action = "{% url 'posts:posts_janggum_list'%}" method="get" style="width: 10rem; border: 1px solid #ffff">
                 <select name="sort" style="background-color: #e5e5e5; font-family: var(--sub-font); font-size: medium; border: 0;">
                     {% if sortN == "likes" %}
                         <option value="recently" id="recently">최신순</option>
@@ -57,14 +57,14 @@
                 <article class="backgorundcolor">
                     <div class="each_recipe">
                         <div class="recipe_content"> 
-                            <button style="border: 0; position: absolute;"
+                            <button style="border: 0; position: absolute; margin-top: 8px;"
                                 class="store_{{post.id}}" onclick="onClickStore({{post.id}})">
                                 <i class="fa-solid fa-bookmark" style="color: #a64d4b; margin-left: 5px"></i>
-                                <div class="store_or_not_{{post.id}}">찜 하기</div>
+                                <div class="store_or_not_{{post.id}}" style="font-family:var(--recipe-font); margin-top:1px;">찜 하기</div>
                             </button>
                             <div class="recipe_title">
                                 <button onclick="onClickDetail({{post.id}})" style="font-family: var(--recipe-font); width: 60%; margin-top: 16px;
-                                font-size: x-large; margin-bottom: 6px;">{{post.title}}</button>
+                                font-size: x-large; margin-bottom: 6px; background-color:transparent;">{{post.title}}</button>
                             </div>
                               {% comment %}
                               <a href="{%url 'posts:profile' post.user_pk%}" class="writer_name">{{ post.user }}</a>
@@ -111,17 +111,17 @@
             {% if page_obj.has_other_pages %}
                 <ul style="display:flex; list-style:none;">
                     {% if page_obj.has_previous %}
-                    <li style="margin:3px;"><a style="text-decoration:none; color: blue;" href="?page={{page_obj.previous_page_number}}">&#10094; Prev</a></li>
+                    <li style="margin:3px;"><a style="text-decoration:none; color: #575757;" href="?page={{page_obj.previous_page_number}}">&#10094; Prev</a></li>
                     {% endif %}
                     {% for page in custom_range %}
                     {% if page == page_obj.number%}
-                        <li style="margin:3px;"><a style="text-decoration:none; color: red;" href="?page={{page}}">{{page}}</a></li>
+                        <li style="margin:3px;"><a style="text-decoration:none; color: var(--main-color-2);" href="?page={{page}}">{{page}}</a></li>
                     {% else %}
-                        <li style="margin:3px;"><a style="text-decoration:none; color: blue;" href="?page={{page}}">{{page}}</a></li>
+                        <li style="margin:3px;"><a style="text-decoration:none; color: #575757;" href="?page={{page}}">{{page}}</a></li>
                     {% endif%}
                     {% endfor %}
                     {% if page_obj.has_next %}
-                    <li style="margin:3px;"><a style="text-decoration:none; color: blue;" href="?page={{page_obj.next_page_number}}">Next &#10095; </a></li>
+                    <li style="margin:3px;"><a style="text-decoration:none; color: #575757;" href="?page={{page_obj.next_page_number}}">Next &#10095; </a></li>
                     {% endif %}
                 </ul>
             {% endif %}
@@ -259,7 +259,6 @@
                             }
                         }
                     }
-
                     element1.innerHTML =
                         `
                             <article class="다른 backgorund color클래스">
@@ -269,12 +268,12 @@
                         div_generate +
                         `</div>
                             </div>
-                            <pre style="white-space:pre-wrap">${post_quantity}</pre>
+                            <pre style="white-space:pre-wrap" class="jomiryo">${post_quantity}</pre>
                             <div class="user_who_write">
-                              <i class="fa-sharp fa-regular fa-circle-user" style="with: 8%"></i>
+                              <i class="fa-sharp fa-regular fa-circle-user" style="width: 8%"></i>
                               <div class="writer_name" style="font-size: 10px">
                                   <span>${ post_user }</span><span> (</span><span class = "writer_name" >${post_username}</span><span>)</span>
-                            </div>
+                                </div>
                             </div>
                             <div class="detail_middle" style="margin-bottom:1.5rem">
                                 <p>
@@ -319,9 +318,8 @@
                         <input type="hidden" id="comment_writer" value={{request.user}}>
                             <div id="comment_list${post_id}"></div>
                         </div>
-                        <div style="display:none;" id="pid">${post_id}<div>`; // 히든으로 만들어야함
-
-                        element1.innerHTML += list_of_comments.innerHTML;
+                        <div class="hidden" id="pid">${post_id}<div>`; // 히든으로 만들어야함
+                            element1.innerHTML += list_of_comments.innerHTML;
                     }
                 }
             };

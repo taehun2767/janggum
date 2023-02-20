@@ -216,7 +216,7 @@
                             if(comments[i].user_id__username == post_user){
                                 list_of_comments.innerHTML += `
                                 <div id="${comments[i].id}">
-                                <strong>${comments[i].user_id__name}(${comments[i].user_id__username})<span>글쓴이</span></strong>
+                                ${comments[i].user_id__name}(${comments[i].user_id__username})<span class="comment_writer" style="font-size:medium; font-family:var(--sub-font);">글쓴이</span>
 
                                 `;
                             }
@@ -224,27 +224,34 @@
                                 list_of_comments.innerHTML += `
                                 <div id="${comments[i].id}">
                                 <div id="${comments[i].id}">
-                                <strong>${comments[i].user_id__name}(${comments[i].user_id__username})</strong>
+                                <strong style="font-size:large"><i class="fa-solid fa-user"></i>  ${comments[i].user_id__name}(${comments[i].user_id__username})</strong>
 
                                 `;
                             }
                             console.log(today, comments[i].day)
                             if(today == comments[i].day){
                                 list_of_comments.innerHTML += `
-                                <span>${comments[i].time}</span>
+                                <span class="comment_time" style="font-size: medium; font-family:var(--sub-font);">${comments[i].time}</span>
                                 `;
                             }
                             else{
                                 list_of_comments.innerHTML += `
-                                <span>${comments[i].day}</span>
+                                <span class="comment_time" style="font-size: medium; font-family:var(--sub-font);">${comments[i].day}</span>
                                 `;
                             }
                             if(comments[i].user_id == requestDetail.response.user){
                                 list_of_comments.innerHTML += `
-                                    <div>
-                                        <div>${comments[i].content}</div>
+                                    <div style="display: flex; justify-content: space-between;flex-direction: row; ">
+                                        <div class="comment_content" style="     font-family: var(--sub-font);
+                                        font-size: large;
+                                        font-weight: 700;">${comments[i].content}</div>
                                         <div>
-                                            <a onclick="commentDelete('${comments[i].id}');">댓글삭제</a>
+                                            <a class="delete_button" onclick="commentDelete('${comments[i].id}');" style="text-decoration: none;
+                                            color: white;
+                                            background-color: var(--main-color-2);
+                                            padding: 10px 20px;
+                                            font-size: large;
+                                            border-radius: 0.5rem; margin-right: 20px;">댓글삭제</a>
                                         </div>
                                     </div>
                                 <hr>
@@ -274,7 +281,7 @@
                         div_generate +
                         `</div>
                             </div>
-                            <pre style="white-space:pre-wrap">${post_quantity}</pre>
+                            <pre style="white-space:pre-wrap" class="jomiryo">${post_quantity}</pre>
                             <div class="user_who_write">
                                 <i class="fa-sharp fa-regular fa-circle-user" style="with: 8%"></i>
                                 <div class="writer_name" style="font-size: 10px">
