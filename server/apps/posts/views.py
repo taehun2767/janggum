@@ -489,6 +489,28 @@ def create(request:HttpRequest, *args, **kwargs):
             #print(used_ingredients.all_ingreident)
             used_ingredients.save()
 
+
+        # 대체 이미지 넣을 셰도 코드
+        # if request.FILES.get('photo'):
+        #     Post.objects.create(
+        #         ingredient = ingredients,
+        #         user=request.user,
+        #         title=request.POST["title"],
+        #         photo=request.FILES.get('photo'),
+        #         content=request.POST["content"],
+        #         ingredient_quantity = request.POST["ingredient_quantity"],
+        #     )
+        # else:
+        #     Post.objects.create(
+        #         ingredient = ingredients,
+        #         user=request.user,
+        #         title=request.POST["title"],
+        #         photo= #민지가 만든 대체 이미지를 넣으면 될 거 같은데?
+        #         content=request.POST["content"],
+        #         ingredient_quantity = request.POST["ingredient_quantity"],
+        #     )
+            
+    
         Post.objects.create(
             ingredient = ingredients,
             user=request.user,
