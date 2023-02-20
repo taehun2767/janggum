@@ -132,52 +132,43 @@
             {% endif %}
         </div>        
         <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script>
-          const requestDetail = new XMLHttpRequest();
-          const requestLike = new XMLHttpRequest();
-          const requestComment = new XMLHttpRequest();
-          const onClickDetail = (id) => {
-            const url = "/detail_ajax/";
-            requestDetail.open("POST", url, true);
-            requestDetail.setRequestHeader(
-              "Content-Type",
-              "application/x-www-form-urlencoded"
-            );
-            requestDetail.send(JSON.stringify({ id: id }));
-          };
+        <script>    
+            const requestDetail = new XMLHttpRequest();
+            const requestLike = new XMLHttpRequest();
+            const requestComment = new XMLHttpRequest();
+            const requestStore = new XMLHttpRequest();
+            const onClickStore = (id) => {
+                const url = "/store_ajax/";
+                requestStore.open("POST", url, true);
+                requestStore.setRequestHeader(
+                "Content-Type",
+                "application/x-www-form-urlencoded"
+                );
+                requestStore.send(JSON.stringify({ id: id}));
+            };
 
-          requestDetail.onreadystatechange = () => {
-            if (requestDetail.readyState === XMLHttpRequest.DONE) {
-              if (requestDetail.status < 400) {
-                const {
-                  post_id,
-                  post_title,
-                  post_photo,
-                  post_content,
-                  post_created,
-                  photo_url,
-                  ingredientL,
-                  comment_id_L,
-                  comment_userid_L,
-                  comment_content_L,
-                  comment_created_L,
-                } = JSON.parse(requestDetail.response);
-                let div_generate = ``;
-                for (let i = 0; i < ingredientL.length; i++) {
-                  div_generate += `<div class="one_ingredient" style="margin-left:1rem">${ingredientL[i]}</div>`;
+            requestStore.onreadystatechange = () => {
+                if (requestStore.readyState === XMLHttpRequest.DONE) {
+                if (requestStore.status < 400) {
+                    const { id, store_true } = JSON.parse(requestStore.response);
+                    const element = document.querySelector(`.store_or_not_${id}`);
+                    const originHTML = element.innerHTML;
+                    const text = originHTML;
+                    if (store_true == true){
+                        element.innerHTML = `저장 O`;
+                    }else{
+                        element.innerHTML = `저장 X`;
+                    }
                 }
-                // let comments_list = ``;
-                // for (let k = 0; k < comment_id_L.length; k++){
-                //     comments_list += `
-                //     <div class="comment_id_${comment_id_L[k]}">
-                //         <p>댓글: ${comment_content_L[k]}</p>
-                //         <button onclick="onClickDelete(${post_id}, ${comment_id_L[k]})">댓글 삭제</button>
-                //         <hr>
-                //     </div>`
-                // }
-                let templatetag = "{% if post.id == comment.post_id.id %}".replace(
-                  "post.id",
-                  post_id
+                }
+            };
+
+            const onClickDetail = (id) => {
+                const url = "/detail_ajax/";
+                requestDetail.open("POST", url, true);
+                requestDetail.setRequestHeader(
+                "Content-Type",
+                "application/x-www-form-urlencoded"
                 );
                 requestDetail.send(JSON.stringify({ id: id}));
             };
@@ -451,18 +442,6 @@
                   $(".delete")[i].type = "hidden";
                 }
               }
-            }
-          };
-
-          //수정, 삭제 버튼 해당 유저만 보이도록 구현
-          $username = $("#user_name").text();
-          $(".writer_name")[0].innerHTML;
-          for (i = 0; i < $(".writer_name").length; i++) {
-            if ($("#user_name").text() != $(".writer_name")[i].innerHTML) {
-              $(".update")[i].type = "hidden";
-              $(".delete")[i].type = "hidden";
-            }
-          }
         </script>
         <script
           src="https://kit.fontawesome.com/6fbcf91afd.js"
