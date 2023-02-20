@@ -10,11 +10,14 @@
     {% include 'posts/header_base.html' %}
     <div class="sort_search">
         <div style="font-size: larger;"><a href="{% url 'posts:posts_janggum_list' %}">장금이 레시피</a></div>
-        <form action="{% url 'posts:posts_janggum_list' %}" method="post" enctype="multipart/form-data" style="    border: 1px solid #999999;
-        border-radius: 0.5rem; margin-left: 1rem;}">
+        <form action="{% url 'posts:posts_janggum_list' %}" method="post" enctype="multipart/form-data"
+        style="border: 1px solid #999999; border-radius: 0.5rem; margin-left: 1rem;
+    }">
             {% csrf_token %}
-            <input name="search-name"/>
-            <input type="submit" , value="검색" />
+            <input class="search_input" name="search-name"/>
+
+            <input class="search_button" type="submit" , value="검색" />
+
         </form>
         <form id="search_box" action = "{% url 'posts:posts_janggum_list'%}" method="get" style="width: 10rem;
         border: 1px solid #ffff;">
@@ -57,10 +60,8 @@
                         </div>
                         {% comment %} <a href= "{%url 'posts:profile' post.user_pk%}" class = "writer_name">{{ post.user }}</a> {% endcomment %}
                         <div class="user_who_write">
-                            <i class="fa-sharp fa-regular fa-circle-user" style="with: 8%"></i>
-                            <div class="writer_name" style="font-size: 10px">
-                                <span>{{ post.user.name }}</span><span> (</span><span class = "writer_name" >{{post.user}}</span><span>)</span>
-                            </div>
+                            <i class="fa-sharp fa-regular fa-circle-user" style="with:8%"></i>
+                            <div class = "writer_name" style="font-size:10px">{{ post.user }}</div>
                         </div>
                         {% if post.photo %}
                         <p>
@@ -106,7 +107,7 @@
         <div id="list_container" style="width: 38rem; height:28rem; border-radius: 0.5rem" class="post_detail"></div> 
         </div>
     </div>
-    
+
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script>    
         const requestDetail = new XMLHttpRequest();
@@ -158,11 +159,13 @@
                     </p>
                     <pre class="post_content" style="overflow:auto; margin-left:16px; white-space:pre-wrap; margin-right: 3%; ">${post_content}</pre>
                 </div>
-                <div class="detail_bottom" style="margin-left: 10%; position: absolute;">
+                <div class="detail_bottom" style="
+                margin-left: 10%;
+                position: absolute;">
                     <div>
                         <div class="post_created"  style="font-size:medium">${post_created.slice(2, 10)}</div>
                     </div>
-                
+              
                     <div class="comment_main" style="width: 20rem; float:right">
                         <div class="comment">
                             <textarea class="comment_form_${post_id}" 
