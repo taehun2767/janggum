@@ -549,7 +549,13 @@ def create(request:HttpRequest, *args, **kwargs):
     }
     if request.method == "POST":
         #여러 재료 input들 한꺼번에 가져와 저장
-        ingredients = request.POST.getlist('ingredient[]'),
+        ingredientList = request.POST.getlist('ingredient[]')
+        ingredients = []
+        print("수정전", ingredientList)
+        for ele in ingredientList:
+            if ele:
+                ingredients.append(ele)
+        print(ingredients, "수정후")
         #print(ingredients)
         ingredientList = ingredients[0]
         for ele in ingredientList:
