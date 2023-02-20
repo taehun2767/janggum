@@ -13,6 +13,8 @@
         }
     </style>
     {% include 'posts/header_base.html' %}
+    <span id="user_name" style="display: none;">{{ user.username }}</span>
+    <div style="display:none;"class="writer_name">{{ post.user }}</div>
     <div class="sort_search">
         <div style="font-size: larger;"><a href="{% url 'posts:posts_janggum_list' %}">장금이 레시피</a></div>
         <form id="search_box" action="{% url 'posts:all_recipe' %}" method="post" style="margin: 0 2rem 0 2rem" enctype="multipart/form-data">
