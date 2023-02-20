@@ -108,17 +108,17 @@
         {% if page_obj.has_other_pages %}
             <ul style="display:flex; list-style:none;">
                 {% if page_obj.has_previous %}
-                <li style="margin:3px;"><a style="text-decoration:none; color: blue;" href="?page={{page_obj.previous_page_number}}">&#10094; Prev</a></li>
+                <li style="margin:3px;"><a style="text-decoration:none; color: #575757;" href="?page={{page_obj.previous_page_number}}">&#10094; Prev</a></li>
                 {% endif %}
                 {% for page in custom_range %}
                 {% if page == page_obj.number%}
-                    <li style="margin:3px;"><a style="text-decoration:none; color: red;" href="?page={{page}}">{{page}}</a></li>
+                    <li style="margin:3px;"><a style="text-decoration:none; color: var(--main-color-2);" href="?page={{page}}">{{page}}</a></li>
                 {% else %}
-                    <li style="margin:3px;"><a style="text-decoration:none; color: blue;" href="?page={{page}}">{{page}}</a></li>
+                    <li style="margin:3px;"><a style="text-decoration:none; color: #575757;" href="?page={{page}}">{{page}}</a></li>
                 {% endif%}
                 {% endfor %}
                 {% if page_obj.has_next %}
-                <li style="margin:3px;"><a style="text-decoration:none; color: blue;" href="?page={{page_obj.next_page_number}}">Next &#10095; </a></li>
+                <li style="margin:3px;"><a style="text-decoration:none; color: #575757;" href="?page={{page_obj.next_page_number}}">Next &#10095; </a></li>
                 {% endif %}
             </ul>
         {% endif %}
@@ -274,7 +274,7 @@
                     div_generate +
                     `</div>
                         </div>
-                        <pre style="white-space:pre-wrap">${post_quantity}</pre>
+                        <pre style="white-space:pre-wrap" class="jomiryo">${post_quantity}</pre>
                         <div class="user_who_write">
                             <i class="fa-sharp fa-regular fa-circle-user" style="with: 8%"></i>
                             <div class="writer_name" style="font-size: 10px">
