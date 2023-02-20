@@ -15,14 +15,12 @@
     {% include 'posts/header_base.html' %}
     <div class="sort_search">
         <div style="font-size: larger;"><a href="{% url 'posts:posts_janggum_list' %}">장금이 레시피</a></div>
-        <form action="{% url 'posts:posts_janggum_list' %}" method="post" enctype="multipart/form-data" style="    border: 1px solid #999999;
-        border-radius: 0.5rem; margin-left: 1rem;}">
+        <form id="search_box" action="{% url 'posts:all_recipe' %}" method="post" style="margin: 0 2rem 0 2rem" enctype="multipart/form-data">
             {% csrf_token %}
-            <input name="search-name"/>
-            <input type="submit" , value="검색" />
+            <input class="search_input" name="search-name" />
+            <input class="search_button" type="submit" , value="검색" />
         </form>
-        <form id="search_box" action = "{% url 'posts:posts_janggum_list'%}" method="get" style="width: 10rem;
-        border: 1px solid #ffff;">
+        <form id="sort_box" action = "{% url 'posts:all_recipe'%}" method="get" style="width: 10rem; border: 1px solid #ffff">
             <select name="sort" style=" background-color: #e5e5e5; font-family:var(--sub-font); font-size:medium; border:0">
                 {% if sortN == "likes" %}
                     <option value="recently" id="recently">최신순</option>
@@ -52,21 +50,16 @@
             <article class="backgorundcolor">
                 <div class="each_recipe">
                     <div class="recipe_content">
-                        <button style=" border: 0; position: absolute;
-                        margin-left: 20px;
-                        margin-bottom: 219px;" class="store_{{post.id}}" onclick="onClickStore({{post.id}})"><i class="fa-solid fa-bookmark" style="color:#A64D4B; margin-left:5px"></i></button>
-                        <div class="store_or_not_{{post.id}}"></div>
+                        <button style="border: 0; position: absolute;"
+                            class="store_{{post.id}}" onclick="onClickStore({{post.id}})">
+                            <i class="fa-solid fa-bookmark" style="color: #a64d4b; margin-left: 5px"></i>
+                            <div class="store_or_not_{{post.id}}">찜 하기</div>
+                        </button>
                         <div class="recipe_title">
                             <button onclick="onClickDetail({{post.id}})" style="font-family: var( --recipe-font); width: 60%; margin-top: 16px;
                             font-size: x-large; margin-bottom: 6px; background-color:#F7CF61;">{{post.title}}</button>
                         </div>
                         {% comment %} <a href= "{%url 'posts:profile' post.user_pk%}" class = "writer_name">{{ post.user }}</a> {% endcomment %}
-                        <div class="user_who_write">
-                            <i class="fa-sharp fa-regular fa-circle-user" style="with: 8%"></i>
-                            <div class="writer_name" style="font-size: 10px">
-                                <span>{{ post.user.name }}</span><span> (</span><span class = "writer_name" >{{post.user}}</span><span>)</span>
-                            </div>
-                        </div>
                         {% if post.photo %}
                         <p>
                             <img style="height:100px; width:100px" src="{{ post.photo.url }}" />
@@ -153,7 +146,7 @@
             <article class="다른 backgorund color클래스">
                 <div class="detail_top" style="padding-top: 67px; padding-bottom: 20px; margin-left:-2rem">
                     <div class="post_title" style="font-siz:40px; font-family: var( --recipe-font); margin-left: 1rem; ">${post_title}</div>
-                    <div class="ingredient_container"style="grid-gap: 3rem; margin-left:-10rem">` 
+                    <div class="ingredient_container">` 
                         + div_generate +
                     `</div>
                 </div>
@@ -163,7 +156,7 @@
                     </p>
                     <pre class="post_content" style="overflow:auto; margin-left:16px; white-space:pre-wrap; margin-right: 3%; ">${post_content}</pre>
                 </div>
-                <div id="detail_bottom" style="margin-left: 10%;">
+                <div id="detail_bottom" style="margin-left: 3%;">
                     <div class="like_container" style="float:right;">
                         <button style="border: 0"class="like_{{post.id}}" onclick="onClickLike({{post.id}})">
                           <img src="{% static 'image/복주머니(빈칸).png' %}" alt="복주머니" style="width: 5rem; border: 0; background-color: #F7F5EB;"/>

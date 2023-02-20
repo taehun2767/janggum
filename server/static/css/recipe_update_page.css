@@ -72,6 +72,18 @@ button img {
   width: 2rem;
 }
 
+.bottom {
+  position: absolute;
+  left: calc((100% - 634px) / 2 + 573px);
+  top: 305px;
+}
+
+#add {
+  position: absolute;
+  box-sizing: border-box;
+  justify-content: center;
+}
+
 .update-button input {
   width: 11rem;
   height: 3.5rem;
@@ -86,6 +98,12 @@ button img {
   border-radius: 0.5rem;
 }
 
+#update-btn-container {
+  margin-top: 35px;
+  margin-bottom: 35px;
+  margin-right: 80px;
+}
+
 #update-btn-container input {
   background: url(../image/재료판자.png);
   width: 8.5rem;
@@ -95,6 +113,7 @@ button img {
   text-align: center;
   color: #fff;
   font-family: var(--sub-font);
+  margin-bottom: 13px;
 }
 
 input::placeholder {
@@ -135,6 +154,14 @@ textarea::placeholder {
   font-weight: 1000;
   padding-top: 15px;
   padding-left: 10px;
+}
+
+input::placeholder {
+  color: white;
+  font-family: var(--ingredient-font);
+  font-size: var(--main-font-size);
+  border: 0;
+  outline: none;
 }
 
 #update_preview {
@@ -188,6 +215,7 @@ textarea {
   font-weight: 700;
   cursor: pointer;
   padding: 4px 0;
+  height: 38px;
   border-radius: 0.5rem;
   width: 80px;
   box-sizing: border-box;
@@ -197,6 +225,7 @@ textarea {
 
 #update_picbutton label:hover, .update-button input:hover {
   background-color: var(--main-color-1);
+  padding: 12px;
 }
 
 #update_picbutton input[type="file"] {
@@ -240,11 +269,90 @@ textarea {
 
 #add_image {
   position: absolute;
-  margin-left: 45rem;
-  margin-top: 63.3px;
 }
 
 #update-btn-container {
   display: grid;
   grid-template-columns: 10rem 10rem 10rem;
+}
+
+@media (max-width: 850px) {
+  .recipe_title input {
+    margin-left: 24px;
+  }
+  .bottom {
+    position: relative;
+    left: 49%;
+    top: 158px;
+  }
+
+  #add_image {
+    margin-left: 0;
+    margin-top: 0;
+  }
+  #update-btn-container {
+    box-sizing: border-box;
+    margin: 135px auto 0 auto;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    width: 95vw;
+    justify-content: center;
+  }
+  input {
+    margin: 0;
+  }
+  #update-btn-container input {
+    width: 9rem;
+    height: 3.5rem;
+    box-sizing: border-box;
+    margin: 10px;
+  }
+  #update_pic {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  #update_picbutton {
+    display: flex;
+  }
+  #update_picbutton .upload-name {
+    height: 37px;
+    margin: 12px 12px 12px 20px;
+    vertical-align: center;
+  }
+  #update_picbutton label {
+    margin: auto;
+    box-sizing: border-box;
+
+  }
+}
+@media (max-width: 600px) {
+  .disnone {
+    display: none;
+  }
+  .recipe_title {
+    display: flex;
+    width: 400px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    box-sizing: border-box;
+    margin: 20px auto 5px auto;
+  }
+  .recipe_title > div {
+    font-size: 24px;
+  }
+
+  .recipe_title input {
+    margin: 0;
+  }
+
+  #update_picbutton .upload-name {
+    width: 13rem;
+  }
+  textarea {
+    height: 5rem;
+    width: 19rem;
+  }
 }
