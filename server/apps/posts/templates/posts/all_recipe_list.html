@@ -10,6 +10,11 @@
         {% load filter %}
         <link rel="stylesheet" href="{% static 'css/main.css' %}" />
         <link rel="stylesheet" href="{% static 'css/all_recipe_list.css'%}" />
+        <style>
+          .one_ingredient:nth-child(odd) {
+            background-color : #994d48;
+          }
+        </style>
         {% include 'posts/header_base.html' %}
         <div class="sort_search">
             <div style="font-size: larger">
@@ -91,6 +96,51 @@
                                 {%endfor%}
                             </div>
                         </div>
+                        <div class="detail_bottom" style="margin-left: 10%;">
+                          <div class="like_container" style="float:right;">
+                              <button
+                                style="border: 0"
+                                class="like_{{post.id}}"
+                                onclick="onClickLike({{post.id}})">
+                                <img
+                                  src="{% static 'image/복주머니(빈칸).png' %}"
+                                  alt="복주머니"
+                                  style="width: 5rem;
+                                  border: 0;
+                                  background-color: #F7F5EB;"
+                                />
+                              </button>
+                              <div class="like_dislike" style="position:absolute;"> {{post.number}}</div>
+                          </div>
+                          <div class="post_created" style="font-size:medium; margin-top:2.5rem;">${post_created.slice(2,10)}    
+                          </div>
+                          <div class="comment_main" style="width: 20rem; float:right; margin-top:2rem;">
+                              <div class="comment">
+                                  <textarea class="comment_form_${post_id}" 
+                                      id="content_id" 
+                                      cols="30" rows="1" 
+                                      style="width: 17.5rem; background-color: #F7F5EB;"
+                                      placeholder="댓글을 입력하세요.">
+                                  </textarea>
+                              </div>
+                              <div class="comment_send">
+                                  <button onclick="onClickComment(${post_id})" id="comment_write"><i class="fa-regular fa-paper-plane"></i></button>
+                              </div>
+                          </div>
+                        </div>
+                    </article>
+                    <div class="comment_list_${post_id}">
+                        {% if comments %}
+                            {% for comment in comments %}` +
+                  templatetag +
+                  `<div class="comment_id_{{comment.id}}">
+                                    <p>댓글: {{comment.content}}</p>
+                                    <button onclick="onClickDelete({${post_id}, {{comment.id}})">댓글 삭제</button>
+                                    <hr>
+                                </div>` +
+                  templatetag2 +
+                  `{% endfor %}
+                        {% endif %}
                     </div>
                     <div class="delete_update">
                         <form action="{% url 'posts:delete' post.pk %}" method="post">
