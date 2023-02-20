@@ -12,11 +12,12 @@
           <button id="add">
             <image
               src="{% static 'image/더하기버튼_샘플.png'%}"
-              style="border: 0; width: 100px" id="add_image"
+              style="border: 0; width: 100px; margin: 3.5rem 0 0 5rem" id="add_image"
             />
           </button>
         </div>
-        <form action="{% url 'posts:update' post.pk %}" method="post" enctype="multipart/form-data">
+        <form action="{% url 'posts:update' post.pk %}" method="post" enctype="multipart/form-data" style="border: 74px solid #ae8767ab;">
+          <span class="menu_point" style="background-color:#FEFBF8; border-radius:1.5rem;"><span>
             {% csrf_token %}
             <div>
                 <div class="recipe_title">
@@ -47,11 +48,14 @@
                 {% comment %} <input style="display:none;" type="file" name="photo"accept=".jpg, .jpeg, .png" onchange="readURL(this);" required="" id="file-input"> {% endcomment %}
                 <input type="hidden" value ="{{photo_url}}" id="photo_url" />
                 <input type="file" id="file-input" name="photo" onchange="readURL(this);" accept=".jpg, .jpeg, .png" style="display:none"/>
-                <label for="file-input" >파일선택</label>
-                <span id="fileName">{{photo_url}}</span>
+                <span id="fileName" style="position: absolute;
+                margin: 2.4rem 5rem 0 -17rem;
+                font-size: medium;
+                color: darkgray;
+                font-family: var(--sub-font);">{{photo_url}}</span>
                 <div id="update_pic">
                   <div id="update_picbutton">
-                    <input class="upload-name" value="첨부파일" placeholder="첨부파일" />
+                    <input class="upload-name" />
                     <label for="file-input">파일찾기</label>
 
                     <input type="file" id="file-input" name="photo" onchange="readURL(this);" accept=".jpg, .jpeg, .png" />

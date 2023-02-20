@@ -12,14 +12,18 @@
             <button id="add">
               <image
                 src="{% static 'image/더하기버튼_샘플.png'%}"
-                style="border: 0; width: 100px"
+                style="border: 0; width: 100px; margin: 3.5rem 0 0 5rem;"
                 id="add_image"
               />
             </button>
           </div>
-          <form action="{% url 'posts:create' %}" method="post" enctype="multipart/form-data">
+          <form action="{% url 'posts:create' %}" method="post" enctype="multipart/form-data" style="    border: 74px solid #ae8767ab;">
+            <span class="menu_point" style="background-color:#FEFBF8; border-radius:1.5rem;"><span>
               {% csrf_token %}
               <div id="create_main_info_box">
+                    <div class="round" style="background-color:white; position:absolute;"></div>
+                    <div class="round"><div>
+
                   <div class="recipe_title">
                       <div>레시피 제목을 입력하세요<span class="disnone">:</span></div>
                       <input name="title" placeholder="레시피 제목" />
@@ -46,16 +50,11 @@
                   </div>
   
                   <br />
-                  {% comment %} 백엔드 input {% endcomment %}
-                  <input type="file" name="photo" onchange="readURL(this);" accept=".jpg, .jpeg, .png" />
-                  {% comment %} 프론트엔드 input {% endcomment %}
                   <div id="create_pic">
-                      <div id="create_picbutton">
-                          <input class="upload-name" value="첨부파일" placeholder="첨부파일" />
-                          <label for="file">파일찾기</label>
-                          <input type="file" id="file" name="photo" onchange="readURL(this);" accept=".jpg, .jpeg, .png" />
-                      </div>
-                      <img style="width: 100px; height: 100px; border: none" id="create_preview" />
+                    {% comment %} 백엔드 input {% endcomment %}
+                    <input type="file" name="photo" onchange="readURL(this);" accept=".jpg, .jpeg, .png" />
+                    {% comment %} 프론트엔드 input {% endcomment %}
+                      <img style="width: 100px; height: 100px; border: none; margin-top: -2rem; box-shadow: 10px 5px 5px #dcdcdc;" id="create_preview" />
                   </div>
               </div>
               {% comment %}
