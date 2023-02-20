@@ -78,7 +78,7 @@
                     $addBtn.addEventListener("click", () => {
                         count =count + 1
                         let template = `
-                        <input name="search_keyword" list="ingredient_list" placeholder="재료${count}" onkeyup="noSpace(this);" />
+                        <input name="ingredient[]" list="ingredient_list" placeholder="재료${count}" onkeyup="noSpace(this);" />
                         <datalist id="ingredient_list">
                             {%for ele in ingredientList %}
                             <option>{{ele}}</option>

@@ -460,12 +460,14 @@ def store_recipe_list(request:HttpRequest, *args, **kwargs):
 def posts_janggum_list(request:HttpRequest, *args, **kwargs):
     posts = Post.objects.all()
     comments = Comment.objects.all()
-    
+    postList = []
     for post in posts:
         user_pk =User.objects.all().filter(name=post.user)
         if user_pk:
             user_pk= user_pk[0].pk
         post.user_pk = user_pk
+        if post.number > 0:
+            postList.append(post)
         post.save()
     sort = request.GET.get('sort', '')
     if sort =="likes":
@@ -479,6 +481,8 @@ def posts_janggum_list(request:HttpRequest, *args, **kwargs):
                 ingredientStr = post.ingredient[2:-3].replace("'", '')
                 ingredientList = ingredientStr.split(',')
                 post.ingredientList = ingredientList
+                if post.number > 0:
+                    postList.append(post)
                 post.save()
     # context = {
     #     "posts" : posts,
@@ -487,20 +491,25 @@ def posts_janggum_list(request:HttpRequest, *args, **kwargs):
     # }
     
     # 페이지네이션
+    print(len(postList), "post 길이")
     page = request.GET.get('page')
-    paginator = Paginator(posts, 12)
+    print("page", page)
+    paginator = Paginator(postList, 12)
 
     # print(page_obj)
     # print(type(page_obj))
     # for ele in page_obj:
     #     print(ele)
-    
+    print(paginator.num_pages, "페이지네이터 넘페이지")
     try:
+        print("try")
         page_obj = paginator.page(page)
     except PageNotAnInteger:
+        print("pagenotinteger")
         page = 1
         page_obj = paginator.page(page)
     except EmptyPage:
+        print("emptypage")
         page = paginator.num_pages
         page_obj = paginator.page(page)
         
@@ -512,6 +521,7 @@ def posts_janggum_list(request:HttpRequest, *args, **kwargs):
     
     if rightIndex > paginator.num_pages:
         rightIndex = paginator.num_pages
+    print(leftIndex, rightIndex, "인덱스")
     custom_range = range(leftIndex, rightIndex + 1)
 
 
