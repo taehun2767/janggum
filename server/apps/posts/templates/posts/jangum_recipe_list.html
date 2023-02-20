@@ -57,7 +57,7 @@
                         </button>
                         <div class="recipe_title">
                             <button onclick="onClickDetail({{post.id}})" style="font-family: var( --recipe-font); width: 60%; margin-top: 16px;
-                            font-size: x-large; margin-bottom: 6px; background-color:#F7CF61;">{{post.title}}</button>
+                            font-size: x-large; margin-bottom: 6px; background-color:transparents;">{{post.title}}</button>
                         </div>
                         {% comment %} <a href= "{%url 'posts:profile' post.user_pk%}" class = "writer_name">{{ post.user }}</a> {% endcomment %}
                         {% if post.photo %}
@@ -291,7 +291,7 @@
                                         alt="복주머니"
                                         style="width: 5rem;
                                         border: 0;
-                                        background-color: #F7F5EB;"
+                                        background-color:transparents;"
                                     />
                                 </button>
                                 <div class="like_dislike" style="position:absolute;"> {{post.number}}</div>

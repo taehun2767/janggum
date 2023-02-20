@@ -19,7 +19,7 @@ img {
   justify-content: center;
   flex-direction: column;
   width: 15rem;
-  background: url("../image/메뉴판\(핑크\).png");
+  background: url("../image/메뉴판\(장금\).png");
   background-repeat: no-repeat;
   background-size: contain;
   height: 19rem;
@@ -36,10 +36,9 @@ img {
   margin-left: 10.5%;
 }
 
-
 .recipe_content button {
   border: none;
-  background-color: #f7f5ea;
+  background-color: transparent;
 }
 
 .user_who_write {
@@ -317,7 +316,6 @@ img {
   font-family: var(--sub-font);
   font-size: smaller;
 }
-
 
 .detail_top .ingredient_container {
   width: 15rem;
