@@ -96,16 +96,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="delete_update">
-                        <form action="{% url 'posts:delete' post.pk %}" method="post">
-                            {% csrf_token %}
-                            <input type="hidden" style="border: 0" , class="delete" , value="삭제하기" />
-                        </form>
-                        <form action="{% url 'posts:update' post.pk %}" method="get">
-                            {% csrf_token %}
-                            <input type="hidden" style="border: 0" class="update" , value="수정하기" />
-                        </form>
-                    </div>
+
                     <div style="display:none;"class="writer_name">{{ post.user }}</div>
                 </article>
                 {% endfor %}
@@ -445,16 +436,7 @@
                 }
             }
 
-            //수정, 삭제 버튼 해당 유저만 보이도록 구현
-            $username = $("#user_name").text()
-            {% comment %} $(".writer_name")[0].innerHTML {% endcomment %}
-            for(i = 0; i < $(".writer_name").length; i++){
-                if($("#user_name").text() == $(".writer_name")[i].innerHTML){
-                  
-                  $(".update")[i].type = "submit";
-                  $(".delete")[i].type = "submit";
-                }
-              }
+
         </script>
         <script
           src="https://kit.fontawesome.com/6fbcf91afd.js"

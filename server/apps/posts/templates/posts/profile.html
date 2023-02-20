@@ -13,56 +13,28 @@
             }
         </style>
         {% include 'posts/header_base.html' %}
-        <span class="sort_search">
+        <div class="sort_search">
             <div style="font-size: larger">내 레시피</div>
-            <form
-                id="search_box"
-                action="{% url 'posts:all_recipe' %}"
-                method="post"
-                style="margin: 0 2rem 0 2rem"
-                enctype="multipart/form-data">
-                {% csrf_token %}
-                <input class="search_input" name="search-name" />
-
-                <input class="search_button" type="submit" , value="검색" />
-            </form>
-            <form action = "{% url 'posts:all_recipe'%}" method="get" style="width: 10rem; border: 1px solid #ffff">
-                <select name="sort" style="background-color: #e5e5e5; font-family: var(--sub-font);font-size: medium;border: 0;">
-                    <option value="recently" id="recently">최신순</option>
-                    <option value="likes" id="likes">좋아요순</option>
-                    {% comment %} <option value="comments" id="comments>"댓글순</option> {% endcomment %}
-                </select>
-                <button type="submit" style="width: 50px; height: 100%; border: 0;
-                    background-color: var(--main-color-2);outline: 0;float: right;color: white;font-size: small;border-radius: 10px;border: 2px solid #ffff;">정렬          
-                </button>
-            </form>
-            {% comment %} <form action="{% url 'posts:all_recipe' %}" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <input name="search-name"/>
-
-                <input type="submit" , value="검색" />
-
-            </form> {% endcomment %}
-        </span>
+        </div>
 
         <div class="both_container">
             <div class="all_recipe_box">
                 {% for post in posts %}
                 <article class="backgorundcolor">
                     <div class="each_recipe">
-                        <div class="recipe_content">
-                            <button style="border: 0;position: absolute; margin-left: 20px; margin-bottom: 219px;"onclick="onClickDetail({{post.id}})"><i class="fa-solid fa-bookmark" style="color: #a64d4b; margin-left: 5px"></i>
+                        <div class="recipe_content"> 
+                            <button style="border: 0; position: absolute;"
+                                class="store_{{post.id}}" onclick="onClickStore({{post.id}})">
+                                <i class="fa-solid fa-bookmark" style="color: #a64d4b; margin-left: 5px"></i>
+                                <div class="store_or_not_{{post.id}}">찜 하기</div>
                             </button>
-                            <div class="store_or_not_{{post.id}}"></div>
-                            <button onclick="onClickDetail({{post.id}})" style="font-family: var(--recipe-font); width: 60%; margin-left: 20%;margin-top: 16px;font-size: x-large; margin-bottom: 6px;                    "                  >
-                                {{post.title}}
-                            </button>
-                            <div class="user_who_write">
-                                <i class="fa-sharp fa-regular fa-circle-user" style="with: 8%"></i>
-                                <div class="writer_name" style="font-size: 10px">
-                                {{ post.user }}
-                                </div>
+                            <div class="recipe_title">
+                                <button onclick="onClickDetail({{post.id}})" style="font-family: var(--recipe-font); width: 60%; margin-top: 16px;
+                                font-size: x-large; margin-bottom: 6px;">{{post.title}}</button>
                             </div>
+                              {% comment %}
+                              <a href="{%url 'posts:profile' post.user_pk%}" class="writer_name">{{ post.user }}</a>
+                              {% endcomment %}
                             {% if post.photo %}
                             <p>
                                 <img style="height: 100px; width: 100px" src="{{ post.photo.url }}" />
@@ -70,13 +42,13 @@
                             {% endif %}
                             <div class="recipe_content_bottom">
                                 <div class="like_container">
-                                    <button style="border: 0" class="like_{{post.id}}" onclick="onClickLike({{post.id}})"><img
+                                    <button style=" border: 0" class="like_{{post.id}}" onclick="onClickLike({{post.id}})"><img
                                         src="{% static 'image/복주머니_빨강.png' %}"
                                         alt="복주머니"
-                                        style="width: 20px; border: 0"/>
+                                        style="width: 20px; border: 0" />
                                     </button>
-                                    <div class="like_dislike">좋아요 개수: {{post.number}}</div>
-                                </div>    
+                                    <div class="like_dislike_{{post.id}}">좋아요 개수: {{post.number}}</div>
+                                </div>
                                 <div style="margin-top: -11px">{{post.created_at}}</div>
                             </div>
                             <div class="ingredient_container">
@@ -86,27 +58,77 @@
                             </div>
                         </div>
                     </div>
-                    </div class="delete_update">
+                    <div class="delete_update">
                         <form action="{% url 'posts:delete' post.pk %}" method="post">
                             {% csrf_token %}
-                            <input type="submit" class="delete",style="border: 0" value="삭제하기" />
+                            <input type="submit" style="border: 0" class="delete", value="삭제하기" />
                         </form>
                         <form action="{% url 'posts:update' post.pk %}" method="get">
                             {% csrf_token %}
-                            <input type="submit" class="update"style="border: 0" value="수정하기" />
+                            <input type="submit" style="border: 0" class="update" value="수정하기" />
                         </form>
                     </div>
                 </article>
                 {% endfor %}
             </div>
+            <div class="line_vertical">
+                <div class="line_vertical_1"></div>
+                <div class="line_vertical_2"></div>
+            </div>
             <div id="list_container" style="width: 40rem; height: 29rem; border-radius: 0.5rem" class="post_detail">
-            </div>  
+            </div>
         </div>
-
+        <div>
+            {% if page_obj.has_other_pages %}
+                <ul style="display:flex; list-style:none;">
+                    {% if page_obj.has_previous %}
+                    <li style="margin:3px;"><a style="text-decoration:none; color: blue;" href="?page={{page_obj.previous_page_number}}">&#10094; Prev</a></li>
+                    {% endif %}
+                    {% for page in custom_range %}
+                    {% if page == page_obj.number%}
+                        <li style="margin:3px;"><a style="text-decoration:none; color: red;" href="?page={{page}}">{{page}}</a></li>
+                    {% else %}
+                        <li style="margin:3px;"><a style="text-decoration:none; color: blue;" href="?page={{page}}">{{page}}</a></li>
+                    {% endif%}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                    <li style="margin:3px;"><a style="text-decoration:none; color: blue;" href="?page={{page_obj.next_page_number}}">Next &#10095; </a></li>
+                    {% endif %}
+                </ul>
+            {% endif %}
+        </div>
         <script src="http://code.jquery.com/jquery-latest.js"></script>
         <script>    
             const requestDetail = new XMLHttpRequest();
             const requestLike = new XMLHttpRequest();
+            const requestComment = new XMLHttpRequest();
+            const requestStore = new XMLHttpRequest();
+            const onClickStore = (id) => {
+                const url = "/store_ajax/";
+                requestStore.open("POST", url, true);
+                requestStore.setRequestHeader(
+                "Content-Type",
+                "application/x-www-form-urlencoded"
+                );
+                requestStore.send(JSON.stringify({ id: id}));
+            };
+
+            requestStore.onreadystatechange = () => {
+                if (requestStore.readyState === XMLHttpRequest.DONE) {
+                if (requestStore.status < 400) {
+                    const { id, store_true } = JSON.parse(requestStore.response);
+                    const element = document.querySelector(`.store_or_not_${id}`);
+                    const originHTML = element.innerHTML;
+                    const text = originHTML;
+                    if (store_true == true){
+                        element.innerHTML = `저장 O`;
+                    }else{
+                        element.innerHTML = `저장 X`;
+                    }
+                }
+                }
+            };
+
             const onClickDetail = (id) => {
                 const url = "/detail_ajax/";
                 requestDetail.open("POST", url, true);
@@ -119,11 +141,14 @@
         
             requestDetail.onreadystatechange = () => {
                 if (requestDetail.readyState === XMLHttpRequest.DONE) {
-                  if (requestDetail.status < 400) {
-                    const { post_user, post_id, post_title, post_photo, post_content, post_created, photo_url, ingredientL, comments, today, post_quantity } = JSON.parse(requestDetail.response);
+                if (requestDetail.status < 400) {
+                    const { post_user, post_id, post_title, post_photo, post_content, post_created, photo_url, ingredientL, comments, today, post_quantity, post_username } = JSON.parse(requestDetail.response);
+                    console.log(comments)
+                    console.log(typeof(comments))
+                    console.log(comments.length)
                     let div_generate = ``;
-                    for (let i = 0; i < ingredientL.length; i++) {
-                      div_generate += `<div class="one_ingredient" style="margin-left:1rem">${ingredientL[i]}</div>`;
+                    for (let i = 0; i < ingredientL.length; i++){
+                         div_generate += `<div class="one_ingredient" style="margin-left:1rem">${ingredientL[i]}</div>`;
                     }
                     // let comments_list = ``;
                     // for (let k = 0; k < comment_id_L.length; k++){
@@ -134,80 +159,145 @@
                     //         <hr>
                     //     </div>`
                     // }
-                    let templatetag = "{% if post.id == comment.post_id.id %}".replace(
-                      "post.id",
-                      post_id
-                    );
+                    let templatetag = "{% if post.id == comment.post_id.id %}".replace("post.id", post_id);
                     let templatetag2 = "{% endif %}";
                     const element1 = document.querySelector(`.post_detail`);
                     const originHTML1 = element1.innerHTML;
+
                     const detail_list = originHTML1;
+                    
+                    let list_of_comments = document.createElement("div");
+                    list_of_comments.id = "more_comments";
+
+                    console.log(list_of_comments.id)
+                    console.log("postuser", post_user)
+
+                    console.log(post_user)
+                    for(let i =0; i < comments.length; i++){
+                        if(comments[i].deleted){
+                            list_of_comments.innerHTML += `
+                            <span>삭제된 댓글입니다.</span><hr>
+                            `;
+                        }
+                        else{
+                            if(comments[i].user_id__username == post_user){
+                                list_of_comments.innerHTML += `
+                                <div id="${comments[i].id}">
+                                <strong>${comments[i].user_id__name}(${comments[i].user_id__username})<span>글쓴이</span></strong>
+
+                                `;
+                            }
+                            else{
+                                list_of_comments.innerHTML += `
+                                <div id="${comments[i].id}">
+                                <div id="${comments[i].id}">
+                                <strong>${comments[i].user_id__name}(${comments[i].user_id__username})</strong>
+
+                                `;
+                            }
+                            console.log(today, comments[i].day)
+                            if(today == comments[i].day){
+                                list_of_comments.innerHTML += `
+                                <span>${comments[i].time}</span>
+                                `;
+                            }
+                            else{
+                                list_of_comments.innerHTML += `
+                                <span>${comments[i].day}</span>
+                                `;
+                            }
+                            if(comments[i].user_id == requestDetail.response.user){
+                                list_of_comments.innerHTML += `
+                                    <div>
+                                        <div>${comments[i].content}</div>
+                                        <div>
+                                            <a onclick="commentDelete('${comments[i].id}');">댓글삭제</a>
+                                        </div>
+                                    </div>
+                                <hr>
+                            </div>
+                                <div class='${comments[i].id}'></div>
+                                `;
+                            }
+                            else{
+                                list_of_comments.innerHTML += `
+                                <div>
+                                    <div>${comments[i].content}</div>
+                                </div>
+                                <hr>
+                            </div>
+                                <div class='${comments[i].id}'></div>
+                                `;
+                            }
+                        }
+                    }
+
                     element1.innerHTML =
-                      `
-                        <article class="다른 backgorund color클래스">
-                            <div class="detail_top" style="padding-top: 47px; padding-bottom: 20px; margin-left:-2rem">
-                                <div class="post_title" style="font-siz:40px; font-family: var( --recipe-font); margin-left: 1rem; ">${post_title}</div>
-                                <div class="ingredient_container"  style="grid-gap: 3rem; margin-left:-10rem">` +
-                      div_generate +
-                      `</div>
+                        `
+                            <article class="다른 backgorund color클래스">
+                                <div class="detail_top" style="padding-top: 47px; padding-bottom: 20px">
+                                    <div class="post_title" style="font-size:40px; font-family: var(--recipe-font); margin-left: 1rem; ">${post_title}</div>
+                                    <div class="ingredient_container">` +
+                        div_generate +
+                        `</div>
+                            </div>
+                            <pre style="white-space:pre-wrap">${post_quantity}</pre>
+                            <div class="user_who_write">
+                                <i class="fa-sharp fa-regular fa-circle-user" style="with: 8%"></i>
+                                <div class="writer_name" style="font-size: 10px">
+                                    <span>${ post_user }</span><span> (</span><span class = "writer_name" >${post_username}</span><span>)</span>
+                            </div>
                             </div>
                             <div class="detail_middle" style="margin-bottom:1.5rem">
                                 <p>
-                                    <img src="${photo_url}"/>
+                                    <img src="${photo_url}" />
                                 </p>
                                 <pre class="post_content" style="overflow:auto; margin-left:16px; white-space:pre-wrap; margin-right: 3%; ">${post_content}</pre>
                             </div>
-                            <div class="detail_bottom" style="margin-left: 10%;">
-                              <div class="like_container" style="float:right;">
-                                  <button
-                                    style="border: 0"
-                                    class="like_{{post.id}}"
-                                    onclick="onClickLike({{post.id}})">
-                                    <img
-                                      src="{% static 'image/복주머니(빈칸).png' %}"
-                                      alt="복주머니"
-                                      style="width: 5rem;
-                                      border: 0;
-                                      background-color: #F7F5EB;"
-                                    />
-                                  </button>
-                                  <div class="like_dislike" style="position:absolute;"> {{post.number}}</div>
-                              </div>
-                              <div class="post_created" style="font-size:medium; margin-top:2.5rem;">${post_created.slice(2,10)}    
-                              </div>
-                              <div class="comment_main" style="width: 20rem; float:right; margin-top:2rem;">
-                                  <div class="comment">
-                                      <textarea class="comment_form_${post_id}" 
-                                          id="content_id" 
-                                          cols="30" rows="1" 
-                                          style="width: 17.5rem; background-color: #F7F5EB;"
-                                          placeholder="댓글을 입력하세요.">
-                                      </textarea>
-                                  </div>
-                                  <div class="comment_send">
-                                      <button onclick="onClickComment(${post_id})" id="comment_write"><i class="fa-regular fa-paper-plane"></i></button>
-                                  </div>
-                              </div>
+                            <div class="detail_bottom" style=" margin-left: 4%; margin-top: -3rem;">
+                                <div class="like_container" style="float:right;">
+                                    <button
+                                        style="border: 0"
+                                        class="like_{{post.id}}"
+                                        onclick="onClickLike({{post.id}})">
+                                        <img
+                                            src="{% static 'image/복주머니(빈칸).png' %}"
+                                            alt="복주머니"
+                                            style="width: 5rem;
+                                            border: 0;
+                                            background-color: #F7F5EB;"
+                                        />
+                                    </button>
+                                    <div class="like_dislike" style="position:absolute;"> {{post.number}}</div>
+                                </div>
+                                <div class="post_created" style="font-size:medium; margin-top:2.5rem;">${post_created.slice(2, 10)}</div>
+                                <div class="comment_main" style="width: 20rem; float:right; margin-top:2rem;">
+                                    {%csrf_token%}
+                                    <div class="comment">
+                                        <textarea class="comment_form_${post_id}"
+                                            id="content_id" 
+                                            cols="30" rows="1" 
+                                            style="width: 17.5rem; background-color: #F7F5EB;" placeholder="댓글을 입력해주세요">
+                                        </textarea>
+                                    </div>
+                                    <div class="comment_send">
+                                        <button onClick="onClickComment(${post_id})" id="comment_write"><i class="fa-regular fa-paper-plane"></i></button>
+                                    </div>
+                                </div>
                             </div>
                         </article>
-                        <div class="comment_list_${post_id}">
-                            {% if comments %}
-                                {% for comment in comments %}` +
-                      templatetag +
-                      `<div class="comment_id_{{comment.id}}">
-                                        <p>댓글: {{comment.content}}</p>
-                                        <button onclick="onClickDelete({${post_id}, {{comment.id}})">댓글 삭제</button>
-                                        <hr>
-                                    </div>` +
-                      templatetag2 +
-                      `{% endfor %}
-                            {% endif %}
+                        <hr>
+                        <input type="hidden" id="comment_writer" value={{request.user}}>
+                            <div id="comment_list${post_id}"></div>
                         </div>
-                        `;
-                  }
+                        <div id="pid">${post_id}<div>`; // 히든으로 만들어야함
+
+                        element1.innerHTML += list_of_comments.innerHTML;
                 }
-              };
+                }
+            };
         
+            
             const onClickLike = (id) => {
                 const url = "/like_ajax/";
                 requestLike.open("POST", url, true);
@@ -221,33 +311,109 @@
             requestLike.onreadystatechange = () => {
                 if (requestLike.readyState === XMLHttpRequest.DONE) {
                 if (requestLike.status < 400) {
-                    const { like_true, number } = JSON.parse(requestLike.response);
+                    const { id, like_true, number } = JSON.parse(requestLike.response);
                     // const element = document.querySelector(`.like_{{post.id}}`);
-                    const element = document.querySelector(`.like_dislike`);
+                    const element = document.querySelector(`.like_dislike_${id}`);
                     const originHTML = element.innerHTML;
-                    const like_list = originHTML;
-                    location.reload();
-                    if (like_true = true){
-                        const count = Number(number) - 1;
-                        element.innerHTML = `좋아요 개수: ${count}`;
+                    const [text1, text2, num] = originHTML.split(" ");
+                    if (like_true == true){
+                        const count = Number(num) + 1;
+                        element.innerHTML = `${text1} ${text2} ${count}`;
                     }else{
-                        const count = Number(number) + 1;
-                        element.innerHTML = `좋아요 개수: ${count}`;
+                        const count = Number(num) - 1;
+                        element.innerHTML = `${text1} ${text2} ${count}`;
                     }
                 }
                 }
             };
             
+
+            const onClickComment = (pk) => {
+                console.log("hello")
+                var content = $("#content_id").val();
+                var writer = $("#comment_writer").val();
+                
+                var pk = pk
+                console.log(pk)
+                var url = "{% url 'posts:comment_create' 1234%}".replace(/1234/, pk);
+                $.ajax({
+                    type : "POST",
+                    url: url,
+                    dataType: "json",
+                    data: {
+                        'comment_writer' : writer,
+                        'content' : content,
+                        'csrfmiddlewaretoken': '{{csrf_token}}',
+                    },
+                    success : function (response){
+                        if (response.self_comment){
+                            console.log("일치", response)
+
+                            $(`#comment_list${pk}`).append(
+                                '<div><div id='+response.comment_id+'><strong>'+response.writer_name+"("+response.comment_writer+")"+'&nbsp;<span>'+response.self_comment+'</span></strong>'+
+                                    '<span>'+response.created+'</span>'+
+                                    '<div><div>'+response.content+
+                                    '</div><div><a onclick="commentDelete('+response.comment_id+');">댓글삭제</a></div></div><hr></div><div class='+response.comment_id+'></div>'
+                            );
+                        }
+                        else{
+                            console.log("불일치", response)
+                            $(`#comment_list${pk}`).append(
+
+                                '<div><div id='+response.comment_id+'><strong>'+response.writer_name+"("+response.comment_writer+")"+'</strong>'+
+                                '<span>'+response.created+'</span>'+
+                                '<div><div >'+response.content+
+                                '</div><div ><a onclick="commentDelete('+response.comment_id+');">댓글삭제</a></div></div><hr></div><div class='+response.comment_id+'></div>'
+                            );
+                        }
+                        $('#content_id').val("");
+                    },
+                    error: function (){
+                        if ($('#content_id').val()==""){
+                            alert('댓글을 입력해주세요.');
+                        }
+                    },
+                })
+            }
+
+            function commentDelete(value){
+                var comment_id = value;
+                var pid = $("#pid").text();
+                pid = pid.trim();
+                console.log(pid);
+                var delete_warning = confirm('댓글을 삭제하시겠습니까?');
+                if (delete_warning == true){
+                    $.ajax({
+                        type: "POST",
+                        url : "{% url 'posts:comment_delete' 1234%}".replace(/1234/, pid),
+
+                        dataType: "json",
+                        data: {
+                            "comment_id" : comment_id,
+                            'csrfmiddlewaretoken': '{{csrf_token}}',
+                        },
+                        success: function(response){
+                            $('#'+response.comment_id).replaceWith('<span ">삭제된 댓글입니다.</span><hr>');
+                        },
+                        error: function () {
+                            alert('본인 댓글이 아닙니다.');
+                        },
+                    });
+                }
+            }
+
             //수정, 삭제 버튼 해당 유저만 보이도록 구현
             $username = $("#user_name").text()
-            $(".writer_name")[0].innerHTML
+            console.log($username)
+            {% comment %} $(".writer_name")[0].innerHTML {% endcomment %}
             for(i = 0; i < $(".writer_name").length; i++){
+                console.log($(".writer_name")[i].innerHTML);
                 if($("#user_name").text() != $(".writer_name")[i].innerHTML){
                   
                   $(".update")[i].type = "hidden";
                   $(".delete")[i].type = "hidden";
                 }
-              }
+            }
         </script>
         <script src="https://kit.fontawesome.com/6fbcf91afd.js" crossorigin="anonymous"></script>
     </body>
