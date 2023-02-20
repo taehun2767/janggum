@@ -685,7 +685,8 @@ def detailajax(request, *args, **kwargs):
     #     comment_content_L.append(comment.content)
     #     comment_created_L.append(comment.created_at)
 
-    post_user = post.user.username
+    post_username = post.user.username
+    post_user = post.user.name
     post_title = post.title
     post_quantity = post.ingredient_quantity
     photo_url = post.photo.url
@@ -744,7 +745,7 @@ def detailajax(request, *args, **kwargs):
     # }
 
 
-    return JsonResponse({'post_user': post_user, 'post_id': post_id, 'post_title':post_title,  'post_content': post_content, 'post_created':post_created, 'photo_url':photo_url, 'ingredientL':ingredientL, 'comments': commentList, 'today':today, 'post_quantity': post_quantity})
+    return JsonResponse({'post_username':post_username,'post_user': post_user, 'post_id': post_id, 'post_title':post_title,  'post_content': post_content, 'post_created':post_created, 'photo_url':photo_url, 'ingredientL':ingredientL, 'comments': commentList, 'today':today, 'post_quantity': post_quantity})
     # return JsonResponse({'post_id': post_id, 'post_title':post_title,  'post_content': post_content, 'post_created':post_created, 'photo_url':photo_url, 'ingredientL':ingredientL, 'comment_id_L':comment_id_L, 'comment_content_L':comment_content_L, 'comment_created_L':comment_created_L, 'comment_id_L':comment_id_L})
 # 'comment_id_L':comment_id_L, 'comment_userid_L':comment_userid_L, 'comment_content_L':comment_content_L, 'comment_created_L':comment_created_L
 

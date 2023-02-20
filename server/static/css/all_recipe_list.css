@@ -55,12 +55,11 @@ img {
 
 .user_who_write {
   display: flex;
-  justify-content: end;
-  flex-direction: row;
-  position: absolute;
+  justify-content: center;
+  /* position: absolute;
   margin-left: 168px;
   margin-bottom: 236px;
-  font-weight: 800;
+  font-weight: 800; */
 }
 
 .fa-regular {
