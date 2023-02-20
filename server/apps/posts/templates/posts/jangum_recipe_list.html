@@ -7,6 +7,11 @@
     <title>장금이 요리백서</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/jangum_recipe_list.css' %}" />
+    <style>
+        .one_ingredient:nth-child(odd) {
+          background-color : #994d48;
+        }
+    </style>
     {% include 'posts/header_base.html' %}
     <span class="sort_search">
         <div style="font-size: larger;">장금이 레시피</div>
@@ -99,7 +104,7 @@
             {% endif %}
             {% endfor %}
         </div>
-        <div id="list_container" style="width: 38rem; height:28rem; border-radius: 0.5rem" class="post_detail"></div> 
+        <div id="list_container" style="width: 40rem; height: 30rem; border-radius: 0.5rem" class="post_detail"></div> 
         </div>
     </div>
 
@@ -142,31 +147,33 @@
                 const detail_list = originHTML1;
                 element1.innerHTML = `
             <article class="다른 backgorund color클래스">
-                <div class="detail_top" style="padding-top: 47px; padding-bottom: 20px">
+                <div class="detail_top" style="padding-top: 67px; padding-bottom: 20px; margin-left:-2rem">
                     <div class="post_title" style="font-siz:40px; font-family: var( --recipe-font); margin-left: 1rem; ">${post_title}</div>
-                    <div class="ingredient_container">` 
+                    <div class="ingredient_container"style="grid-gap: 3rem; margin-left:-10rem">` 
                         + div_generate +
                     `</div>
                 </div>
-                <div class="detail_middle" style="margin-bottom:1.5rem">
+                <div id="detail_middle" style="margin-bottom:1.5rem">
                     <p>
-                        <img src="${photo_url}" />
+                        <img src="${photo_url}" style="height: auto; width: 135px; margin-left: 38%;" />
                     </p>
                     <pre class="post_content" style="overflow:auto; margin-left:16px; white-space:pre-wrap; margin-right: 3%; ">${post_content}</pre>
                 </div>
-                <div class="detail_bottom" style="
-                margin-left: 10%;
-                position: absolute;">
-                    <div>
-                        <div class="post_created"  style="font-size:medium">${post_created.slice(2, 10)}</div>
+                <div id="detail_bottom" style="margin-left: 10%;">
+                    <div class="like_container" style="float:right;">
+                        <button style="border: 0"class="like_{{post.id}}" onclick="onClickLike({{post.id}})">
+                          <img src="{% static 'image/복주머니(빈칸).png' %}" alt="복주머니" style="width: 5rem; border: 0; background-color: #F7F5EB;"/>
+                        </button>
+                        <div class="like_dislike" > {{post.number}}</div>
                     </div>
-              
-                    <div class="comment_main" style="width: 20rem; float:right">
+                    <div class="post_created" style="font-size:medium; margin-top:2.5rem;">${post_created.slice(2, 10)}
+                    </div>
+                    <div class="comment_main" style="width: 20rem; float:right; margin-top:2rem;">
                         <div class="comment">
                             <textarea class="comment_form_${post_id}" 
                                 id="content_id" 
                                 cols="30" rows="1" 
-                                style="width: 17.5rem; background-color: #F7CF63;
+                                style="width: 17.5rem; background-color: #F7F5EB;;
                                 height: 2rem;"
                                 placeholder="댓글을 입력하세요.">
                             </textarea>
