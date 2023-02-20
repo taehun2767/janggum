@@ -176,7 +176,7 @@
             requestDetail.onreadystatechange = () => {
                 if (requestDetail.readyState === XMLHttpRequest.DONE) {
                 if (requestDetail.status < 400) {
-                    const { post_user, post_id, post_title, post_photo, post_content, post_created, photo_url, ingredientL, comments, today, post_quantity } = JSON.parse(requestDetail.response);
+                    const { post_user,post_username, post_id, post_title, post_photo, post_content, post_created, photo_url, ingredientL, comments, today, post_quantity} = JSON.parse(requestDetail.response);
                     console.log(comments)
                     console.log(typeof(comments))
                     console.log(comments.length)
@@ -277,9 +277,12 @@
                             </div>
                             <pre style="white-space:pre-wrap">${post_quantity}</pre>
                             <div class="user_who_write">
-                              <i class="fa-sharp fa-regular fa-circle-user" style="with: 8%"></i>
-                              <div class="writer_name" style="font-size: 10px">
-                                  <span>{{ post.user.name }}</span><span> (</span><span class = "writer_name" >{{post.user}}</span><span>)</span>
+                                <i class="fa-sharp fa-regular fa-circle-user" style="with: 8%"></i>
+                                <div class="writer_name" style="font-size: 10px">
+                                    <span>${post_username}</span>
+                                    <span class = "writer_name" >${ post_user}</span>
+            
+                                </div>
                             </div>
                             </div>
                             <div class="detail_middle" style="margin-bottom:1.5rem">
