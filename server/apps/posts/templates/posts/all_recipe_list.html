@@ -61,11 +61,11 @@
                             <button style="border: 0; position: absolute;"
                                 class="store_{{post.id}}" onclick="onClickStore({{post.id}})">
                                 <i class="fa-solid fa-bookmark" style="color: #a64d4b; margin-left: 5px"></i>
-                                <div class="store_or_not_{{post.id}}">찜 하기</div>
+                                <div class="store_or_not_{{post.id}}" style="font-family:var(--recipe-font); margin-top:1px;">찜 하기</div>
                             </button>
                             <div class="recipe_title">
                                 <button onclick="onClickDetail({{post.id}})" style="font-family: var(--recipe-font); width: 60%; margin-top: 16px;
-                                font-size: x-large; margin-bottom: 6px;">{{post.title}}</button>
+                                font-size: x-large; margin-bottom: 6px; background-color:transparent;">{{post.title}}</button>
                             </div>
                               {% comment %}
                               <a href="{%url 'posts:profile' post.user_pk%}" class="writer_name">{{ post.user }}</a>
@@ -105,17 +105,17 @@
                     {% if page_obj.has_other_pages %}
                         <ul style="display:flex; list-style:none;">
                             {% if page_obj.has_previous %}
-                            <li style="margin:3px;"><a style="text-decoration:none; color: blue;" href="?page={{page_obj.previous_page_number}}">&#10094; Prev</a></li>
+                            <li style="margin:3px;"><a style="text-decoration:none; color: #575757;" href="?page={{page_obj.previous_page_number}}">&#10094; Prev</a></li>
                             {% endif %}
                             {% for page in custom_range %}
                             {% if page == page_obj.number%}
-                                <li style="margin:3px;"><a style="text-decoration:none; color: red;" href="?page={{page}}">{{page}}</a></li>
+                                <li style="margin:3px;"><a style="text-decoration:none; color: var(--main-color-2);" href="?page={{page}}">{{page}}</a></li>
                             {% else %}
-                                <li style="margin:3px;"><a style="text-decoration:none; color: blue;" href="?page={{page}}">{{page}}</a></li>
+                                <li style="margin:3px;"><a style="text-decoration:none; color: #575757;" href="?page={{page}}">{{page}}</a></li>
                             {% endif%}
                             {% endfor %}
                             {% if page_obj.has_next %}
-                            <li style="margin:3px;"><a style="text-decoration:none; color: blue;" href="?page={{page_obj.next_page_number}}">Next &#10095; </a></li>
+                            <li style="margin:3px;"><a style="text-decoration:none; color: #575757;" href="?page={{page_obj.next_page_number}}">Next &#10095; </a></li>
                             {% endif %}
                         </ul>
                     {% endif %}
@@ -262,7 +262,9 @@
                             else{
                                 list_of_comments.innerHTML += `
                                 <div>
-                                    <div>${comments[i].content}</div>
+                                    <div class="comment_content" style="     font-family: var(--sub-font);
+                                        font-size: large;
+                                        font-weight: 700;">${comments[i].content}</div>
                                 </div>
                                 <hr>
                             </div>
@@ -393,10 +395,10 @@
                             console.log("일치", response)
 
                             $(`#comment_list${pk}`).append(
-                                '<div><div id='+response.comment_id+'><strong>'+response.writer_name+"("+response.comment_writer+")"+'&nbsp;<span>'+response.self_comment+'</span></strong>'+
-                                    '<span>'+response.created+'</span>'+
-                                    '<div><div>'+response.content+
-                                    '</div><div><a onclick="commentDelete('+response.comment_id+');">댓글삭제</a></div></div><hr></div><div class='+response.comment_id+'></div>'
+                                '<div><div id='+response.comment_id+'><strong style="font-size:large"><i class="fa-solid fa-user"></i>'+response.writer_name+"("+response.comment_writer+")"+'&nbsp;<span>'+response.self_comment+'</span></strong>'+
+                                    '<span class="comment_time" style="font-size: medium; font-family:var(--sub-font);">'+response.created+'</span>'+
+                                    '<div style="display: flex; justify-content: space-between;flex-direction: row; "><div class="comment_content" style="     font-family: var(--sub-font);  font-size: large; font-weight: 700;">'+response.content+
+                                    '</div><div><a class="delete_button" onclick="commentDelete('+response.comment_id+');" style="text-decoration: none; color: white; background-color: var(--main-color-2); padding: 10px 20px; font-size: large; border-radius: 0.5rem; margin-right: 20px;">댓글삭제</a></div></div><hr></div><div class='+response.comment_id+'></div>'
                             );
                         }
                         else{

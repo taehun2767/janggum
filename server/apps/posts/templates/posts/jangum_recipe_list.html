@@ -53,79 +53,82 @@
         <div class="both_container">
             <div class="all_recipe_box">
                 {% for post in page_obj %}
-                {% if post.number > 0 %}
-                <article class="backgorundcolor">
-                    <div class="each_recipe">
-                        <div class="recipe_content"> 
-                            <button style="border: 0; position: absolute; margin-top: 8px;"
-                                class="store_{{post.id}}" onclick="onClickStore({{post.id}})">
-                                <i class="fa-solid fa-bookmark" style="color: #a64d4b; margin-left: 5px"></i>
-                                <div class="store_or_not_{{post.id}}" style="font-family:var(--recipe-font); margin-top:1px;">찜 하기</div>
-                            </button>
-                            <div class="recipe_title">
-                                <button onclick="onClickDetail({{post.id}})" style="font-family: var(--recipe-font); width: 60%; margin-top: 16px;
-                                font-size: x-large; margin-bottom: 6px; background-color:transparent;">{{post.title}}</button>
-                            </div>
-                              {% comment %}
-                              <a href="{%url 'posts:profile' post.user_pk%}" class="writer_name">{{ post.user }}</a>
-                              {% endcomment %}
-                              
-                            {% if post.photo %}
-                            <p>
-                                <img style="height: 100px; width: 100px" src="{{ post.photo.url }}" />
-                            </p>
-                            {% endif %}
-                            <div class="recipe_content_bottom">
-                                <div class="like_container">
-                                    <button style=" border: 0" class="like_{{post.id}}" onclick="onClickLike({{post.id}})"><img
-                                        src="{% static 'image/복주머니_빨강.png' %}"
-                                        alt="복주머니"
-                                        style="width: 20px; border: 0" />
-                                    </button>
-                                    <div>
-                                        <span></span>좋아요 개수: <span class="like_dislike_{{post.id}}">{{post.number}}</span>
-                                    </div>
+                    {% if post.number > 0 %}
+                    <article class="backgorundcolor">
+                        <div class="each_recipe">
+                            <div class="recipe_content"> 
+                                <button style="border: 0; position: absolute; margin-top: 8px;"
+                                    class="store_{{post.id}}" onclick="onClickStore({{post.id}})">
+                                    <i class="fa-solid fa-bookmark" style="color: #a64d4b; margin-left: 5px"></i>
+                                    <div class="store_or_not_{{post.id}}" style="font-family:var(--recipe-font); margin-top:1px;">찜 하기</div>
+                                </button>
+                                <div class="recipe_title">
+                                    <button onclick="onClickDetail({{post.id}})" style="font-family: var(--recipe-font); width: 60%; margin-top: 16px;
+                                    font-size: x-large; margin-bottom: 6px; background-color:transparent;">{{post.title}}</button>
                                 </div>
-                                <div style="margin-top: -11px">{{post.created_at}}</div>
-                            </div>
-                            <div class="ingredient_container">
-                                {%for ele in post.ingredientList%}
-                                <div class="one_ingredient" style="font-weight: 600">{{ele}}</div>
-                                {%endfor%}
+                                {% comment %}
+                                <a href="{%url 'posts:profile' post.user_pk%}" class="writer_name">{{ post.user }}</a>
+                                {% endcomment %}
+                                
+                                {% if post.photo %}
+                                <p>
+                                    <img style="height: 100px; width: 100px" src="{{ post.photo.url }}" />
+                                </p>
+                                {% endif %}
+                                <div class="recipe_content_bottom">
+                                    <div class="like_container">
+                                        <button style=" border: 0" class="like_{{post.id}}" onclick="onClickLike({{post.id}})"><img
+                                            src="{% static 'image/복주머니_빨강.png' %}"
+                                            alt="복주머니"
+                                            style="width: 20px; border: 0" />
+                                        </button>
+                                        <div>
+                                            <span></span>좋아요 개수: <span class="like_dislike_{{post.id}}">{{post.number}}</span>
+                                        </div>
+                                    </div>
+                                    <div style="margin-top: -11px">{{post.created_at}}</div>
+                                </div>
+                                <div class="ingredient_container">
+                                    {%for ele in post.ingredientList%}
+                                    <div class="one_ingredient" style="font-weight: 600">{{ele}}</div>
+                                    {%endfor%}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div style="display:none;"class="writer_name">{{ post.user }}</div>
-                </article>
-                {% endif%}
+                        <div style="display:none;"class="writer_name">{{ post.user }}</div>
+                    </article>
+                    {% endif%}
                 {% endfor %}
+                <br>
+                <div>
+                    {% if page_obj.has_other_pages %}
+                        <ul style="display:flex; list-style:none;">
+                            {% if page_obj.has_previous %}
+                            <li style="margin:3px;"><a style="text-decoration:none; color: #575757;" href="?page={{page_obj.previous_page_number}}">&#10094; Prev</a></li>
+                            {% endif %}
+                            {% for page in custom_range %}
+                            {% if page == page_obj.number%}
+                                <li style="margin:3px;"><a style="text-decoration:none; color: var(--main-color-2);" href="?page={{page}}">{{page}}</a></li>
+                            {% else %}
+                                <li style="margin:3px;"><a style="text-decoration:none; color: #575757;" href="?page={{page}}">{{page}}</a></li>
+                            {% endif%}
+                            {% endfor %}
+                            {% if page_obj.has_next %}
+                            <li style="margin:3px;"><a style="text-decoration:none; color: #575757;" href="?page={{page_obj.next_page_number}}">Next &#10095; </a></li>
+                            {% endif %}
+                        </ul>
+                    {% endif %}
+                </div>    
             </div>
             <div class="line_vertical">
                 <div class="line_vertical_1"></div>
                 <div class="line_vertical_2"></div>
             </div>
-            <div id="list_container" style="width: 40rem; height: 29rem; border-radius: 0.5rem" class="post_detail">
+            <div class="scroll_list_container">
+                <div id="list_container" style="width: 40rem; height: 29rem; border-radius: 0.5rem" class="post_detail">
+                </div>
             </div>
-        </div>
-        <div>
-            {% if page_obj.has_other_pages %}
-                <ul style="display:flex; list-style:none;">
-                    {% if page_obj.has_previous %}
-                    <li style="margin:3px;"><a style="text-decoration:none; color: #575757;" href="?page={{page_obj.previous_page_number}}">&#10094; Prev</a></li>
-                    {% endif %}
-                    {% for page in custom_range %}
-                    {% if page == page_obj.number%}
-                        <li style="margin:3px;"><a style="text-decoration:none; color: var(--main-color-2);" href="?page={{page}}">{{page}}</a></li>
-                    {% else %}
-                        <li style="margin:3px;"><a style="text-decoration:none; color: #575757;" href="?page={{page}}">{{page}}</a></li>
-                    {% endif%}
-                    {% endfor %}
-                    {% if page_obj.has_next %}
-                    <li style="margin:3px;"><a style="text-decoration:none; color: #575757;" href="?page={{page_obj.next_page_number}}">Next &#10095; </a></li>
-                    {% endif %}
-                </ul>
-            {% endif %}
-        </div>        
+        </div>    
         <script src="http://code.jquery.com/jquery-latest.js"></script>
         <script>    
             const requestDetail = new XMLHttpRequest();
@@ -211,7 +214,7 @@
                             if(comments[i].user_id__username == post_user){
                                 list_of_comments.innerHTML += `
                                 <div id="${comments[i].id}">
-                                <strong>${comments[i].user_id__name}(${comments[i].user_id__username})<span>글쓴이</span></strong>
+                                <strong>${comments[i].user_id__name}(${comments[i].user_id__username})<span class="comment_writer" style="font-size:medium; font-family:var(--sub-font);">글쓴이</span></strong>
 
                                 `;
                             }
@@ -219,27 +222,34 @@
                                 list_of_comments.innerHTML += `
                                 <div id="${comments[i].id}">
                                 <div id="${comments[i].id}">
-                                <strong>${comments[i].user_id__name}(${comments[i].user_id__username})</strong>
+                                <strong style="font-size:large"><i class="fa-solid fa-user"></i>${comments[i].user_id__name}(${comments[i].user_id__username})</strong>
 
                                 `;
                             }
                             console.log(today, comments[i].day)
                             if(today == comments[i].day){
                                 list_of_comments.innerHTML += `
-                                <span>${comments[i].time}</span>
+                                <span class="comment_time" style="font-size: medium; font-family:var(--sub-font);">${comments[i].time}</span>
                                 `;
                             }
                             else{
                                 list_of_comments.innerHTML += `
-                                <span>${comments[i].day}</span>
+                                <span class="comment_time" style="font-size: medium; font-family:var(--sub-font);">${comments[i].day}</span>
                                 `;
                             }
                             if(comments[i].user_id == requestDetail.response.user){
                                 list_of_comments.innerHTML += `
-                                    <div>
-                                        <div>${comments[i].content}</div>
+                                    <div style="display: flex; justify-content: space-between;flex-direction: row; ">
+                                        <div class="comment_content" style="     font-family: var(--sub-font);
+                                        font-size: large;
+                                        font-weight: 700;">${comments[i].content}</div>
                                         <div>
-                                            <a onclick="commentDelete('${comments[i].id}');">댓글삭제</a>
+                                            <a class="delete_button" onclick="commentDelete('${comments[i].id}');" style="text-decoration: none;
+                                            color: white;
+                                            background-color: var(--main-color-2);
+                                            padding: 10px 20px;
+                                            font-size: large;
+                                            border-radius: 0.5rem; margin-right: 20px;">댓글삭제</a>
                                         </div>
                                     </div>
                                 <hr>
@@ -250,7 +260,9 @@
                             else{
                                 list_of_comments.innerHTML += `
                                 <div>
-                                    <div>${comments[i].content}</div>
+                                    <div class="comment_content" style="     font-family: var(--sub-font);
+                                        font-size: large;
+                                        font-weight: 700;">${comments[i].content}</div>
                                 </div>
                                 <hr>
                             </div>
@@ -378,10 +390,10 @@
                             console.log("일치", response)
 
                             $(`#comment_list${pk}`).append(
-                                '<div><div id='+response.comment_id+'><strong>'+response.writer_name+"("+response.comment_writer+")"+'&nbsp;<span>'+response.self_comment+'</span></strong>'+
-                                    '<span>'+response.created+'</span>'+
-                                    '<div><div>'+response.content+
-                                    '</div><div><a onclick="commentDelete('+response.comment_id+');">댓글삭제</a></div></div><hr></div><div class='+response.comment_id+'></div>'
+                                '<div><div id='+response.comment_id+'><strong style="font-size:large"><i class="fa-solid fa-user"></i>'+response.writer_name+"("+response.comment_writer+")"+'&nbsp;<span>'+response.self_comment+'</span></strong>'+
+                                    '<span class="comment_time" style="font-size: medium; font-family:var(--sub-font);">'+response.created+'</span>'+
+                                    '<div style="display: flex; justify-content: space-between;flex-direction: row; "><div class="comment_content" style="     font-family: var(--sub-font);  font-size: large; font-weight: 700;">'+response.content+
+                                    '</div><div><a class="delete_button" onclick="commentDelete('+response.comment_id+');" style="text-decoration: none; color: white; background-color: var(--main-color-2); padding: 10px 20px; font-size: large; border-radius: 0.5rem; margin-right: 20px;">댓글삭제</a></div></div><hr></div><div class='+response.comment_id+'></div>'
                             );
                         }
                         else{
