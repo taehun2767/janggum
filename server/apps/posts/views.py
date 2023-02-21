@@ -12,7 +12,7 @@ from django.core import serializers
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage #페이지네이션
 from datetime import datetime
-
+from django.urls import reverse
 all_used_ingredient_set = set()
 ingredientL = []
 #메인 페이지 => main.html을 기본으로 보여주고 재료로 검색시 recipe list 창으로 context 보내며 render
@@ -466,8 +466,6 @@ def posts_janggum_list(request:HttpRequest, *args, **kwargs):
         if user_pk:
             user_pk= user_pk[0].pk
         post.user_pk = user_pk
-        if post.number > 0:
-            postList.append(post)
         post.save()
     sort = request.GET.get('sort', '')
     if sort =="likes":
@@ -481,7 +479,7 @@ def posts_janggum_list(request:HttpRequest, *args, **kwargs):
                 ingredientStr = post.ingredient[2:-3].replace("'", '')
                 ingredientList = ingredientStr.split(',')
                 post.ingredientList = ingredientList
-                if post.number > 0:
+                if post.number >= 10:
                     postList.append(post)
                 post.save()
     # context = {
@@ -683,7 +681,10 @@ def posts_delete(request:HttpRequest, pk, *args, **kwargs):
         
         if post.user == User.objects.get(username= request.user.get_username()):
             post.delete()
-    return redirect("posts:all_recipe")
+    context= {
+        'pk' : pk
+    }
+    return redirect(f"/")
 
 def posts_retrieve(request:HttpRequest, pk, *args, **kwargs):
     post = Post.objects.all().get(id=pk)

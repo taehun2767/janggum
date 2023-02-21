@@ -34,7 +34,7 @@
                             <button style="border: 0; position: absolute;"
                                 class="store_{{post.id}}" onclick="onClickStore({{post.id}})">
                                 <i class="fa-solid fa-bookmark" style="color: #a64d4b; margin-left: 5px"></i>
-                                <div class="store_or_not_{{post.id}}">찜 하기</div>
+                                <div class="store_or_not_{{post.id}}" style="font-family:var(--recipe-font); margin-top:1px;">찜 하기</div>
                             </button>
                             <div class="recipe_title">
                                 <button onclick="onClickDetail({{post.id}})" style="font-family: var(--recipe-font); width: 60%; margin-top: 16px;
@@ -69,32 +69,35 @@
 
                 </article>
                 {% endfor %}
+                <br>
+                <div>
+                    {% if page_obj.has_other_pages %}
+                        <ul style="display:flex; list-style:none;">
+                            {% if page_obj.has_previous %}
+                            <li style="margin:3px;"><a style="text-decoration:none; color: blue;" href="?page={{page_obj.previous_page_number}}">&#10094; Prev</a></li>
+                            {% endif %}
+                            {% for page in custom_range %}
+                            {% if page == page_obj.number%}
+                                <li style="margin:3px;"><a style="text-decoration:none; color: red;" href="?page={{page}}">{{page}}</a></li>
+                            {% else %}
+                                <li style="margin:3px;"><a style="text-decoration:none; color: blue;" href="?page={{page}}">{{page}}</a></li>
+                            {% endif%}
+                            {% endfor %}
+                            {% if page_obj.has_next %}
+                            <li style="margin:3px;"><a style="text-decoration:none; color: blue;" href="?page={{page_obj.next_page_number}}">Next &#10095; </a></li>
+                            {% endif %}
+                        </ul>
+                    {% endif %}
+                </div>
             </div>
             <div class="line_vertical">
                 <div class="line_vertical_1"></div>
                 <div class="line_vertical_2"></div>
             </div>
-            <div id="list_container" style="width: 40rem; height: 29rem; border-radius: 0.5rem" class="post_detail">
+            <div class="scroll_list_container">
+                <div id="list_container" style="width: 40rem; height: 29rem; border-radius: 0.5rem" class="post_detail">
+                </div>
             </div>
-        </div>
-        <div>
-            {% if page_obj.has_other_pages %}
-                <ul style="display:flex; list-style:none;">
-                    {% if page_obj.has_previous %}
-                    <li style="margin:3px;"><a style="text-decoration:none; color: blue;" href="?page={{page_obj.previous_page_number}}">&#10094; Prev</a></li>
-                    {% endif %}
-                    {% for page in custom_range %}
-                    {% if page == page_obj.number%}
-                        <li style="margin:3px;"><a style="text-decoration:none; color: red;" href="?page={{page}}">{{page}}</a></li>
-                    {% else %}
-                        <li style="margin:3px;"><a style="text-decoration:none; color: blue;" href="?page={{page}}">{{page}}</a></li>
-                    {% endif%}
-                    {% endfor %}
-                    {% if page_obj.has_next %}
-                    <li style="margin:3px;"><a style="text-decoration:none; color: blue;" href="?page={{page_obj.next_page_number}}">Next &#10095; </a></li>
-                    {% endif %}
-                </ul>
-            {% endif %}
         </div>
         <script src="http://code.jquery.com/jquery-latest.js"></script>
         <script src="http://code.jquery.com/jquery-latest.js"></script>
@@ -142,7 +145,7 @@
             requestDetail.onreadystatechange = () => {
                 if (requestDetail.readyState === XMLHttpRequest.DONE) {
                 if (requestDetail.status < 400) {
-                    const { post_user, post_id, post_title, post_photo, post_content, post_created, photo_url, ingredientL, comments, today, post_quantity, post_username } = JSON.parse(requestDetail.response);
+                    const { post_user, post_id, post_title, post_photo, post_content, post_created, photo_url, ingredientL, comments, today, post_quantity, post_username,post_number } = JSON.parse(requestDetail.response);
                     console.log(comments)
                     console.log(typeof(comments))
                     console.log(comments.length)
@@ -182,8 +185,7 @@
                         else{
                             if(comments[i].user_id__username == post_user){
                                 list_of_comments.innerHTML += `
-                                <div id="${comments[i].id}">
-                                <strong>${comments[i].user_id__name}(${comments[i].user_id__username})<span>글쓴이</span></strong>
+                                <div id="${comments[i].id}">${comments[i].user_id__name}(${comments[i].user_id__username})<span class="comment_writer" style="font-size:medium; font-family:var(--sub-font);">글쓴이</span>
 
                                 `;
                             }
@@ -191,27 +193,34 @@
                                 list_of_comments.innerHTML += `
                                 <div id="${comments[i].id}">
                                 <div id="${comments[i].id}">
-                                <strong>${comments[i].user_id__name}(${comments[i].user_id__username})</strong>
+                                <strong style="font-size:large"><i class="fa-solid fa-user">${comments[i].user_id__name}(${comments[i].user_id__username})</strong>
 
                                 `;
                             }
                             console.log(today, comments[i].day)
                             if(today == comments[i].day){
                                 list_of_comments.innerHTML += `
-                                <span>${comments[i].time}</span>
+                                <span class="comment_time" style="font-size: medium; font-family:var(--sub-font);">${comments[i].time}</span>
                                 `;
                             }
                             else{
                                 list_of_comments.innerHTML += `
-                                <span>${comments[i].day}</span>
+                                <span class="comment_time" style="font-size: medium; font-family:var(--sub-font);">${comments[i].day}</span>
                                 `;
                             }
                             if(comments[i].user_id == requestDetail.response.user){
                                 list_of_comments.innerHTML += `
-                                    <div>
-                                        <div>${comments[i].content}</div>
+                                    <div style="display: flex; justify-content: space-between;flex-direction: row; ">
+                                        <div class="comment_content" style="     font-family: var(--sub-font);
+                                        font-size: large;
+                                        font-weight: 700;">${comments[i].content}</div>
                                         <div>
-                                            <a onclick="commentDelete('${comments[i].id}');">댓글삭제</a>
+                                            <a class="delete_button" onclick="commentDelete('${comments[i].id}');" style="text-decoration: none;
+                                            color: white;
+                                            background-color: var(--main-color-2);
+                                            padding: 10px 20px;
+                                            font-size: large;
+                                            border-radius: 0.5rem; margin-right: 20px;">댓글삭제</a>
                                         </div>
                                     </div>
                                 <hr>
@@ -222,7 +231,9 @@
                             else{
                                 list_of_comments.innerHTML += `
                                 <div>
-                                    <div>${comments[i].content}</div>
+                                    <div class="comment_content" style="     font-family: var(--sub-font);
+                                        font-size: large;
+                                        font-weight: 700;">${comments[i].content}</div>
                                 </div>
                                 <hr>
                             </div>
@@ -255,11 +266,11 @@
                                 <pre class="post_content" style="overflow:auto; margin-left:16px; white-space:pre-wrap; margin-right: 3%; ">${post_content}</pre>
                             </div>
                             <div class="detail_bottom" style=" margin-left: 4%; margin-top: -3rem;">
-                                <div class="like_container" style="float:right;">
+                                <div class="like_container" style="float:right; position:relative;">
                                     <button
                                         style="border: 0"
-                                        class="like_{{post.id}}"
-                                        onclick="onClickLike({{post.id}})">
+                                        class="like_${post_id}"
+                                        onclick="onClickLike(${post_id})">
                                         <img
                                             src="{% static 'image/복주머니(빈칸).png' %}"
                                             alt="복주머니"
@@ -268,7 +279,7 @@
                                             background-color: #F7F5EB;"
                                         />
                                     </button>
-                                    <div class="like_dislike" style="position:absolute;"> {{post.number}}</div>
+                                    <div class="like_dislike_${post_id}" style="position: absolute; margin-top: 37px;color: saddlebrown;">${post_number}</div>
                                 </div>
                                 <div class="post_created" style="font-size:medium; margin-top:2.5rem;">${post_created.slice(2, 10)}</div>
                                 <div class="comment_main" style="width: 20rem; float:right; margin-top:2rem;">
@@ -286,11 +297,10 @@
                                 </div>
                             </div>
                         </article>
-                        <hr>
                         <input type="hidden" id="comment_writer" value={{request.user}}>
-                            <div id="comment_list${post_id}"></div>
+                            <div id="comment_list${post_id}" style="margin-top:65px;"></div>
                         </div>
-                        <div id="pid">${post_id}<div>`; // 히든으로 만들어야함
+                        <div class="hidden" id="pid">${post_id}<div>`; // 히든으로 만들어야함
 
                         element1.innerHTML += list_of_comments.innerHTML;
                 }
@@ -313,15 +323,17 @@
                 if (requestLike.status < 400) {
                     const { id, like_true, number } = JSON.parse(requestLike.response);
                     // const element = document.querySelector(`.like_{{post.id}}`);
-                    const element = document.querySelector(`.like_dislike_${id}`);
-                    const originHTML = element.innerHTML;
-                    const [text1, text2, num] = originHTML.split(" ");
-                    if (like_true == true){
-                        const count = Number(num) + 1;
-                        element.innerHTML = `${text1} ${text2} ${count}`;
-                    }else{
-                        const count = Number(num) - 1;
-                        element.innerHTML = `${text1} ${text2} ${count}`;
+                    const element = document.querySelectorAll(`.like_dislike_${id}`);
+                    console.log(element, "class 오브젝트들", element.length)
+                    for(i=0; i<element.length; i++){
+                        var num = element[i].innerHTML;
+                        if (like_true == true){
+                            const count = Number(num) + 1;
+                            element[i].innerHTML = `${count}`;
+                        }else{
+                            const count = Number(num) - 1;
+                            element[i].innerHTML = `${count}`;
+                        }
                     }
                 }
                 }
@@ -350,10 +362,10 @@
                             console.log("일치", response)
 
                             $(`#comment_list${pk}`).append(
-                                '<div><div id='+response.comment_id+'><strong>'+response.writer_name+"("+response.comment_writer+")"+'&nbsp;<span>'+response.self_comment+'</span></strong>'+
-                                    '<span>'+response.created+'</span>'+
-                                    '<div><div>'+response.content+
-                                    '</div><div><a onclick="commentDelete('+response.comment_id+');">댓글삭제</a></div></div><hr></div><div class='+response.comment_id+'></div>'
+                                '<div><div id='+response.comment_id+'><strong style="font-size:large"><i class="fa-solid fa-user"></i>'+response.writer_name+"("+response.comment_writer+")"+'&nbsp;<span>'+response.self_comment+'</span></strong>'+
+                                    '<span class="comment_time" style="font-size: medium; font-family:var(--sub-font);">'+response.created+'</span>'+
+                                    '<div style="display: flex; justify-content: space-between;flex-direction: row; "><div class="comment_content" style="     font-family: var(--sub-font);  font-size: large; font-weight: 700;">'+response.content+
+                                    '</div><div><a class="delete_button" onclick="commentDelete('+response.comment_id+');" style="text-decoration: none; color: white; background-color: var(--main-color-2); padding: 10px 20px; font-size: large; border-radius: 0.5rem; margin-right: 20px;">댓글삭제</a></div></div><hr></div><div class='+response.comment_id+'></div>'
                             );
                         }
                         else{

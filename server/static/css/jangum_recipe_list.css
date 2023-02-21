@@ -184,6 +184,11 @@ img {
   width: 20rem;
   height: 14rem;
   font-family: var(--sub-font);
+  -ms-overflow-style: none;
+}
+
+.post_content::-webkit-scrollbar{
+  display: none;
 }
 
 .line_vertical {

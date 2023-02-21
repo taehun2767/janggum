@@ -53,7 +53,6 @@
         <div class="both_container">
             <div class="all_recipe_box">
                 {% for post in page_obj %}
-                    {% if post.number > 0 %}
                     <article class="backgorundcolor">
                         <div class="each_recipe">
                             <div class="recipe_content"> 
@@ -97,7 +96,6 @@
                         </div>
                         <div style="display:none;"class="writer_name">{{ post.user }}</div>
                     </article>
-                    {% endif%}
                 {% endfor %}
                 <br>
                 <div>
@@ -294,7 +292,7 @@
                                 <pre class="post_content" style="overflow:auto; margin-left:16px; white-space:pre-wrap; margin-right: 3%; ">${post_content}</pre>
                             </div>
                             <div class="detail_bottom" style=" margin-left: 4%; margin-top: -3rem;">
-                                <div class="like_container" style="float:right;">
+                                <div class="like_container" style="float:right; position:relative">
                                     <button
                                         style="border: 0"
                                         class="like_${post_id}"
@@ -307,7 +305,7 @@
                                             background-color: #F7F5EB;"
                                         />
                                     </button>
-                                    <div class="like_dislike_${post_id}" style="position:absolute;"> ${post_number}</div>
+                                    <div class="like_dislike_${post_id}" style="position: absolute; margin-top: 37px;color: saddlebrown;"> ${post_number}</div>
                                 </div>
                                 
                                 <div class="post_created" style="font-size:medium; margin-top:2.5rem;">${post_created.slice(2, 10)}</div>
@@ -326,9 +324,8 @@
                                 </div>
                             </div>
                         </article>
-                        <hr>
                         <input type="hidden" id="comment_writer" value={{request.user}}>
-                            <div id="comment_list${post_id}"></div>
+                            <div id="comment_list${post_id}"  style="margin-top:65px;"></div>
                         </div>
                         <div class="hidden" id="pid">${post_id}<div>`; // 히든으로 만들어야함
                             element1.innerHTML += list_of_comments.innerHTML;
