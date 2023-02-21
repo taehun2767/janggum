@@ -53,7 +53,6 @@
         <div class="both_container">
             <div class="all_recipe_box">
                 {% for post in page_obj %}
-                    {% if post.number > 0 %}
                     <article class="backgorundcolor">
                         <div class="each_recipe">
                             <div class="recipe_content"> 
@@ -97,7 +96,6 @@
                         </div>
                         <div style="display:none;"class="writer_name">{{ post.user }}</div>
                     </article>
-                    {% endif%}
                 {% endfor %}
                 <br>
                 <div>
