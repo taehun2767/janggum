@@ -308,7 +308,7 @@ img {
 }
 
 .recipe_content .one_ingredient {
-  padding: 0 0.3rem;
+  padding: 0 0.5rem;
 }
 
 .ingredient_container {
@@ -356,4 +356,26 @@ img {
 
 .recipe_content button, .delete, .update {
   cursor: pointer;
+}
+
+.ingredient_container::-webkit-scrollbar {
+  height: 0.5rem;
+}
+
+.ingredient_container::-webkit-scrollbar-thumb {
+  background-color: var(--main-color-1);
+}
+
+.ingredient_container::-webkit-scrollbar-track {
+  background-color: var(--main-color-2);
+}
+
+.recipe_content .ingredient_container {
+  overflow: hidden;
+  height: 2rem;
+  display: inline;
+}
+
+.recipe_content .one_ingredient {
+  white-space: nowrap;
 }
