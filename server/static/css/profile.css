@@ -106,10 +106,18 @@ img {
 }
 
 .all_recipe_box {
-  height: 100%;
+  height: calc(100vh - 250px );
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  overflow-y: scroll;
+  overflow-x: none;
+  -ms-overflow-style: none;
 }
+
+.all_recipe_box::-webkit-scrollbar{
+  display: none;
+}
+
 
 .search_input,
 #content_id {
@@ -176,6 +184,11 @@ img {
   width: 20rem;
   height: 14rem;
   font-family: var(--sub-font);
+  -ms-overflow-style: none;
+}
+
+.post_content::-webkit-scrollbar{
+  display: none;
 }
 
 .line_vertical {
@@ -338,20 +351,23 @@ img {
   width: max-content;
   margin: -0.8rem 0 0.3rem 5rem;
   font-size: initial;
+  font-weight: 600;
 }
 /* kgoni -- */
-
+.scroll_list_container{
+  height: calc(100vh - 250px);
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+}
+.scroll_list_container::-webkit-scrollbar{
+  display:none;
+}
 .jomiryo {
   font-size: 1rem;
   margin-left: 5rem;
   margin-top: -1.2rem;
   color: var(--ingredient-color);
   filter: drop-shadow(var(--main-text-shadow));
-}
-
-.recipe_content button {
-  font-family: var(--main-font);
-  font: inherit;
 }
 
 .recipe_content button, .delete, .update {

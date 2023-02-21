@@ -466,8 +466,6 @@ def posts_janggum_list(request:HttpRequest, *args, **kwargs):
         if user_pk:
             user_pk= user_pk[0].pk
         post.user_pk = user_pk
-        if post.number > 0:
-            postList.append(post)
         post.save()
     sort = request.GET.get('sort', '')
     if sort =="likes":
