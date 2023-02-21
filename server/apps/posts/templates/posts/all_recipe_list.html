@@ -57,7 +57,7 @@
                 {% for post in page_obj %}
                 <article class="backgorundcolor">
                     <div class="each_recipe">
-                        {% if post.number >= 1 %}
+                        {% if post.number >= 10 %}
                             <div class="recipe_content" id="recipe_janggum_back"> 
                                 <button style="border: 0; position: absolute;"
                                     class="store_{{post.id}}" onclick="onClickStore({{post.id}})">
