@@ -1,5 +1,25 @@
 @import "base.css";
 
+#create_preview {
+  width: 100px;
+  height: 100px;
+  border: none;
+  margin-top: -2rem;
+  box-shadow: 10px 5px 5px #dcdcdc;
+}
+
+.menu_point {
+  padding-bottom: 3rem;
+}
+
+#fileName {
+  position: absolute;
+  margin: 2.4rem 5rem 0 -17rem;
+  font-size: medium;
+  color: darkgray;
+  font-family: var(--sub-font);
+}
+
 .recipe_title,
 .ingredient_list,
 .input,
@@ -17,9 +37,8 @@ form {
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding-bottom: 15px;
-  /* padding-top: 0px; */
   margin-top: 7px;
+  margin-bottom: 7px;
   margin-left: 12%;
   margin-right: 12%;
   border-radius: 20px;
@@ -106,7 +125,7 @@ button img {
 }
 
 #update-btn-container input {
-  background: url(../image/재료판자.png);
+  background: url("../image/재료판자.png");
   width: 8.5rem;
   height: 3rem;
   border: 0;
@@ -164,11 +183,11 @@ input::placeholder {
   outline: none;
 }
 
-#update_preview {
+/*#update_preview {
   display: flex;
   justify-content: center;
   margin: 10px 0;
-}
+}*/
 
 #update_main_box input {
   background: url("../image/입력창 메뉴판.png") no-repeat;
@@ -271,6 +290,7 @@ textarea {
 
 #add_image {
   position: absolute;
+  margin: 3.5rem 0 0 5rem;
 }
 
 #update-btn-container {
@@ -278,7 +298,41 @@ textarea {
   grid-template-columns: 10rem 10rem 10rem;
 }
 
+@media (max-width: 1300px) {
+  #update-btn-container {
+    margin-left: 5rem;
+  }
+  #add_image {
+    margin-left: 0;
+  }
+  form {
+    margin-left: 11%;
+    margin-right: 11%;
+  }
+}
+
+@media (max-width: 1110px) {
+  #update-btn-container {
+    margin-left: 2rem;
+  }
+  #add_image {
+    margin-left: -2rem;
+  }
+  form {
+    margin-left: 6%;
+    margin-right: 6%;
+  }
+}
+
 @media (max-width: 850px) {
+  form {
+    margin-left: 3%;
+    margin-right: 3%;
+  }
+  .menu_point {
+    width: 35rem;
+    background-color: #FEFBF8;
+  }
   .recipe_title input {
     margin-left: 24px;
   }
@@ -287,18 +341,15 @@ textarea {
     left: 49%;
     top: 158px;
   }
-
   #add_image {
     margin-left: 0;
-    margin-top: 0;
   }
   #update-btn-container {
     box-sizing: border-box;
-    margin: 135px auto 0 auto;
+    margin: 135px 0 0 0;
     padding: 10px;
     display: flex;
     flex-wrap: wrap;
-    width: 95vw;
     justify-content: center;
   }
   input {
@@ -327,14 +378,36 @@ textarea {
     margin: auto;
     box-sizing: border-box;
   }
+  #update_preview {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
 }
-@media (max-width: 600px) {
+
+@media (max-width: 750px) {
+  form {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+  .menu_point {
+    width: 33rem;
+    margin: 0;
+  }
+}
+
+@media (max-width: 650px) {
   .disnone {
     display: none;
   }
+  form {
+    margin-left: 3%;
+    margin-right: 3%;
+  }
+  .menu_point {
+    width: 30rem;
+  }
   .recipe_title {
     display: flex;
-    width: 400px;
     justify-content: center;
     align-items: center;
     flex-direction: column;
@@ -355,6 +428,43 @@ textarea {
   textarea {
     height: 5rem;
     width: 19rem;
+  }
+}
+
+@media (max-width: 600px) {
+  form {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+  .menu_point {
+    width: 100%;
+    padding-right: 10%;
+    padding-left: 10%;
+  }
+  textarea {
+    width: 90%;
+  }
+}
+
+@media (max-width: 460px) {
+  form {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+  .menu_point {
+    width: 17rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .menu_point {
+    width: 15rem;
+  }
+  .recipe_title input {
+    width: 12rem;
+  }
+  #update_pic > input {
+    margin-left: 1rem;
   }
 }
 
