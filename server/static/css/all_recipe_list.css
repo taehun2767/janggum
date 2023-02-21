@@ -27,6 +27,12 @@ img {
   margin-left: 2rem;
 }
 
+#recipe_janggum_back{
+  background: url("../image/메뉴판\(장금\).png");
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
 .delete_update {
   display: flex;
   flex-direction: row;

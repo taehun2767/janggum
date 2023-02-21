@@ -57,44 +57,85 @@
                 {% for post in page_obj %}
                 <article class="backgorundcolor">
                     <div class="each_recipe">
-                        <div class="recipe_content"> 
-                            <button style="border: 0; position: absolute;"
-                                class="store_{{post.id}}" onclick="onClickStore({{post.id}})">
-                                <i class="fa-solid fa-bookmark" style="color: #a64d4b; margin-left: 5px"></i>
-                                <div class="store_or_not_{{post.id}}" style="font-family:var(--recipe-font); margin-top:1px;">찜 하기</div>
-                            </button>
-                            <div class="recipe_title">
-                                <button onclick="onClickDetail({{post.id}})" style="font-family: var(--recipe-font); width: 60%; margin-top: 16px;
-                                font-size: x-large; margin-bottom: 6px; background-color:transparent;">{{post.title}}</button>
-                            </div>
-                              {% comment %}
-                              <a href="{%url 'posts:profile' post.user_pk%}" class="writer_name">{{ post.user }}</a>
-                              {% endcomment %}
-                              
-                            {% if post.photo %}
-                            <p>
-                                <img style="height: 100px; width: 100px" src="{{ post.photo.url }}" />
-                            </p>
-                            {% endif %}
-                            <div class="recipe_content_bottom">
-                                <div class="like_container">
-                                    <button style=" border: 0" class="like_{{post.id}}" onclick="onClickLike({{post.id}})"><img
-                                        src="{% static 'image/복주머니_빨강.png' %}"
-                                        alt="복주머니"
-                                        style="width: 20px; border: 0" />
-                                    </button>
-                                    <div>
-                                        <span></span>좋아요 개수: <span class="like_dislike_{{post.id}}">{{post.number}}</span>
-                                    </div>
+                        {% if post.number >= 1 %}
+                            <div class="recipe_content" id="recipe_janggum_back"> 
+                                <button style="border: 0; position: absolute;"
+                                    class="store_{{post.id}}" onclick="onClickStore({{post.id}})">
+                                    <i class="fa-solid fa-bookmark" style="color: #a64d4b; margin-left: 5px"></i>
+                                    <div class="store_or_not_{{post.id}}" style="font-family:var(--recipe-font); margin-top:1px;">찜 하기</div>
+                                </button>
+                                <div class="recipe_title">
+                                    <button onclick="onClickDetail({{post.id}})" style="font-family: var(--recipe-font); width: 60%; margin-top: 16px;
+                                    font-size: x-large; margin-bottom: 6px; background-color:transparent;">{{post.title}}</button>
                                 </div>
-                                <div style="margin-top: -11px">{{post.created_at}}</div>
+                                {% comment %}
+                                <a href="{%url 'posts:profile' post.user_pk%}" class="writer_name">{{ post.user }}</a>
+                                {% endcomment %}
+                                
+                                {% if post.photo %}
+                                <p>
+                                    <img style="height: 100px; width: 100px" src="{{ post.photo.url }}" />
+                                </p>
+                                {% endif %}
+                                <div class="recipe_content_bottom">
+                                    <div class="like_container">
+                                        <button style=" border: 0" class="like_{{post.id}}" onclick="onClickLike({{post.id}})"><img
+                                            src="{% static 'image/복주머니_빨강.png' %}"
+                                            alt="복주머니"
+                                            style="width: 20px; border: 0" />
+                                        </button>
+                                        <div>
+                                            <span></span>좋아요 개수: <span class="like_dislike_{{post.id}}">{{post.number}}</span>
+                                        </div>
+                                    </div>
+                                    <div style="margin-top: -11px">{{post.created_at}}</div>
+                                </div>
+                                <div class="ingredient_container">
+                                    {%for ele in post.ingredientList%}
+                                    <div class="one_ingredient" style="font-weight: 600">{{ele}}</div>
+                                    {%endfor%}
+                                </div>
                             </div>
-                            <div class="ingredient_container">
-                                {%for ele in post.ingredientList%}
-                                <div class="one_ingredient" style="font-weight: 600">{{ele}}</div>
-                                {%endfor%}
+                        {% else %}
+                            <div class="recipe_content"> 
+                                <button style="border: 0; position: absolute;"
+                                    class="store_{{post.id}}" onclick="onClickStore({{post.id}})">
+                                    <i class="fa-solid fa-bookmark" style="color: #a64d4b; margin-left: 5px"></i>
+                                    <div class="store_or_not_{{post.id}}" style="font-family:var(--recipe-font); margin-top:1px;">찜 하기</div>
+                                </button>
+                                <div class="recipe_title">
+                                    <button onclick="onClickDetail({{post.id}})" style="font-family: var(--recipe-font); width: 60%; margin-top: 16px;
+                                    font-size: x-large; margin-bottom: 6px; background-color:transparent;">{{post.title}}</button>
+                                </div>
+                                {% comment %}
+                                <a href="{%url 'posts:profile' post.user_pk%}" class="writer_name">{{ post.user }}</a>
+                                {% endcomment %}
+                                
+                                {% if post.photo %}
+                                <p>
+                                    <img style="height: 100px; width: 100px" src="{{ post.photo.url }}" />
+                                </p>
+                                {% endif %}
+                                <div class="recipe_content_bottom">
+                                    <div class="like_container">
+                                        <button style=" border: 0" class="like_{{post.id}}" onclick="onClickLike({{post.id}})"><img
+                                            src="{% static 'image/복주머니_빨강.png' %}"
+                                            alt="복주머니"
+                                            style="width: 20px; border: 0" />
+                                        </button>
+                                        <div>
+                                            <span></span>좋아요 개수: <span class="like_dislike_{{post.id}}">{{post.number}}</span>
+                                        </div>
+                                    </div>
+                                    <div style="margin-top: -11px">{{post.created_at}}</div>
+                                </div>
+                                <div class="ingredient_container">
+                                    {%for ele in post.ingredientList%}
+                                    <div class="one_ingredient" style="font-weight: 600">{{ele}}</div>
+                                    {%endfor%}
+                                </div>
                             </div>
-                        </div>
+                        {% endif %}
                     </div>
 
                     <div style="display:none;"class="writer_name">{{ post.user }}</div>
