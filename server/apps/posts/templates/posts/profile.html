@@ -417,19 +417,6 @@
                     });
                 }
             }
-
-            //수정, 삭제 버튼 해당 유저만 보이도록 구현
-            $username = $("#user_name").text()
-            console.log($username)
-            {% comment %} $(".writer_name")[0].innerHTML {% endcomment %}
-            for(i = 0; i < $(".writer_name").length; i++){
-                console.log($(".writer_name")[i].innerHTML);
-                if($("#user_name").text() != $(".writer_name")[i].innerHTML){
-                  
-                  $(".update")[i].type = "hidden";
-                  $(".delete")[i].type = "hidden";
-                }
-            }
         </script>
         <script src="https://kit.fontawesome.com/6fbcf91afd.js" crossorigin="anonymous"></script>
     </body>
