@@ -1,5 +1,17 @@
 @import "base.css";
 
+#create_preview {
+  width: 100px;
+  height: 100px;
+  border: none;
+  margin-top: -2rem;
+  box-shadow: 10px 5px 5px #dcdcdc;
+}
+
+.menu_point {
+  padding-bottom: 3rem;
+}
+
 .recipe_title,
 .ingredient_list,
 .input,
@@ -17,9 +29,8 @@ form {
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding-bottom: 15px;
-  /* padding-top: 0px; */
   margin-top: 7px;
+  margin-bottom: 7px;
   margin-left: 12%;
   margin-right: 12%;
   border-radius: 20px;
@@ -98,6 +109,7 @@ button img {
   margin-top: 35px;
   margin-bottom: 35px;
   margin-right: 80px;
+  margin-left: 10rem;
 }
 
 #create-btn-container input {
@@ -110,6 +122,14 @@ button img {
   color: #fff;
   font-size: smaller;
   margin-bottom: 13px;
+}
+
+input::placeholder {
+  color: white;
+  font-family: var(--ingredient-font);
+  font-size: var(--main-font-size);
+  border: 0;
+  outline: none;
 }
 
 #create-btn-container input:-webkit-autofill,
@@ -156,12 +176,6 @@ input::placeholder {
   outline: none;
 }
 
-.update_preview {
-  display: flex;
-  justify-content: center;
-  margin: 10px 0;
-}
-
 #create_main_box input {
   height: 3rem;
 }
@@ -198,7 +212,7 @@ input::placeholder {
   margin-left: 10px;
 }
 
-#create_picbutton label:hover, .create-button input:hover {
+.create-button input:hover {
   background-color: var(--main-color-1);
 }
 
@@ -223,6 +237,8 @@ label,
 
 #add_image {
   position: absolute;
+  border: 0; width: 100px;
+  margin: 3.5rem 0 0 5rem;
 }
 
 #create-btn-container {
@@ -236,7 +252,41 @@ label,
   justify-content: center;
 }
 
+@media (max-width: 1300px) {
+  #create-btn-container {
+    margin-left: 5rem;
+  }
+  #add_image {
+    margin-left: 0;
+  }
+  form {
+    margin-left: 11%;
+    margin-right: 11%;
+  }
+}
+
+@media (max-width: 1110px) {
+  #create-btn-container {
+    margin-left: 2rem;
+  }
+  #add_image {
+    margin-left: -2rem;
+  }
+  form {
+    margin-left: 6%;
+    margin-right: 6%;
+  }
+}
+
 @media (max-width: 850px) {
+  form {
+    margin-left: 3%;
+    margin-right: 3%;
+  }
+  .menu_point {
+    width: 35rem;
+    background-color: #FEFBF8;
+  }
   .recipe_title input {
     margin-left: 24px;
   }
@@ -245,18 +295,15 @@ label,
     left: 49%;
     top: 158px;
   }
-
   #add_image {
     margin-left: 0;
-    margin-top: 0;
   }
   #create-btn-container {
     box-sizing: border-box;
-    margin: 135px auto 0 auto;
+    margin: 135px 0 0 0;
     padding: 10px;
     display: flex;
     flex-wrap: wrap;
-    width: 95vw;
     justify-content: center;
   }
   input {
@@ -284,16 +331,37 @@ label,
   #create_picbutton label {
     margin: auto;
     box-sizing: border-box;
-
+  }
+  #create_preview {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
   }
 }
-@media (max-width: 600px) {
+
+@media (max-width: 750px) {
+  form {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+  .menu_point {
+    width: 33rem;
+    margin: 0;
+  }
+}
+
+@media (max-width: 650px) {
   .disnone {
     display: none;
   }
+  form {
+    margin-left: 3%;
+    margin-right: 3%;
+  }
+  .menu_point {
+    width: 30rem;
+  }
   .recipe_title {
     display: flex;
-    width: 400px;
     justify-content: center;
     align-items: center;
     flex-direction: column;
@@ -315,4 +383,53 @@ label,
     height: 5rem;
     width: 19rem;
   }
+}
+
+@media (max-width: 600px) {
+  form {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+  .menu_point {
+    width: 100%;
+    padding-right: 10%;
+    padding-left: 10%;
+  }
+  textarea {
+    width: 90%;
+  }
+}
+
+@media (max-width: 460px) {
+  form {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+  .menu_point {
+    width: 17rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .menu_point {
+    width: 15rem;
+  }
+  .recipe_title input {
+    width: 12rem;
+  }
+  #create_pic > input {
+    margin-left: 1rem;
+  }
+}
+
+input[type="file"]::file-selector-button {
+  width: 120px;
+  height: 40px;
+  color: #fff;
+  font-family: var(--sub-font);
+  font-weight: 800;
+  background: var(--main-color-2);
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
 }

@@ -12,11 +12,12 @@
           <button id="add">
             <image
               src="{% static 'image/더하기버튼_샘플.png'%}"
-              style="border: 0; width: 100px" id="add_image"
+              style="border: 0; width: 100px;" id="add_image"
             />
           </button>
         </div>
-        <form action="{% url 'posts:update' post.pk %}" method="post" enctype="multipart/form-data">
+        <form action="{% url 'posts:update' post.pk %}" method="post" enctype="multipart/form-data" style="border: 74px solid #ae8767ab;">
+          <span class="menu_point"><span>
             {% csrf_token %}
             <div>
                 <div class="recipe_title">
@@ -47,16 +48,15 @@
                 {% comment %} <input style="display:none;" type="file" name="photo"accept=".jpg, .jpeg, .png" onchange="readURL(this);" required="" id="file-input"> {% endcomment %}
                 <input type="hidden" value ="{{photo_url}}" id="photo_url" />
                 <input type="file" id="file-input" name="photo" onchange="readURL(this);" accept=".jpg, .jpeg, .png" style="display:none"/>
-                <label for="file-input" >파일선택</label>
-                <span id="fileName">{{photo_url}}</span>
+                
                 <div id="update_pic">
                   <div id="update_picbutton">
-                    <input class="upload-name" value="첨부파일" placeholder="첨부파일" />
+                    <input class="upload-name" />
                     <label for="file-input">파일찾기</label>
 
                     <input type="file" id="file-input" name="photo" onchange="readURL(this);" accept=".jpg, .jpeg, .png" />
                   </div>
-                  <img style="boarder:none; width: 100px" id="update_preview" src="{{post.photo.url}}"/>
+                  <img style="boarder:none; width: 100px" id="update_main_box" src="{{post.photo.url}}"/>
                 </div>
                 <textarea name="content" placeholder="레시피 소개">{{post.content}}</textarea>
                 <textarea name="ingredient_quantity" placeholder="재료의 양과 사용되는 조미료를 간단하게 적어주세요">{{post.ingredient_quantity}}</textarea>

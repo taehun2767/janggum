@@ -12,7 +12,7 @@ from django.core import serializers
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage #페이지네이션
 from datetime import datetime
-
+from django.urls import reverse
 all_used_ingredient_set = set()
 ingredientL = []
 #메인 페이지 => main.html을 기본으로 보여주고 재료로 검색시 recipe list 창으로 context 보내며 render
@@ -29,6 +29,7 @@ def main(request):
         print(ingredientL)
         for post in posts:
                 ingredientStr = post.ingredient[2:-3].replace("'", '')
+                
                 usedIngredientList = ingredientStr.split(',')
                 print(usedIngredientList,"사용한 재료")
                 flag = True
@@ -63,7 +64,9 @@ def main(request):
             ingredientLists = []
             for post in postList:
                 ingredientStr = post.ingredient[2:-3].replace("'", '')
+                ingredientStr = ingredientStr.replace(" ", "")
                 ingredientLists = ingredientStr.split(',')
+                
                 #약간 야매인 거 같긴한데 새로운 field만들어서 파이썬 리스트 추가
                 post.ingredientList = ingredientLists
                 post.save()
@@ -106,10 +109,15 @@ def main(request):
             
             return render(request, "posts/all_recipe_list.html", context=context)
     if request.method == "POST":
-        ingredientL = request.POST.getlist("search")
-        print(ingredientL)
+        ingredientLtemp = request.POST.getlist("search")
+        ingredientL = []
+        for ele in ingredientLtemp:
+            ele = ele.replace(" ", "")
+            ingredientL.append(ele)
+
         for post in posts:
                 ingredientStr = post.ingredient[2:-3].replace("'", '')
+                ingredientStr = ingredientStr.replace(" ", "")
                 usedIngredientList = ingredientStr.split(',')
                 print(usedIngredientList,"사용한 재료")
                 flag = True
@@ -144,6 +152,7 @@ def main(request):
             ingredientLists = []
             for post in postList:
                 ingredientStr = post.ingredient[2:-3].replace("'", '')
+                ingredientStr = ingredientStr.replace(" ", "")
                 ingredientLists = ingredientStr.split(',')
                 #약간 야매인 거 같긴한데 새로운 field만들어서 파이썬 리스트 추가
                 post.ingredientList = ingredientLists
@@ -206,10 +215,43 @@ def profile(request:HttpRequest, pk, *args, **kwargs):
                 ingredientList = ingredientStr.split(',')
                 #새 필드 만들어서 html에 데이터 보냄
                 post.ingredientList = ingredientList
-                post.save()   
+                post.save()  
+    # 페이지네이션
+    page = request.GET.get('page') #html에 get 넣어야함
+    
+    paginator = Paginator(Posts, 12)
+
+    # print(page_obj)
+    # print(type(page_obj))
+    # for ele in page_obj:
+    #     print(ele)
+    
+    try:
+        page_obj = paginator.page(page)
+    except PageNotAnInteger:
+        page = 1
+        page_obj = paginator.page(page)
+    except EmptyPage:
+        page = paginator.num_pages
+        page_obj = paginator.page(page)
+        
+    leftIndex = (int(page) - 2)
+    if leftIndex < 1:
+        leftIndex = 1
+    
+    rightIndex = (int(page) + 2)
+    
+    if rightIndex > paginator.num_pages:
+        rightIndex = paginator.num_pages
+    custom_range = range(leftIndex, rightIndex + 1)
+
     context = {
-        "posts" : Posts
+        "posts" : Posts,
+        "page_obj" : page_obj,
+        "paginator" : paginator,
+        'custom_range' : custom_range,
     }
+
     return render(request,"posts/profile.html", context=context)
 
 #회원가입
@@ -363,53 +405,10 @@ def store_recipe_list(request:HttpRequest, *args, **kwargs):
                 #새 필드 만들어서 html에 데이터 보냄
                 post.ingredientList = ingredientList
                 post.save()   
-    context = {
-        "posts" : posts,
-        'comments' : comments,
-    }
-    return render(request, "posts/store_recipe.html", context=context)
-
-# recipe search page 선택값으로 찾는거 구현 안함
-# def posts_search_list(request:HttpRequest, *args, **kwargs):
-#     posts = Post.objects.all()
-
-#     context = { 
-#         "posts" : posts,
-#     }
-#     return render(request, "posts/recipe_search_page_list.html", context=context)
-
-# 장금이 레시피 페이지 일단 좋아요 없이 구현
-def posts_janggum_list(request:HttpRequest, *args, **kwargs):
-    posts = Post.objects.all()
-    comments = Comment.objects.all()
-    
-    for post in posts:
-        user_pk =User.objects.all().filter(name=post.user)
-        if user_pk:
-            user_pk= user_pk[0].pk
-        post.user_pk = user_pk
-        post.save()
-    sort = request.GET.get('sort', '')
-    if sort =="likes":
-        posts = posts.order_by('-number', '-created_at')
-    else:
-        posts = posts.order_by('-created_at')
-    if request.method == "POST":
-        searchName = request.POST.get("search-name")
-        posts = posts.filter(title__contains=searchName)
-    for post in posts:
-                ingredientStr = post.ingredient[2:-3].replace("'", '')
-                ingredientList = ingredientStr.split(',')
-                post.ingredientList = ingredientList
-                post.save()
-    # context = {
-    #     "posts" : posts,
-    #     'comments' : comments,
-    #     "sortN" : sort
-    # }
-    
+                
     # 페이지네이션
-    page = request.GET.get('page')
+    page = request.GET.get('page') #html에 get 넣어야함
+    
     paginator = Paginator(posts, 12)
 
     # print(page_obj)
@@ -434,6 +433,93 @@ def posts_janggum_list(request:HttpRequest, *args, **kwargs):
     
     if rightIndex > paginator.num_pages:
         rightIndex = paginator.num_pages
+    custom_range = range(leftIndex, rightIndex + 1)
+
+    context = {
+
+        "posts" : posts,
+        'comments' : comments,
+
+        "page_obj" : page_obj,
+        "paginator" : paginator,
+        'custom_range' : custom_range,
+    }
+
+    return render(request, "posts/store_recipe.html", context=context)
+
+# recipe search page 선택값으로 찾는거 구현 안함
+# def posts_search_list(request:HttpRequest, *args, **kwargs):
+#     posts = Post.objects.all()
+
+#     context = { 
+#         "posts" : posts,
+#     }
+#     return render(request, "posts/recipe_search_page_list.html", context=context)
+
+# 장금이 레시피 페이지 일단 좋아요 없이 구현
+def posts_janggum_list(request:HttpRequest, *args, **kwargs):
+    posts = Post.objects.all()
+    comments = Comment.objects.all()
+    postList = []
+    for post in posts:
+        user_pk =User.objects.all().filter(name=post.user)
+        if user_pk:
+            user_pk= user_pk[0].pk
+        post.user_pk = user_pk
+        post.save()
+    sort = request.GET.get('sort', '')
+    if sort =="likes":
+        posts = posts.order_by('-number', '-created_at')
+    else:
+        posts = posts.order_by('-created_at')
+    if request.method == "POST":
+        searchName = request.POST.get("search-name")
+        posts = posts.filter(title__contains=searchName)
+    for post in posts:
+                ingredientStr = post.ingredient[2:-3].replace("'", '')
+                ingredientList = ingredientStr.split(',')
+                post.ingredientList = ingredientList
+                if post.number >= 10:
+                    postList.append(post)
+                post.save()
+    # context = {
+    #     "posts" : posts,
+    #     'comments' : comments,
+    #     "sortN" : sort
+    # }
+    
+    # 페이지네이션
+    print(len(postList), "post 길이")
+    page = request.GET.get('page')
+    print("page", page)
+    paginator = Paginator(postList, 12)
+
+    # print(page_obj)
+    # print(type(page_obj))
+    # for ele in page_obj:
+    #     print(ele)
+    print(paginator.num_pages, "페이지네이터 넘페이지")
+    try:
+        print("try")
+        page_obj = paginator.page(page)
+    except PageNotAnInteger:
+        print("pagenotinteger")
+        page = 1
+        page_obj = paginator.page(page)
+    except EmptyPage:
+        print("emptypage")
+        page = paginator.num_pages
+        page_obj = paginator.page(page)
+        
+    leftIndex = (int(page) - 2)
+    if leftIndex < 1:
+        leftIndex = 1
+    
+    rightIndex = (int(page) + 2)
+    
+    if rightIndex > paginator.num_pages:
+        rightIndex = paginator.num_pages
+    print(leftIndex, rightIndex, "인덱스")
     custom_range = range(leftIndex, rightIndex + 1)
 
 
@@ -461,7 +547,13 @@ def create(request:HttpRequest, *args, **kwargs):
     }
     if request.method == "POST":
         #여러 재료 input들 한꺼번에 가져와 저장
-        ingredients = request.POST.getlist('ingredient[]'),
+        ingredientList = request.POST.getlist('ingredient[]')
+        ingredients = []
+        print("수정전", ingredientList)
+        for ele in ingredientList:
+            if ele:
+                ingredients.append(ele)
+        print(ingredients, "수정후")
         #print(ingredients)
         ingredientList = ingredients[0]
         for ele in ingredientList:
@@ -491,34 +583,37 @@ def create(request:HttpRequest, *args, **kwargs):
 
 
         # 대체 이미지 넣을 셰도 코드
-        # if request.FILES.get('photo'):
-        #     Post.objects.create(
-        #         ingredient = ingredients,
-        #         user=request.user,
-        #         title=request.POST["title"],
-        #         photo=request.FILES.get('photo'),
-        #         content=request.POST["content"],
-        #         ingredient_quantity = request.POST["ingredient_quantity"],
-        #     )
-        # else:
-        #     Post.objects.create(
-        #         ingredient = ingredients,
-        #         user=request.user,
-        #         title=request.POST["title"],
-        #         photo= #민지가 만든 대체 이미지를 넣으면 될 거 같은데?
-        #         content=request.POST["content"],
-        #         ingredient_quantity = request.POST["ingredient_quantity"],
-        #     )
+        print("request photo", request.FILES.get('photo'))
+        if request.FILES.get('photo'):
+            # print("if")
+            temp = Post.objects.create(
+                ingredient = ingredients,
+                user=request.user,
+                title=request.POST["title"],
+                photo=request.FILES.get('photo'),
+                content=request.POST["content"],
+                ingredient_quantity = request.POST["ingredient_quantity"],
+            )
+        else:
+            # print("else")
+            temp = Post.objects.create(
+                ingredient = ingredients,
+                user=request.user,
+                title=request.POST["title"],
+                content=request.POST["content"],
+                ingredient_quantity = request.POST["ingredient_quantity"],
+            )
             
-    
-        Post.objects.create(
-            ingredient = ingredients,
-            user=request.user,
-            title=request.POST["title"],
-            photo=request.FILES.get('photo'),
-            content=request.POST["content"],
-            ingredient_quantity = request.POST["ingredient_quantity"],
-        )
+        # print(temp.photo)
+        # Post.objects.create(
+        #     ingredient = ingredients,
+        #     user=request.user,
+        #     title=request.POST["title"],
+        #     photo=request.FILES.get('photo'),
+        #     content=request.POST["content"],
+        #     ingredient_quantity = request.POST["ingredient_quantity"],
+        # )
+        print(type(request.FILES.get('photo')))
         return redirect("/")
     return render(request, "posts/recipe_create_page.html", context=context)
 
@@ -582,9 +677,14 @@ def posts_update(request:HttpRequest, pk, *args, **kwargs):
 def posts_delete(request:HttpRequest, pk, *args, **kwargs):
     if request.method == "POST":
         post = Post.objects.get(id=pk)
+        print(post.user, User.objects.get(username= request.user.get_username()))
+        
         if post.user == User.objects.get(username= request.user.get_username()):
             post.delete()
-    return redirect("posts:all_recipe")
+    context= {
+        'pk' : pk
+    }
+    return redirect(f"/")
 
 def posts_retrieve(request:HttpRequest, pk, *args, **kwargs):
     post = Post.objects.all().get(id=pk)
@@ -684,7 +784,7 @@ def detailajax(request, *args, **kwargs):
     #     comment_userid_L.append(comment.user_id.username)
     #     comment_content_L.append(comment.content)
     #     comment_created_L.append(comment.created_at)
-
+    post_number = post.number
     post_username = post.user.username
     post_user = post.user.name
     post_title = post.title
@@ -745,7 +845,7 @@ def detailajax(request, *args, **kwargs):
     # }
 
 
-    return JsonResponse({'post_username':post_username,'post_user': post_user, 'post_id': post_id, 'post_title':post_title,  'post_content': post_content, 'post_created':post_created, 'photo_url':photo_url, 'ingredientL':ingredientL, 'comments': commentList, 'today':today, 'post_quantity': post_quantity})
+    return JsonResponse({'post_username':post_username,'post_user': post_user, 'post_id': post_id, 'post_title':post_title,  'post_content': post_content, 'post_created':post_created, 'photo_url':photo_url, 'ingredientL':ingredientL, 'comments': commentList, 'today':today, 'post_quantity': post_quantity, 'post_number' : post_number})
     # return JsonResponse({'post_id': post_id, 'post_title':post_title,  'post_content': post_content, 'post_created':post_created, 'photo_url':photo_url, 'ingredientL':ingredientL, 'comment_id_L':comment_id_L, 'comment_content_L':comment_content_L, 'comment_created_L':comment_created_L, 'comment_id_L':comment_id_L})
 # 'comment_id_L':comment_id_L, 'comment_userid_L':comment_userid_L, 'comment_content_L':comment_content_L, 'comment_created_L':comment_created_L
 

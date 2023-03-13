@@ -18,7 +18,7 @@ class User(AbstractUser):
 class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=20)
-    photo = models.ImageField(blank=True, upload_to='posts/%Y%m%d')
+    photo = models.ImageField(blank=True, upload_to='posts/%Y%m%d', default='default.png')
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
