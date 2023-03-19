@@ -237,7 +237,8 @@ label,
 
 #add_image {
   position: absolute;
-  border: 0; width: 100px;
+  border: 0;
+  width: 100px;
   margin: 3.5rem 0 0 5rem;
 }
 
@@ -285,7 +286,7 @@ label,
   }
   .menu_point {
     width: 35rem;
-    background-color: #FEFBF8;
+    background-color: #fefbf8;
   }
   .recipe_title input {
     margin-left: 24px;
@@ -432,4 +433,9 @@ input[type="file"]::file-selector-button {
   border: 0;
   border-radius: 10px;
   cursor: pointer;
+}
+
+#charCount {
+  font-size: 1rem;
+  color: rgb(217, 108, 18);
 }
