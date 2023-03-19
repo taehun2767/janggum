@@ -55,10 +55,10 @@
         <div class="both_container">
             <div class="all_recipe_box">
                 {% for post in page_obj %}
-                <article class="backgorundcolor">
+                <article class="backgorundcolor"> 
                     <div class="each_recipe">
                         {% if post.number >= 10 %}
-                            <div class="recipe_content" id="recipe_janggum_back"> 
+                            <div class="recipe_content"> 
                                 <button style="border: 0; position: absolute;"
                                     class="store_{{post.id}}" onclick="onClickStore({{post.id}})">
                                     <i class="fa-solid fa-bookmark" style="color: #a64d4b; margin-left: 5px"></i>
@@ -79,7 +79,7 @@
                                 {% endif %}
                                 <div class="recipe_content_bottom">
                                     <div class="like_container">
-                                        <button id="yellow_color" style=" border: 0" class="like_{{post.id}}" onclick="onClickLike({{post.id}})"><img
+                                        <button style=" border: 0" class="like_{{post.id}}" onclick="onClickLike({{post.id}})"><img
                                             src="{% static 'image/복주머니_빨강.png' %}"
                                             alt="복주머니"
                                             style="width: 20px; border: 0" />
@@ -99,9 +99,8 @@
                         {% else %}
                             <div class="recipe_content"> 
                                 <button style="border: 0; position: absolute;"
-                                    class="store_{{post.id}}" onclick="onClickStore({{post.id}})">
-                                    <i class="fa-solid fa-bookmark" style="color: #a64d4b; margin-left: 5px"></i>
-                                    <div class="store_or_not_{{post.id}}" style="font-family:var(--recipe-font); margin-top:1px;">찜 하기</div>
+                                    class="store_{{post.id}}" onclick="onClickStore({{post.id}})"><i class="fa-solid fa-bookmark" style="color: #a64d4b; margin-left: 5px"></i>
+                                    <div class="store_or_not_{{post.id}}" style="font-family:var(--recipe-font); margin-top:1px;"></div>
                                 </button>
                                 <div class="recipe_title">
                                     <button onclick="onClickDetail({{post.id}})" style="font-family: var(--recipe-font); width: 60%; margin-top: 16px;
@@ -142,21 +141,21 @@
                 </article>
                 {% endfor %}
                 <br>
-                <div>
+                <div class="pagination">
                     {% if page_obj.has_other_pages %}
                         <ul style="display:flex; list-style:none;">
                             {% if page_obj.has_previous %}
-                            <li style="margin:3px;"><a style="text-decoration:none; color: #575757;" href="?page={{page_obj.previous_page_number}}">&#10094; Prev</a></li>
+                            <li style="margin:3px;"><a style="font-size: 35px" href="?page={{page_obj.previous_page_number}}"> 	&lsaquo; </a></li>
                             {% endif %}
                             {% for page in custom_range %}
                             {% if page == page_obj.number%}
-                                <li style="margin:3px;"><a style="text-decoration:none; color: var(--main-color-2);" href="?page={{page}}">{{page}}</a></li>
+                                <li style="margin:3px;" id="page_active"><a style="color:white;"href="?page={{page}}">{{page}}</a></li>
                             {% else %}
-                                <li style="margin:3px;"><a style="text-decoration:none; color: #575757;" href="?page={{page}}">{{page}}</a></li>
+                                <li style="margin:3px;"><a href="?page={{page}}">{{page}}</a></li>
                             {% endif%}
                             {% endfor %}
                             {% if page_obj.has_next %}
-                            <li style="margin:3px;"><a style="text-decoration:none; color: #575757;" href="?page={{page_obj.next_page_number}}">Next &#10095; </a></li>
+                            <li style="margin:3px;"><a style=" font-size: 35px" href="?page={{page_obj.next_page_number}}"> &rsaquo; </a></li>
                             {% endif %}
                         </ul>
                     {% endif %}

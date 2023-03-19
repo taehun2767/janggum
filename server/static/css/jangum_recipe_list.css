@@ -36,7 +36,6 @@ img {
   margin-left: 10.5%;
 }
 
-
 .recipe_content button {
   border: none;
   background-color: transparent;
@@ -106,7 +105,7 @@ img {
 }
 
 .all_recipe_box {
-  height: calc(100vh - 250px );
+  height: calc(100vh - 250px);
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   overflow-y: scroll;
@@ -114,10 +113,9 @@ img {
   -ms-overflow-style: none;
 }
 
-.all_recipe_box::-webkit-scrollbar{
+.all_recipe_box::-webkit-scrollbar {
   display: none;
 }
-
 
 .search_input,
 #content_id {
@@ -127,6 +125,10 @@ img {
   outline: none;
   float: left;
   font-size: 16px;
+  background-color: #fefbf8;
+  border-radius: 3rem;
+  padding-top: 5px;
+  padding-left: 10px;
 }
 
 .search_button {
@@ -187,7 +189,7 @@ img {
   -ms-overflow-style: none;
 }
 
-.post_content::-webkit-scrollbar{
+.post_content::-webkit-scrollbar {
   display: none;
 }
 
@@ -352,13 +354,13 @@ img {
   font-size: initial;
 }
 /* kgoni -- */
-.scroll_list_container{
+.scroll_list_container {
   height: calc(100vh - 250px);
   overflow-y: scroll;
   -ms-overflow-style: none;
 }
-.scroll_list_container::-webkit-scrollbar{
-  display:none;
+.scroll_list_container::-webkit-scrollbar {
+  display: none;
 }
 
 .jomiryo {
