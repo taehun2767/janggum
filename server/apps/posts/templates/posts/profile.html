@@ -13,6 +13,8 @@
             }
         </style>
         {% include 'posts/header_base.html' %}
+        {% if posts %}
+        <!-- posts가 있을 때 UI 코드 -->
         <div class="sort_search">
             <div style="font-size: larger">내 레시피</div>
         </div>
@@ -143,6 +145,20 @@
                 </div>
             </div>
         </div>
+        {% else %}
+        <!-- posts가 없을 때 UI 코드 -->
+        <div class="none_posts">
+            <p>작성한 레시피가 없어요ㅠㅠ</p><br>
+            <p>레시피 작성하러 가보자!</p>
+            <div>
+            <a href="http://janggum.com/posts/create">
+                <img src="/static/image/%EC%B2%B4%ED%81%AC%ED%95%91%ED%81%AC.png" class="check_img">
+                <span>레시피 작성하기</span>
+            </div>
+            </a>
+
+        </div>
+    {% endif %}
         <script src="http://code.jquery.com/jquery-latest.js"></script>
         <script>    
             const requestDetail = new XMLHttpRequest();

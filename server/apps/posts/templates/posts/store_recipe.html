@@ -14,6 +14,8 @@
             }
         </style>
         {% include 'posts/header_base.html' %}
+        {% if posts %}
+        <!-- posts가 있을 때 UI 코드 -->
         <div class="sort_search">
             <div style="font-size: larger">
                 <a href="{% url 'posts:store_recipe_list' %}">레시피 저장소</a>
@@ -137,6 +139,20 @@
                 </div>
             </div>
         </div>
+        {% else %}
+        <!-- posts가 없을 때 UI 코드 -->
+        <div class="none_posts">
+            <p>찜한 레시피가 없어잉</p><br>
+            <p>레시피 찜하러 가보자!</p>
+            <div class="recipe_view_all" id="none_posts_recipe_view_all">
+            <a href="http://janggum.com/posts/all_recipe">
+                <img src="/static/image/%EB%B3%B5%EC%A3%BC%EB%A8%B8%EB%8B%88_%EB%B9%A8%EA%B0%95.png" alt="복주머니">
+                <span>전체 레시피 보기</span>
+            </a>
+            </div>
+
+        </div>
+    {% endif %}
         <script src="http://code.jquery.com/jquery-latest.js"></script>
         <script src="http://code.jquery.com/jquery-latest.js"></script>
         <script>    
