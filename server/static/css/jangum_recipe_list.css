@@ -374,11 +374,11 @@ img {
 }
 
 .ingredient_container::-webkit-scrollbar-thumb {
-  background-color: var(--main-color-1);
+  background-color: var(--main-color-2);
 }
 
 .ingredient_container::-webkit-scrollbar-track {
-  background-color: var(--main-color-2);
+  background-color: var(--main-color-1);
 }
 
 .recipe_content .ingredient_container {
@@ -389,4 +389,13 @@ img {
 
 .recipe_content .one_ingredient {
   white-space: nowrap;
+}
+
+.delete_button {
+  background-color: var(--main-color-2);
+}
+
+.delete_button:hover {
+  background-color: var(--main-color-1);
+  cursor: pointer;
 }

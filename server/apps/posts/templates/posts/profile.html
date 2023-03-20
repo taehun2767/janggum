@@ -278,7 +278,6 @@
                                         <div style="display: flex; justify-content:right;">
                                             <a class="delete_button" onclick="commentDelete('${comments[i].id}');" style="text-decoration: none;
                                             color: white;
-                                            background-color: var(--main-color-2);
                                             padding: 10px 20px;
                                             font-size: large;
                                             border-radius: 0.5rem; margin-right: 20px; margin-top:10px;">댓글삭제</a>
@@ -426,7 +425,7 @@
                                 '<div><div id='+response.comment_id+'><strong style="font-size:large"><i class="fa-solid fa-user"></i>'+response.writer_name+"("+response.comment_writer+")"+'&nbsp;<span>'+response.self_comment+'</span></strong>'+
                                     '<span class="comment_time" style="font-size: medium; font-family:var(--sub-font);">'+response.created+'</span>'+
                                     '<div style="display: flex; justify-content: space-between;flex-direction: row; "><div class="comment_content" style="     font-family: var(--sub-font);  font-size: large; font-weight: 700;">'+response.content+
-                                    '</div><div><a class="delete_button" onclick="commentDelete('+response.comment_id+');" style="text-decoration: none; color: white; background-color: var(--main-color-2); padding: 10px 20px; font-size: large; border-radius: 0.5rem; margin-right: 20px;">댓글삭제</a></div></div><hr></div><div class='+response.comment_id+'></div>'
+                                    '</div><div><a class="delete_button" onclick="commentDelete('+response.comment_id+');" style="text-decoration: none; color: white; padding: 10px 20px; font-size: large; border-radius: 0.5rem; margin-right: 20px;">댓글삭제</a></div></div><hr></div><div class='+response.comment_id+'></div>'
                             );
                         }
                         else{
