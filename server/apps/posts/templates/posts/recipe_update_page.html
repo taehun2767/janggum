@@ -60,8 +60,12 @@
                   <img style="boarder:none; width: 100px" id="update_main_box" src="{{post.photo.url}}"/>
                 </div>
                 <textarea name="content" placeholder="레시피 소개">{{post.content}}</textarea>
-                <textarea name="ingredient_quantity" placeholder="재료의 양과 사용되는 조미료를 간단하게 적어주세요">{{post.ingredient_quantity}}</textarea>
+                  <textarea name="ingredient_quantity" placeholder="" id="myTextarea" maxlength="30">{{post.ingredient_quantity}}</textarea>
+              <div id="output"></div>
+              <div id="charCount"></div>
+                
             </div>
+            
             <div class="update-button">
                 <input type="submit" , value="레시피 저장" />
             </div>
@@ -160,6 +164,13 @@
                 filename.innerText = this.files[0].name;
               });
 
+              // 밑으로 레시피 조미료 입력 문자 수 나타내는 코드 //
+              const textarea = document.getElementById("myTextarea");
+              const charCount = document.getElementById("charCount");
+        
+              textarea.addEventListener("input", function() {
+                charCount.innerHTML = `입력된 조미료 문자 수: ${textarea.value.length} /30`;
+              });
 
         </script>
     </body>
