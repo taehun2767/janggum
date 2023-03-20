@@ -282,17 +282,17 @@
                             }
                             if(comments[i].user_id == requestDetail.response.user){
                                 list_of_comments.innerHTML += `
-                                    <div style="display: flex; justify-content: space-between;flex-direction: row; ">
+                                <div style="display: flex;flex-direction: column;flex-wrap: wrap;justify-content: flex-start;">
                                         <div class="comment_content" style="     font-family: var(--sub-font);
                                         font-size: large;
                                         font-weight: 700;">${comments[i].content}</div>
-                                        <div>
+                                        <div style="display: flex; justify-content:right;">
                                             <a class="delete_button" onclick="commentDelete('${comments[i].id}');" style="text-decoration: none;
                                             color: white;
                                             background-color: var(--main-color-2);
                                             padding: 10px 20px;
                                             font-size: large;
-                                            border-radius: 0.5rem; margin-right: 20px;">댓글삭제</a>
+                                            border-radius: 0.5rem; margin-right: 20px; margin-top:10px;">댓글삭제</a>
                                         </div>
                                     </div>
                                 <hr>
