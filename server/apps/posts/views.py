@@ -575,6 +575,14 @@ def create(request:HttpRequest, *args, **kwargs):
         for ele in ingredientList:
             all_used_ingredient_set.add(ele.replace(" ",""))
             
+        #조미료 공백 제거
+        condiment = request.POST.get("ingredient_quantity")
+        condiment_temp = condiment.split()
+        condiment= " ".join(condiment_temp)
+
+
+        
+        
         if not AllUsedIngredient.objects.all():
             for ele in ingredientList:
                 all_used_ingredient_set.add(ele.replace(" ",""))
@@ -608,7 +616,7 @@ def create(request:HttpRequest, *args, **kwargs):
                 title=request.POST["title"],
                 photo=request.FILES.get('photo'),
                 content=request.POST["content"],
-                ingredient_quantity = request.POST["ingredient_quantity"],
+                ingredient_quantity = condiment,
             )
         else:
             # print("else")
@@ -660,11 +668,15 @@ def posts_update(request:HttpRequest, pk, *args, **kwargs):
     post.save()
     if request.method == "POST":
         post.title=request.POST["title"]
+        #조미료 공백 제거
+        condiment = request.POST.get("ingredient_quantity")
+        condiment_temp = condiment.split()
+        condiment= " ".join(condiment_temp)
         if request.FILES.get('photo') is not None:
             post.photo=request.FILES.get("photo")
         post.content=request.POST["content"]
         post.ingredient = ingredients
-        post.ingredient_quantity = request.POST["ingredient_quantity"]
+        post.ingredient_quantity = condiment
         post.save()
         
         # print(all_used_ingredient_set, "있던 set 가져오기")
