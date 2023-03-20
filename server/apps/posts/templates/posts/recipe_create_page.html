@@ -16,6 +16,7 @@
               />
             </button>
           </div>
+          <button id="delete">삭제 버튼</button>
           <form action="{% url 'posts:create' %}" method="post" enctype="multipart/form-data" style="    border: 74px solid #ae8767ab;">
             <span class="menu_point"><span>
               {% csrf_token %}
@@ -25,26 +26,30 @@
                       <input name="title" placeholder="레시피 제목" />
                   </div>
                   <div id="create-btn-container">
-                      <input name="ingredient[]" list="ingredient_list" placeholder="재료1" onkeyup="noSpace(this);" />
-                      <datalist id="ingredient_list">
+                      <input id="ingredient1" name="ingredient[]" list="ingredient_list" placeholder="재료1" onkeyup="noSpace(this);" />
+                      {% comment %} <datalist id="ingredient_list">
                           {%for ele in ingredientList %}
                           <option>{{ele}}</option>
                           {%endfor%}
-                      </datalist>
-                      <input name="ingredient[]" list="ingredient_list" placeholder="재료2" onkeyup="noSpace(this);" />
-                      <datalist id="ingredient_list">
+                      </datalist> {% endcomment %}
+                      <input id="ingredient2" name="ingredient[]" list="ingredient_list" placeholder="재료2" onkeyup="noSpace(this);" />
+                      {% comment %} <datalist id="ingredient_list">
                           {%for ele in ingredientList %}
                           <option>{{ele}}</option>
                           {%endfor%}
-                      </datalist>
-                      <input name="ingredient[]" list="ingredient_list" placeholder="재료3" onkeyup="noSpace(this);" />
-                      <datalist id="ingredient_list">
+                      </datalist> {% endcomment %}
+                      <input id="ingredient3" name="ingredient[]" list="ingredient_list" placeholder="재료3" onkeyup="noSpace(this);" />
+                      {% comment %} <datalist id="ingredient_list">
                           {%for ele in ingredientList %}
                           <option>{{ele}}</option>
                           {%endfor%}
-                      </datalist>
+                      </datalist> {% endcomment %}
                   </div>
-  
+                  <datalist id="ingredient_list">
+                    {%for ele in ingredientList %}
+                    <option>{{ele}}</option>
+                    {%endfor%}
+                </datalist>
                   <br />
                   <div id="create_pic">
                     {% comment %} 백엔드 input {% endcomment %}
@@ -72,28 +77,36 @@
   
           <script>
                     const $addBtn = document.getElementById("add");
+                    const $deleteBtn = document.getElementById("delete");
                     const $btnParent = document.getElementById("create-btn-container");
                     let count = 3;
-                    $addBtn.addEventListener("click", () => {
-                        count =count + 1
-                        let template = `
-                        <input name="ingredient[]" list="ingredient_list" placeholder="재료${count}" onkeyup="noSpace(this);" />
-                        <datalist id="ingredient_list">
-                            {%for ele in ingredientList %}
-                            <option>{{ele}}</option>
-                            {%endfor%}
-                        </datalist>
-                        `;
-  
-                        const $newBtn = document.createElement("span");
-                        $newBtn.name = "ingredient[]";
-                        $newBtn.list = "ingredient_list";
-                        $newBtn.placeholder = "재료";
-                        $newBtn.innerHTML = template;
-                        $btnParent.appendChild($newBtn);
-  
+
+                    $deleteBtn.addEventListener("click", ()=>{
+                      if (count > 1){
+                        let target_id = "ingredient" + count;
+                        console.log(target_id);
+                        target = document.getElementById(target_id);
+                        target.remove();
+                        count = count - 1;
+                      }
                     });
-  
+
+                    $addBtn.addEventListener("click", () => {
+                        if (count < 9){
+                          count =count + 1
+                          let template = `
+                          <input " name="ingredient[]" list="ingredient_list" placeholder="재료${count}" onkeyup="noSpace(this);" />
+                          `;
+                          const $newBtn = document.createElement("span");
+                          $newBtn.id ="ingredient"+count;
+                          $newBtn.name = "ingredient[]";
+                          $newBtn.list = "ingredient_list";
+                          $newBtn.placeholder = "재료";
+                          $newBtn.innerHTML = template;
+                          $btnParent.appendChild($newBtn);
+                          }
+                    });
+                    
   
               function noSpace(obj){
   

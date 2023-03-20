@@ -16,6 +16,7 @@
             />
           </button>
         </div>
+        <button id="delete">삭제 버튼</button>
         <form action="{% url 'posts:update' post.pk %}" method="post" enctype="multipart/form-data" style="border: 74px solid #ae8767ab;">
           <span class="menu_point"><span>
             {% csrf_token %}
@@ -71,26 +72,42 @@
           var fileName = $("#file-input").val();
           console.log(fileName);
           const $addBtn = document.getElementById("add");
+          const $deleteBtn = document.getElementById("delete");
           const $btnParent = document.getElementById("update-btn-container");
+          $btnParent.childNodes[1].id = "ingredient1";
+          $btnParent.childNodes[3].id = "ingredient2";
+          $btnParent.childNodes[5].id = "ingredient3";
+          console.log($btnParent.childNodes[1].id);
+          console.log($btnParent.childNodes[3].id);
+          console.log($btnParent.childNodes[5].id);
           let count = 3;
-    $addBtn.addEventListener("click", () => {
-        count += 1;
-        let template = `
-        <input name="search_keyword" list="ingredient_list" placeholder="재료${count}" onkeyup="noSpace(this);"/>
-        <datalist id="ingredient_list">
-            {%for ele in ingredientList %}
-            <option>{{ele}}</option>
-            {%endfor%}
-        </datalist>
-        `;
 
-              const $newBtn = document.createElement("span");
-              $newBtn.name = "ingredient[]";
-              $newBtn.list = "ingredient_list";
-              $newBtn.placeholder = "재료";
-              $newBtn.innerHTML = template;
-              $btnParent.appendChild($newBtn);
+          $deleteBtn.addEventListener("click", ()=>{
 
+            if (count > 1){
+              let target_id = "ingredient" + count;
+              console.log(target_id);
+              target = document.getElementById(target_id);
+              target.remove();
+              count = count - 1;
+            }
+          });
+
+          $addBtn.addEventListener("click", () => {
+              if(count < 9){
+                count += 1;
+                let template = `
+                <input name="search_keyword" list="ingredient_list" placeholder="재료${count}" onkeyup="noSpace(this);"/>
+                `;
+
+                const $newBtn = document.createElement("span");
+                $newBtn.id ="ingredient"+count;
+                $newBtn.name = "ingredient[]";
+                $newBtn.list = "ingredient_list";
+                $newBtn.placeholder = "재료";
+                $newBtn.innerHTML = template;
+                $btnParent.appendChild($newBtn);
+              }
           });
 
             {% comment %} var fileName = $("#file-input").val();
