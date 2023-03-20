@@ -400,12 +400,20 @@ img {
 }
 
 .none_posts {
-  /* display: flex; */
+  display: grid;
   align-items: center;
   text-align: center;
+  justify-content: center;
 }
 
 #none_posts_recipe_view_all {
   display: flex;
   justify-content: center;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
