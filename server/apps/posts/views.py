@@ -22,11 +22,12 @@ def main(request):
     posts = Post.objects.all()
     posts.delete
     postList = []
-
+    lessAccurateList = []
     if request.GET.get('page'):
-        print(request.GET.get('page'))
-        print(postList)
-        print(ingredientL)
+        # print(request.GET.get('page'))
+        # print(postList)
+        # print(ingredientL)
+        
         for post in posts:
                 ingredientStr = post.ingredient[2:-3].replace("'", '')
                 
@@ -41,7 +42,8 @@ def main(request):
                             break
                 if flag:
                     postList.append(post)
-        print(postList)
+
+        # print(postList)
         if postList:
             print(postList[0].ingredient)
         #각각 검색재료에 대해 필터링
@@ -58,6 +60,7 @@ def main(request):
         #             return render(request, "posts/main.html", context=context)
         
         # context={"posts" : postList}
+        
         #해당조건의 레시피가 존재할 때
         if postList:
             #재료를 파이썬 리스트화해야 전체 레시피 보기에서 재료도 보이게 할 수 있음
@@ -115,6 +118,14 @@ def main(request):
             ele = ele.replace(" ", "")
             ingredientL.append(ele)
 
+
+        #각각 검색재료에 대해 필터링
+        for ele in ingredientL:
+            if ele:
+                if posts.filter(ingredient__contains=ele):
+                    posts = posts.filter(ingredient__contains=ele)
+                    print(posts)
+                
         for post in posts:
                 ingredientStr = post.ingredient[2:-3].replace("'", '')
                 ingredientStr = ingredientStr.replace(" ", "")
@@ -129,7 +140,12 @@ def main(request):
                             break
                 if flag:
                     postList.append(post)
-        print(postList)
+                else:
+                    lessAccurateList.append(post)
+        
+        print(postList, "정확한 경우")
+        print(lessAccurateList, "덜 정확한 경우")
+        postList = postList + lessAccurateList
         if postList:
             print(postList[0].ingredient)
         #각각 검색재료에 대해 필터링
