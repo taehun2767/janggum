@@ -36,7 +36,6 @@ img {
   margin-left: 10.5%;
 }
 
-
 .recipe_content button {
   border: none;
   background-color: transparent;
@@ -94,7 +93,7 @@ img {
   background-color: #dcb7b7;
 }
 
-.one_ingredient:nth-child(odd){
+.one_ingredient:nth-child(odd) {
   background-color: var(--main-color-2);
 }
 
@@ -110,7 +109,7 @@ img {
 }
 
 .all_recipe_box {
-  height: calc(100vh - 250px );
+  height: calc(100vh - 250px);
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   overflow-y: scroll;
@@ -118,10 +117,9 @@ img {
   -ms-overflow-style: none;
 }
 
-.all_recipe_box::-webkit-scrollbar{
+.all_recipe_box::-webkit-scrollbar {
   display: none;
 }
-
 
 .search_input,
 #content_id {
@@ -131,6 +129,10 @@ img {
   outline: none;
   float: left;
   font-size: 16px;
+  background-color: #fefbf8;
+  border-radius: 3rem;
+  padding-top: 5px;
+  padding-left: 10px;
 }
 
 .search_button {
@@ -191,7 +193,7 @@ img {
   -ms-overflow-style: none;
 }
 
-.post_content::-webkit-scrollbar{
+.post_content::-webkit-scrollbar {
   display: none;
 }
 
@@ -315,27 +317,27 @@ img {
 .recipe_content > button > i {
   position: relative;
   color: var(--store-color-1);
-  -webkit-transform:scale(1, 1.5); /* Safari and Chrome */
-  -moz-transform:scale(1, 1.5); /* Firefox */
-  -ms-transform:scale(1, 1.5); /* IE 9 */
-  -o-transform:scale(1, 1.5); /* Opera */
-  transform:scale(1, 1.5); /* W3C */
+  -webkit-transform: scale(1, 1.5); /* Safari and Chrome */
+  -moz-transform: scale(1, 1.5); /* Firefox */
+  -ms-transform: scale(1, 1.5); /* IE 9 */
+  -o-transform: scale(1, 1.5); /* Opera */
+  transform: scale(1, 1.5); /* W3C */
   font-size: 3rem;
 }
 
 #store_text {
   position: absolute;
-  top:-3px;
+  top: -3px;
   left: 10px;
   writing-mode: vertical-lr;
-  font-family:var(--recipe-font);
+  font-family: var(--recipe-font);
   color: white;
   font-size: 0.7rem;
-  -webkit-transform:scale(1.2, 0.8); /* Safari and Chrome */
-  -moz-transform:scale(1.2, 0.8); /* Firefox */
-  -ms-transform:scale(1.2, 0.8); /* IE 9 */
-  -o-transform:scale(1.2, 0.8); /* Opera */
-  transform:scale(1.2, 0.8); /* W3C */
+  -webkit-transform: scale(1.2, 0.8); /* Safari and Chrome */
+  -moz-transform: scale(1.2, 0.8); /* Firefox */
+  -ms-transform: scale(1.2, 0.8); /* IE 9 */
+  -o-transform: scale(1.2, 0.8); /* Opera */
+  transform: scale(1.2, 0.8); /* W3C */
 }
 
 /* main 추가 */
@@ -378,13 +380,13 @@ img {
   font-size: initial;
 }
 /* kgoni -- */
-.scroll_list_container{
+.scroll_list_container {
   height: calc(100vh - 250px);
   overflow-y: scroll;
   -ms-overflow-style: none;
 }
-.scroll_list_container::-webkit-scrollbar{
-  display:none;
+.scroll_list_container::-webkit-scrollbar {
+  display: none;
 }
 
 .jomiryo {

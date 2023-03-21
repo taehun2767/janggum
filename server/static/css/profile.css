@@ -129,6 +129,10 @@ img {
   outline: none;
   float: left;
   font-size: 16px;
+  background-color: #fefbf8;
+  border-radius: 3rem;
+  padding-top: 5px;
+  padding-left: 10px;
 }
 
 .search_button {
@@ -311,7 +315,7 @@ img {
 .recipe_content > button {
   display: flex;
   align-items: center;
-  background-color:transparent;
+  background-color: transparent;
   top: 0.7rem;
   left: 0.4rem;
 }
@@ -319,27 +323,27 @@ img {
 .recipe_content > button > i {
   position: relative;
   color: var(--store-color-1);
-  -webkit-transform:scale(1, 1.5); /* Safari and Chrome */
-  -moz-transform:scale(1, 1.5); /* Firefox */
-  -ms-transform:scale(1, 1.5); /* IE 9 */
-  -o-transform:scale(1, 1.5); /* Opera */
-  transform:scale(1, 1.5); /* W3C */
+  -webkit-transform: scale(1, 1.5); /* Safari and Chrome */
+  -moz-transform: scale(1, 1.5); /* Firefox */
+  -ms-transform: scale(1, 1.5); /* IE 9 */
+  -o-transform: scale(1, 1.5); /* Opera */
+  transform: scale(1, 1.5); /* W3C */
   font-size: 3rem;
 }
 
 #store_text {
   position: absolute;
-  top:-3px;
+  top: -3px;
   left: 10px;
   writing-mode: vertical-lr;
-  font-family:var(--recipe-font);
+  font-family: var(--recipe-font);
   color: white;
   font-size: 0.7rem;
-  -webkit-transform:scale(1.2, 0.8); /* Safari and Chrome */
-  -moz-transform:scale(1.2, 0.8); /* Firefox */
-  -ms-transform:scale(1.2, 0.8); /* IE 9 */
-  -o-transform:scale(1.2, 0.8); /* Opera */
-  transform:scale(1.2, 0.8); /* W3C */
+  -webkit-transform: scale(1.2, 0.8); /* Safari and Chrome */
+  -moz-transform: scale(1.2, 0.8); /* Firefox */
+  -ms-transform: scale(1.2, 0.8); /* IE 9 */
+  -o-transform: scale(1.2, 0.8); /* Opera */
+  transform: scale(1.2, 0.8); /* W3C */
 }
 
 /* main 추가 */

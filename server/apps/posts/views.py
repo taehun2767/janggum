@@ -495,7 +495,7 @@ def posts_janggum_list(request:HttpRequest, *args, **kwargs):
                 ingredientStr = post.ingredient[2:-3].replace("'", '')
                 ingredientList = ingredientStr.split(',')
                 post.ingredientList = ingredientList
-                if post.number >= 10:
+                if post.number >= 1:
                     postList.append(post)
                 post.save()
     # context = {
