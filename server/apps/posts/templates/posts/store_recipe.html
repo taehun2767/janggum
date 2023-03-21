@@ -8,11 +8,6 @@
         <title>장금이 요리백서</title>
         {% load static %}
         <link rel="stylesheet" href="{% static 'css/store_recipe.css'%}" />
-        <style>
-            .one_ingredient:nth-child(odd) {
-              background-color : #994d48;
-            }
-        </style>
         {% include 'posts/header_base.html' %}
         {% if posts %}
         <!-- posts가 있을 때 UI 코드 -->
@@ -36,8 +31,9 @@
                             <div class="recipe_content" id="recipe_janggum_back"> 
                                 <button style="border: 0; position: absolute;"
                                     class="store_{{post.id}}" onclick="onClickStore({{post.id}})">
-                                    <i class="fa-solid fa-bookmark" style="color: #a64d4b; margin-left: 5px"></i>
-                                    <div class="store_or_not_{{post.id}}" style="font-family:var(--recipe-font); margin-top:1px;">찜 하기</div>
+                                    <i class="fa-solid fa-bookmark">
+                                        <div class="store_or_not_{{post.id}}" id="store_text">찜하기</div>
+                                    </i>
                                 </button>
                                 <div class="recipe_title">
                                     <button onclick="onClickDetail({{post.id}})" style="font-family: var(--recipe-font); width: 60%; margin-top: 16px;
@@ -72,8 +68,9 @@
                             <div class="recipe_content"> 
                                 <button style="border: 0; position: absolute;"
                                     class="store_{{post.id}}" onclick="onClickStore({{post.id}})">
-                                    <i class="fa-solid fa-bookmark" style="color: #a64d4b; margin-left: 5px"></i>
-                                    <div class="store_or_not_{{post.id}}" style="font-family:var(--recipe-font); margin-top:1px;">찜 하기</div>
+                                    <i class="fa-solid fa-bookmark">
+                                        <div class="store_or_not_{{post.id}}" id="store_text">찜하기</div>
+                                    </i>
                                 </button>
                                 <div class="recipe_title">
                                     <button onclick="onClickDetail({{post.id}})" style="font-family: var(--recipe-font); width: 60%; margin-top: 16px;
@@ -146,7 +143,7 @@
             <p>찜한 레시피가 없어잉</p><br>
             <p>레시피 찜하러 가보자!</p>
             <div class="recipe_view_all" id="none_posts_recipe_view_all">
-            <a href="http://janggum.com/posts/all_recipe">
+            <a href="{% url 'posts:all_recipe' %}">
                 <img src="/static/image/%EB%B3%B5%EC%A3%BC%EB%A8%B8%EB%8B%88_%EB%B9%A8%EA%B0%95.png" alt="복주머니">
                 <span>전체 레시피 보기</span>
             </a>
@@ -180,9 +177,9 @@
                     const originHTML = element.innerHTML;
                     const text = originHTML;
                     if (store_true == true){
-                        element.innerHTML = `저장 O`;
+                        element.innerHTML = `찜해제`;
                     }else{
-                        element.innerHTML = `저장 X`;
+                        element.innerHTML = `찜하기`;
                     }
                 }
                 }
@@ -468,6 +465,13 @@
                     });
                 }
             }
+            function colorChange() {
+                var color = ["#FC5C7D", "#6A82FB", "#38ef7d", "#fffbd5", "#b20a2c", "#CAC531"];
+              
+                var num = Math.floor(Math.random() * color.length);
+                var bodyTag = document.getElementById("colorCont");
+                bodyTag.style.backgroundColor = color[num];
+              }
         </script>
         <script
           src="https://kit.fontawesome.com/6fbcf91afd.js"

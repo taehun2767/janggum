@@ -9,11 +9,6 @@
         {% load static %}
         {% load filter %}
         <link rel="stylesheet" href="{% static 'css/jangum_recipe_list.css'%}" />
-        <style>
-            .one_ingredient:nth-child(odd) {
-              background-color : #994d48;
-            }
-        </style>
         {% include 'posts/header_base.html' %}
         <div class="sort_search">
             <div style="font-size: larger">
@@ -58,8 +53,9 @@
                             <div class="recipe_content"> 
                                 <button style="border: 0; position: absolute;"
                                     class="store_{{post.id}}" onclick="onClickStore({{post.id}})">
-                                    <i class="fa-solid fa-bookmark" style="color: #a64d4b; margin-left: 5px"></i>
-                                    <div class="store_or_not_{{post.id}}" style="font-family:var(--recipe-font); margin-top:1px;">찜 하기</div>
+                                    <i class="fa-solid fa-bookmark">
+                                        <div class="store_or_not_{{post.id}}" id="store_text">찜하기</div>
+                                    </i>
                                 </button>
                                 <div class="recipe_title">
                                     <button onclick="onClickDetail({{post.id}})" style="font-family: var(--recipe-font); width: 60%; margin-top: 16px;
@@ -151,9 +147,9 @@
                     const originHTML = element.innerHTML;
                     const text = originHTML;
                     if (store_true == true){
-                        element.innerHTML = `저장 O`;
+                        element.innerHTML = `찜해제`;
                     }else{
-                        element.innerHTML = `저장 X`;
+                        element.innerHTML = `찜하기`;
                     }
                 }
                 }
@@ -437,6 +433,16 @@
                     });
                 }
             }
+            let randomIngColor = () => {
+                let color_r = Math.floor(Math.random() * 120 + 80).toString(16);
+                let color_g = Math.floor(Math.random() * 120 + 80).toString(16);
+                let color_b = Math.floor(Math.random() * 120 + 80).toString(16);
+                return `#${color_r+color_g+color_b}`;
+              }
+              
+              for(one_ingredient of document.getElementsByClassName('one_ingredient')){
+                one_ingredient.style.backgroundColor = randomIngColor();
+              }
         </script>
         <script
           src="https://kit.fontawesome.com/6fbcf91afd.js"
