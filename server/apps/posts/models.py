@@ -17,7 +17,7 @@ class User(AbstractUser):
 #게시글
 class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    title = models.CharField(max_length=20)
+    title = models.CharField(max_length=12)
     photo = models.ImageField(blank=True, upload_to='posts/%Y%m%d', default='default.png')
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)

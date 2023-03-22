@@ -19,6 +19,11 @@ img {
   width: 100px;
 }
 
+.recipe_title {
+  height: 78px;
+  box-sizing: border-box;
+}
+
 .recipe_content {
   display: flex;
   justify-content: center;
