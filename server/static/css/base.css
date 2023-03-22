@@ -196,6 +196,7 @@ textarea {
   --ingredient-color: #ab7b58; /* 자동완성 선택 시 바뀌는 글자 색상 */
   --google-color-1: #1a73e8; /* 구글 로그인 페이지에 쓸 색상 */
   --google-color-2: #7ca6dc; /* 구글 로그인 페이지에 쓸 색상 */
+  --store-color-1: #f8a0a0; /* 찜하기 전 icon 색상 */
 
   /* font-family */
   --main-font: "Yeon Sung"; /* 헤더, "전체(장금이) 레시피 보기", "레시피 추가하러 가기", (로그인/회원가입 폼?) */

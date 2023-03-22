@@ -331,7 +331,7 @@ textarea {
   }
   .menu_point {
     width: 35rem;
-    background-color: #FEFBF8;
+    background-color: #fefbf8;
   }
   .recipe_title input {
     margin-left: 24px;
@@ -473,4 +473,9 @@ textarea {
   width: 20px;
   height: 10px;
   border-radius: 1.5rem;
+}
+
+#charCount {
+  font-size: 1rem;
+  color: rgb(217, 108, 18);
 }

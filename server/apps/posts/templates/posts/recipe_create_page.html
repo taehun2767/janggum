@@ -16,6 +16,7 @@
               />
             </button>
           </div>
+          <button id="delete">삭제 버튼</button>
           <form action="{% url 'posts:create' %}" method="post" enctype="multipart/form-data" style="    border: 74px solid #ae8767ab;">
             <span class="menu_point"><span>
               {% csrf_token %}
@@ -25,26 +26,30 @@
                       <input name="title" placeholder="레시피 제목" />
                   </div>
                   <div id="create-btn-container">
-                      <input name="ingredient[]" list="ingredient_list" placeholder="재료1" onkeyup="noSpace(this);" />
-                      <datalist id="ingredient_list">
+                      <input id="ingredient1" name="ingredient[]" list="ingredient_list" placeholder="재료1" onkeyup="noSpace(this);" />
+                      {% comment %} <datalist id="ingredient_list">
                           {%for ele in ingredientList %}
                           <option>{{ele}}</option>
                           {%endfor%}
-                      </datalist>
-                      <input name="ingredient[]" list="ingredient_list" placeholder="재료2" onkeyup="noSpace(this);" />
-                      <datalist id="ingredient_list">
+                      </datalist> {% endcomment %}
+                      <input id="ingredient2" name="ingredient[]" list="ingredient_list" placeholder="재료2" onkeyup="noSpace(this);" />
+                      {% comment %} <datalist id="ingredient_list">
                           {%for ele in ingredientList %}
                           <option>{{ele}}</option>
                           {%endfor%}
-                      </datalist>
-                      <input name="ingredient[]" list="ingredient_list" placeholder="재료3" onkeyup="noSpace(this);" />
-                      <datalist id="ingredient_list">
+                      </datalist> {% endcomment %}
+                      <input id="ingredient3" name="ingredient[]" list="ingredient_list" placeholder="재료3" onkeyup="noSpace(this);" />
+                      {% comment %} <datalist id="ingredient_list">
                           {%for ele in ingredientList %}
                           <option>{{ele}}</option>
                           {%endfor%}
-                      </datalist>
+                      </datalist> {% endcomment %}
                   </div>
-  
+                  <datalist id="ingredient_list">
+                    {%for ele in ingredientList %}
+                    <option>{{ele}}</option>
+                    {%endfor%}
+                </datalist>
                   <br />
                   <div id="create_pic">
                     {% comment %} 백엔드 input {% endcomment %}
@@ -59,8 +64,12 @@
               <textarea name="content" placeholder="재료3 정량"></textarea><br /><br />
               {% endcomment %}
               <textarea name="content" placeholder="레시피 소개 내용"></textarea>
-              <textarea name="ingredient_quantity" placeholder="재료의 양과 사용되는 조미료를 간단하게 적어주세요"></textarea>
-  
+              {% comment %} <textarea name="ingredient_quantity" placeholder="재료의 양과 사용되는 조미료를 간단하게 적어주세요"></textarea> {% endcomment %}
+              
+              <textarea name="ingredient_quantity" placeholder="재료의 양과 사용되는 조미료를 간단하게 적어주세요 (공백포함 최대 30자)" id="myTextarea" maxlength="30"></textarea>
+              <div id="output"></div>
+              <div id="charCount"></div>
+
               <div class="create-button">
                   <input type="submit" , value="레시피 저장" />
               </div>
@@ -68,28 +77,36 @@
   
           <script>
                     const $addBtn = document.getElementById("add");
+                    const $deleteBtn = document.getElementById("delete");
                     const $btnParent = document.getElementById("create-btn-container");
                     let count = 3;
-                    $addBtn.addEventListener("click", () => {
-                        count =count + 1
-                        let template = `
-                        <input name="ingredient[]" list="ingredient_list" placeholder="재료${count}" onkeyup="noSpace(this);" />
-                        <datalist id="ingredient_list">
-                            {%for ele in ingredientList %}
-                            <option>{{ele}}</option>
-                            {%endfor%}
-                        </datalist>
-                        `;
-  
-                        const $newBtn = document.createElement("span");
-                        $newBtn.name = "ingredient[]";
-                        $newBtn.list = "ingredient_list";
-                        $newBtn.placeholder = "재료";
-                        $newBtn.innerHTML = template;
-                        $btnParent.appendChild($newBtn);
-  
+
+                    $deleteBtn.addEventListener("click", ()=>{
+                      if (count > 1){
+                        let target_id = "ingredient" + count;
+                        console.log(target_id);
+                        target = document.getElementById(target_id);
+                        target.remove();
+                        count = count - 1;
+                      }
                     });
-  
+
+                    $addBtn.addEventListener("click", () => {
+                        if (count < 9){
+                          count =count + 1
+                          let template = `
+                          <input " name="ingredient[]" list="ingredient_list" placeholder="재료${count}" onkeyup="noSpace(this);" />
+                          `;
+                          const $newBtn = document.createElement("span");
+                          $newBtn.id ="ingredient"+count;
+                          $newBtn.name = "ingredient[]";
+                          $newBtn.list = "ingredient_list";
+                          $newBtn.placeholder = "재료";
+                          $newBtn.innerHTML = template;
+                          $btnParent.appendChild($newBtn);
+                          }
+                    });
+                    
   
               function noSpace(obj){
   
@@ -108,6 +125,14 @@
                     document.getElementById('create_preview').src = "";
                   }
               }
+                // 밑으로 레시피 조미료 입력 문자 수 나타내는 코드 //
+                const textarea = document.getElementById("myTextarea");
+                const charCount = document.getElementById("charCount");
+          
+                textarea.addEventListener("input", function() {
+                  charCount.innerHTML = `입력된 조미료 문자 수: ${textarea.value.length} /30`;
+                });
+
           </script>
       </body>
   </html>

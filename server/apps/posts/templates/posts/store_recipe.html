@@ -8,12 +8,9 @@
         <title>장금이 요리백서</title>
         {% load static %}
         <link rel="stylesheet" href="{% static 'css/store_recipe.css'%}" />
-        <style>
-            .one_ingredient:nth-child(odd) {
-              background-color : #994d48;
-            }
-        </style>
         {% include 'posts/header_base.html' %}
+        {% if posts %}
+        <!-- posts가 있을 때 UI 코드 -->
         <div class="sort_search">
             <div style="font-size: larger">
                 <a href="{% url 'posts:store_recipe_list' %}">레시피 저장소</a>
@@ -31,14 +28,15 @@
                 <article class="backgorundcolor">
                     <div class="each_recipe">
                         {% if post.number >= 10 %}
-                            <div class="recipe_content" id="recipe_janggum_back"> 
+                            <div class="recipe_content" id="recipe_janggum_back" onclick="onClickDetail({{post.id}})" > 
                                 <button style="border: 0; position: absolute;"
                                     class="store_{{post.id}}" onclick="onClickStore({{post.id}})">
-                                    <i class="fa-solid fa-bookmark" style="color: #a64d4b; margin-left: 5px"></i>
-                                    <div class="store_or_not_{{post.id}}" style="font-family:var(--recipe-font); margin-top:1px;">찜 하기</div>
+                                    <i class="fa-solid fa-bookmark">
+                                        <div class="store_or_not_{{post.id}}" id="store_text">찜하기</div>
+                                    </i>
                                 </button>
                                 <div class="recipe_title">
-                                    <button onclick="onClickDetail({{post.id}})" style="font-family: var(--recipe-font); width: 60%; margin-top: 16px;
+                                    <button style="font-family: var(--recipe-font); width: 60%; margin-top: 16px;
                                     font-size: x-large; margin-bottom: 6px;">{{post.title}}</button>
                                 </div>
                                 {% comment %}
@@ -58,7 +56,6 @@
                                         </button>
                                         <div class="like_dislike_{{post.id}}">좋아요 개수: {{post.number}}</div>
                                     </div>
-                                    <div style="margin-top: -11px">{{post.created_at}}</div>
                                 </div>
                                 <div class="ingredient_container">
                                     {%for ele in post.ingredientList%}
@@ -67,11 +64,12 @@
                                 </div>
                             </div>
                         {% else %}
-                            <div class="recipe_content"> 
+                            <div class="recipe_content" onclick="onClickDetail({{post.id}})" > 
                                 <button style="border: 0; position: absolute;"
                                     class="store_{{post.id}}" onclick="onClickStore({{post.id}})">
-                                    <i class="fa-solid fa-bookmark" style="color: #a64d4b; margin-left: 5px"></i>
-                                    <div class="store_or_not_{{post.id}}" style="font-family:var(--recipe-font); margin-top:1px;">찜 하기</div>
+                                    <i class="fa-solid fa-bookmark">
+                                        <div class="store_or_not_{{post.id}}" id="store_text">찜하기</div>
+                                    </i>
                                 </button>
                                 <div class="recipe_title">
                                     <button onclick="onClickDetail({{post.id}})" style="font-family: var(--recipe-font); width: 60%; margin-top: 16px;
@@ -94,7 +92,6 @@
                                         </button>
                                         <div class="like_dislike_{{post.id}}">좋아요 개수: {{post.number}}</div>
                                     </div>
-                                    <div style="margin-top: -11px">{{post.created_at}}</div>
                                 </div>
                                 <div class="ingredient_container">
                                     {%for ele in post.ingredientList%}
@@ -137,6 +134,22 @@
                 </div>
             </div>
         </div>
+        {% else %}
+        <!-- posts가 없을 때 UI 코드 -->
+    <div class="wrapper">
+        <div class="none_posts">
+            <p>찜한 레시피가 없어잉</p><br>
+            <p>레시피 찜하러 가보자!</p>
+            <div class="recipe_view_all" id="none_posts_recipe_view_all">
+            <a href="{% url 'posts:all_recipe' %}">
+                <img src="/static/image/%EB%B3%B5%EC%A3%BC%EB%A8%B8%EB%8B%88_%EB%B9%A8%EA%B0%95.png" alt="복주머니">
+                <span>전체 레시피 보기</span>
+            </a>
+            </div>
+
+        </div>
+    </div>
+    {% endif %}
         <script src="http://code.jquery.com/jquery-latest.js"></script>
         <script src="http://code.jquery.com/jquery-latest.js"></script>
         <script>    
@@ -162,9 +175,9 @@
                     const originHTML = element.innerHTML;
                     const text = originHTML;
                     if (store_true == true){
-                        element.innerHTML = `저장 O`;
+                        element.innerHTML = `찜해제`;
                     }else{
-                        element.innerHTML = `저장 X`;
+                        element.innerHTML = `찜하기`;
                     }
                 }
                 }
@@ -248,17 +261,16 @@
                             }
                             if(comments[i].user_id == requestDetail.response.user){
                                 list_of_comments.innerHTML += `
-                                    <div style="display: flex; justify-content: space-between;flex-direction: row; ">
+                                <div style="display: flex;flex-direction: column;flex-wrap: wrap;justify-content: flex-start;">
                                         <div class="comment_content" style="     font-family: var(--sub-font);
                                         font-size: large;
                                         font-weight: 700;">${comments[i].content}</div>
-                                        <div>
+                                        <div style="display: flex; justify-content:right;">
                                             <a class="delete_button" onclick="commentDelete('${comments[i].id}');" style="text-decoration: none;
                                             color: white;
-                                            background-color: var(--main-color-2);
                                             padding: 10px 20px;
                                             font-size: large;
-                                            border-radius: 0.5rem; margin-right: 20px;">댓글삭제</a>
+                                            border-radius: 0.5rem; margin-right: 20px; margin-top:10px;">댓글삭제</a>
                                         </div>
                                     </div>
                                 <hr>
@@ -403,7 +415,7 @@
                                 '<div><div id='+response.comment_id+'><strong style="font-size:large"><i class="fa-solid fa-user"></i>'+response.writer_name+"("+response.comment_writer+")"+'&nbsp;<span>'+response.self_comment+'</span></strong>'+
                                     '<span class="comment_time" style="font-size: medium; font-family:var(--sub-font);">'+response.created+'</span>'+
                                     '<div style="display: flex; justify-content: space-between;flex-direction: row; "><div class="comment_content" style="     font-family: var(--sub-font);  font-size: large; font-weight: 700;">'+response.content+
-                                    '</div><div><a class="delete_button" onclick="commentDelete('+response.comment_id+');" style="text-decoration: none; color: white; background-color: var(--main-color-2); padding: 10px 20px; font-size: large; border-radius: 0.5rem; margin-right: 20px;">댓글삭제</a></div></div><hr></div><div class='+response.comment_id+'></div>'
+                                    '</div><div><a class="delete_button" onclick="commentDelete('+response.comment_id+');" style="text-decoration: none; color: white; padding: 10px 20px; font-size: large; border-radius: 0.5rem; margin-right: 20px;">댓글삭제</a></div></div><hr></div><div class='+response.comment_id+'></div>'
                             );
                         }
                         else{
@@ -451,6 +463,13 @@
                     });
                 }
             }
+            function colorChange() {
+                var color = ["#FC5C7D", "#6A82FB", "#38ef7d", "#fffbd5", "#b20a2c", "#CAC531"];
+              
+                var num = Math.floor(Math.random() * color.length);
+                var bodyTag = document.getElementById("colorCont");
+                bodyTag.style.backgroundColor = color[num];
+              }
         </script>
         <script
           src="https://kit.fontawesome.com/6fbcf91afd.js"
