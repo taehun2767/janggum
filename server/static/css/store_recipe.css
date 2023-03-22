@@ -1,5 +1,9 @@
 @import "base.css";
 
+#yellow_color{
+  background-color: transparent;
+}
+
 .hidden {
   display: none;
 }
@@ -157,6 +161,12 @@ img {
   display: flex;
   margin: 2.5rem 0 0 1rem;
   flex-direction: row;
+}
+
+#recipe_janggum_back{
+  background: url("../image/메뉴판\(장금\).png");
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 
 #list_container {
